@@ -8,26 +8,23 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
   localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 });
 
-// Metric counters
+// Animated metric counters
 function animateCounts() {
   document.querySelectorAll('[data-count]').forEach(el => {
     const end = parseFloat(el.getAttribute('data-count'));
-    const duration = 1200;
-    const start = 0;
-    const t0 = performance.now();
+    const start = 0, duration = 1200, t0 = performance.now();
     const step = (now) => {
       const t = Math.min((now - t0) / duration, 1);
-      const val = Math.floor(t * (end - start) + start);
-      el.textContent = `${val}`;
-      if (t < 1) requestAnimationFrame(step);
-      else el.textContent = `${end}`;
+      el.textContent = String(Math.floor(start + (end - start) * t));
+      if (t < 1) requestAnimationFrame(step); else el.textContent = String(end);
     };
     requestAnimationFrame(step);
   });
 }
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { animateCounts(); observer.disconnect(); } });
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounts(); io.disconnect(); } });
 }, { threshold: 0.3 });
-document.querySelectorAll('[data-count]').forEach(el => observer.observe(el));
+document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
 
+// Footer year
 document.getElementById('year').textContent = new Date().getFullYear();
