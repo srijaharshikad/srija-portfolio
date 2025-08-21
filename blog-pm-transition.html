@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From Technical Lead to Product Manager: Lessons from the Transition | Srija Harshika</title>
+  <meta name="description" content="Key insights from transitioning from engineering leadership to product management in the AI/ML space.">
+  <meta name="theme-color" content="#0B1220">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors:{brand:{600:'#4f46e5',700:'#4338ca'}},
+          boxShadow:{soft:'0 14px 40px rgba(2,6,23,.12)'},
+          fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}
+        }
+      }
+    }
+  </script>
+  <style>
+    .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.2,.65,.3,1), transform .6s cubic-bezier(.2,.65,.3,1)}
+    .reveal.show{opacity:1; transform:none}
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 font-sans">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-white/10 bg-white/80 dark:bg-[#0b1220]/70 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200 dark:ring-white/10" />
+          <span class="font-semibold">Srija Harshika</span>
+        </a>
+      </div>
+      <nav class="flex items-center gap-6 text-sm">
+        <a href="index.html#work" class="hover:text-brand-600">Work</a>
+        <a href="index.html#projects" class="hover:text-brand-600">Projects</a>
+        <a href="index.html#blog" class="hover:text-brand-600">Blog</a>
+        <a href="index.html#contact" class="hover:text-brand-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Blog Header -->
+    <div class="reveal show mb-8">
+      <a href="index.html#blog" class="inline-flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700 mb-4">
+        ← Back to Blog
+      </a>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="px-3 py-1 text-sm rounded-full bg-violet-100 dark:bg-violet-900/50 text-violet-800 dark:text-violet-200 font-medium">Leadership</span>
+        <span class="text-sm text-slate-500 dark:text-slate-400">December 18, 2024 • 4 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">From Technical Lead to Product Manager: Lessons from the Transition</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">Key insights from transitioning from engineering leadership to product management in the AI/ML space—what worked, what didn't, and what I wish I'd known.</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">Career</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">Leadership</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200">Product Management</span>
+      </div>
+    </div>
+
+    <!-- Blog Content -->
+    <article class="reveal prose prose-lg dark:prose-invert max-w-none">
+      <div class="bg-slate-50 dark:bg-white/[0.02] p-6 rounded-2xl border border-slate-200 dark:border-white/10 mb-8">
+        <h2 class="text-xl font-semibold mb-3">The Decision Point</h2>
+        <p>In 2022, after 4 years as a Technical Lead at Cyient's GIS Division, I faced a choice: continue deepening my technical expertise or pivot to product management. The transition wasn't easy, but it led me to building AI products used by 20M+ users at Jio Platforms.</p>
+        <p class="mt-4">Here's what I learned about making this career transition successfully.</p>
+      </div>
+
+      <h2>Why I Made the Switch</h2>
+
+      <h3>The Technical Lead Plateau</h3>
+      <p>As a Technical Lead, I had achieved significant success:</p>
+      <ul>
+        <li>Led 5 engineers on network planning & optimization products</li>
+        <li>Built reusable QA frameworks that improved efficiency by 30%</li>
+        <li>Delivered 3 major releases while leading ISO27001 readiness</li>
+        <li>Trained 50 engineers on best practices</li>
+      </ul>
+
+      <p>But I noticed a growing disconnect between what I was building and what users actually needed. Technical solutions were perfect, but adoption was lackluster. User feedback often came as surprises. I realized I wanted more influence over the "what" and "why," not just the "how."</p>
+
+      <h3>The Product Management Appeal</h3>
+      <p>Several factors drew me to product management:</p>
+      <ul>
+        <li><strong>Customer Impact:</strong> Direct connection between decisions and user outcomes</li>
+        <li><strong>Strategic Thinking:</strong> Working on business strategy, not just execution</li>
+        <li><strong>Cross-functional Leadership:</strong> Collaborating across engineering, design, business</li>
+        <li><strong>Market Understanding:</strong> Learning what drives business success</li>
+      </ul>
+
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-6 rounded-2xl border border-yellow-200 dark:border-yellow-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">⚠️ The Transition Challenges</h3>
+        <p>Moving from Technical Lead to Product Manager isn't just a lateral move—it's a fundamental mindset shift:</p>
+        <ul class="mt-3 space-y-2">
+          <li><strong>From certainty to ambiguity:</strong> Code works or doesn't; product decisions are probabilistic</li>
+          <li><strong>From execution to strategy:</strong> Less hands-on building, more planning and prioritization</li>
+          <li><strong>From technical metrics to business metrics:</strong> Success measured differently</li>
+          <li><strong>From clear feedback to subjective opinions:</strong> Stakeholder management becomes crucial</li>
+        </ul>
+      </div>
+
+      <h2>The Learning Curve: What I Had to Master</h2>
+
+      <h3>1. Business Acumen</h3>
+      <p>Technical leads often operate in technical bubbles. As a PM, I needed to understand:</p>
+      <ul>
+        <li><strong>Revenue models:</strong> How features translate to business value</li>
+        <li><strong>Market dynamics:</strong> Competition, trends, and positioning</li>
+        <li><strong>Financial planning:</strong> ROI calculations and budget management</li>
+        <li><strong>Go-to-market:</strong> How products reach and acquire customers</li>
+      </ul>
+
+      <p><strong>What helped:</strong> I pursued an MBA at ISB, focusing on Strategy & Leadership and Marketing. The business context was invaluable for making better product decisions.</p>
+
+      <h3>2. User Research and Validation</h3>
+      <p>Engineers often assume they understand user needs. Product managers must validate everything:</p>
+      <ul>
+        <li><strong>User interviews:</strong> Learning to ask the right questions</li>
+        <li><strong>Data analysis:</strong> Interpreting user behavior and metrics</li>
+        <li><strong>A/B testing:</strong> Validating hypotheses with real usage</li>
+        <li><strong>Market research:</strong> Understanding broader user contexts</li>
+      </ul>
+
+      <p><strong>Biggest surprise:</strong> Users often want simple solutions to complex problems, not complex solutions to simple problems.</p>
+
+      <h3>3. Stakeholder Management</h3>
+      <p>Technical leads manage teams; product managers manage ecosystems:</p>
+      <ul>
+        <li><strong>Engineering teams:</strong> Explaining "why" behind technical decisions</li>
+        <li><strong>Business stakeholders:</strong> Translating user needs into business value</li>
+        <li><strong>Executive leadership:</strong> Communicating strategy and progress</li>
+        <li><strong>External partners:</strong> Coordinating across organizational boundaries</li>
+      </ul>
+
+      <h3>4. Strategic Thinking</h3>
+      <p>Moving from quarterly sprints to multi-year product vision:</p>
+      <ul>
+        <li><strong>Roadmap planning:</strong> Balancing short-term wins with long-term strategy</li>
+        <li><strong>Competitive analysis:</strong> Understanding market positioning</li>
+        <li><strong>Technology trends:</strong> Anticipating future capabilities and constraints</li>
+        <li><strong>Resource allocation:</strong> Making trade-offs between competing priorities</li>
+      </ul>
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">🛠️ Technical Skills That Transferred Well</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <h4 class="font-medium mb-2">Direct Transfers:</h4>
+            <ul class="space-y-1">
+              <li>System thinking and architecture</li>
+              <li>Data analysis and interpretation</li>
+              <li>Problem decomposition</li>
+              <li>Quality and testing mindset</li>
+              <li>Technical feasibility assessment</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2">Needed Adaptation:</h4>
+            <ul class="space-y-1">
+              <li>Focus on user value, not technical elegance</li>
+              <li>Comfort with incomplete information</li>
+              <li>Business case development</li>
+              <li>Cross-functional communication</li>
+              <li>Market and competitive awareness</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2>My Transition Strategy</h2>
+
+      <h3>Phase 1: Internal PM Role (6 months)</h3>
+      <p>I started by taking on PM responsibilities within my existing team:</p>
+      <ul>
+        <li>Conducted user interviews for our GIS products</li>
+        <li>Analyzed usage data and identified improvement opportunities</li>
+        <li>Created product requirements and roadmaps</li>
+        <li>Collaborated with sales and marketing teams</li>
+      </ul>
+
+      <p><strong>Key benefit:</strong> Low-risk environment to develop PM skills while maintaining technical credibility.</p>
+
+      <h3>Phase 2: Formal Education (2 years)</h3>
+      <p>The ISB MBA provided crucial business context:</p>
+      <ul>
+        <li><strong>Strategy courses:</strong> Understanding competitive dynamics and market positioning</li>
+        <li><strong>Marketing classes:</strong> Customer segmentation and go-to-market strategies</li>
+        <li><strong>Finance modules:</strong> ROI analysis and business case development</li>
+        <li><strong>Case studies:</strong> Learning from successful and failed product strategies</li>
+      </ul>
+
+      <p><strong>Unexpected value:</strong> The network and diverse perspectives from classmates across industries.</p>
+
+      <h3>Phase 3: AI/ML Specialization</h3>
+      <p>During my MBA, I focused on emerging technologies:</p>
+      <ul>
+        <li>AI/ML courses and projects</li>
+        <li>Industry conferences and meetups</li>
+        <li>Side projects with generative AI</li>
+        <li>Research on AI product management best practices</li>
+      </ul>
+
+      <p><strong>Strategic timing:</strong> This specialization positioned me perfectly for the AI boom of 2023.</p>
+
+      <h3>Phase 4: Landing the PM Role</h3>
+      <p>My technical background became a significant advantage at Jio Platforms:</p>
+      <ul>
+        <li>Deep understanding of AI/ML technical capabilities and limitations</li>
+        <li>Ability to communicate effectively with engineering teams</li>
+        <li>Credibility when making technical trade-off decisions</li>
+        <li>Systems thinking for complex AI product architectures</li>
+      </ul>
+
+      <h2>Challenges I Underestimated</h2>
+
+      <h3>1. The Ambiguity Tax</h3>
+      <p>Engineering has clear success criteria—code works or doesn't. Product management operates in constant ambiguity:</p>
+      <ul>
+        <li>User needs are often contradictory</li>
+        <li>Success metrics can be lagging or misleading</li>
+        <li>Market conditions change faster than product development</li>
+        <li>Stakeholder priorities shift frequently</li>
+      </ul>
+
+      <p><strong>Learning:</strong> Embrace uncertainty and develop comfort with making decisions with incomplete information.</p>
+
+      <h3>2. The Politics of Priorities</h3>
+      <p>Technical decisions are often objective; product decisions are inherently political:</p>
+      <ul>
+        <li>Different stakeholders have competing interests</li>
+        <li>Resource allocation creates winners and losers</li>
+        <li>Technical debt vs. new features debates</li>
+        <li>Short-term metrics vs. long-term vision trade-offs</li>
+      </ul>
+
+      <p><strong>Learning:</strong> Develop strong communication and negotiation skills. Data helps, but storytelling wins.</p>
+
+      <h3>3. The Constant Context Switching</h3>
+      <p>Engineers can have deep focus periods; PMs are constantly switching contexts:</p>
+      <ul>
+        <li>Technical discussions with engineering</li>
+        <li>Business reviews with executives</li>
+        <li>User research sessions</li>
+        <li>Competitive analysis and market research</li>
+      </ul>
+
+      <p><strong>Learning:</strong> Develop systems for information management and decision tracking.</p>
+
+      <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-200 dark:border-green-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">✅ Advantages of the Technical Background</h3>
+        <p>My engineering background provided significant advantages as a PM:</p>
+        <ul class="mt-3 space-y-2">
+          <li><strong>Credibility with engineering teams:</strong> "One of us" vs. "business person"</li>
+          <li><strong>Realistic technical estimates:</strong> Can spot overly optimistic or pessimistic estimates</li>
+          <li><strong>Architecture and scalability thinking:</strong> Understanding technical debt and platform decisions</li>
+          <li><strong>Data literacy:</strong> Comfortable with analytics, A/B tests, and technical metrics</li>
+          <li><strong>Quality mindset:</strong> Focus on testing, monitoring, and performance</li>
+        </ul>
+      </div>
+
+      <h2>Results and Impact</h2>
+
+      <h3>From GIS to AI: The Product Evolution</h3>
+      <p>At Jio Platforms, my technical background enabled rapid impact in AI products:</p>
+
+      <div class="grid md:grid-cols-2 gap-6 my-6">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+          <h4 class="font-semibold mb-3">JIA Assistant Success</h4>
+          <ul class="text-sm space-y-2">
+            <li>20M+ device deployment</li>
+            <li>58K+ weekly active users</li>
+            <li>50% support deflection rate</li>
+            <li>22-point NPS improvement</li>
+            <li>35% accuracy improvement via RAG</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+          <h4 class="font-semibold mb-3">Technical PM Advantages</h4>
+          <ul class="text-sm space-y-2">
+            <li>Faster technical feasibility assessment</li>
+            <li>Better engineering team collaboration</li>
+            <li>More accurate timeline estimation</li>
+            <li>Effective technical risk mitigation</li>
+            <li>Data-driven product decisions</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Career Growth Trajectory</h3>
+      <p>The transition accelerated my career growth:</p>
+      <ul>
+        <li><strong>Scope increase:</strong> From team of 5 engineers to product affecting 20M+ users</li>
+        <li><strong>Impact visibility:</strong> Direct business metrics and user outcomes</li>
+        <li><strong>Strategic influence:</strong> Input on company AI strategy and roadmap</li>
+        <li><strong>Market relevance:</strong> AI/ML PM expertise in high demand</li>
+      </ul>
+
+      <h2>Advice for Technical Leads Considering the Switch</h2>
+
+      <h3>Before You Make the Jump</h3>
+      <ul>
+        <li><strong>Shadow PMs:</strong> Understand what they actually do day-to-day</li>
+        <li><strong>Take on PM projects:</strong> Start with requirements gathering and user research</li>
+        <li><strong>Talk to users:</strong> Get direct exposure to customer problems</li>
+        <li><strong>Learn the business:</strong> Understand how your company makes money</li>
+        <li><strong>Study successful products:</strong> Analyze what makes products succeed or fail</li>
+      </ul>
+
+      <h3>During the Transition</h3>
+      <ul>
+        <li><strong>Leverage your technical credibility:</strong> Use it to build trust with new stakeholders</li>
+        <li><strong>Focus on user value:</strong> Shift mindset from technical elegance to user outcomes</li>
+        <li><strong>Develop business acumen:</strong> Take courses, read business books, find mentors</li>
+        <li><strong>Practice communication:</strong> Learn to explain technical concepts to non-technical audiences</li>
+        <li><strong>Build your network:</strong> Connect with other PMs and learn from their experiences</li>
+      </ul>
+
+      <h3>Long-term Success Strategies</h3>
+      <ul>
+        <li><strong>Stay technically current:</strong> Don't lose your technical edge completely</li>
+        <li><strong>Specialize in growth areas:</strong> AI, blockchain, IoT—areas where technical depth matters</li>
+        <li><strong>Develop unique perspectives:</strong> Your technical background is differentiating</li>
+        <li><strong>Mentor others:</strong> Help other technical people make similar transitions</li>
+      </ul>
+
+      <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-2xl border border-brand-200 dark:border-brand-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">🚀 Key Success Factors</h3>
+        <ul class="space-y-2">
+          <li><strong>Embrace the ambiguity:</strong> Product management is about making good decisions with incomplete information</li>
+          <li><strong>Stay customer-focused:</strong> Let user needs drive technical decisions, not the other way around</li>
+          <li><strong>Build cross-functional relationships:</strong> Success depends on influencing without authority</li>
+          <li><strong>Never stop learning:</strong> Technology, markets, and user expectations evolve rapidly</li>
+          <li><strong>Leverage your technical background:</strong> It's a competitive advantage in technical product categories</li>
+        </ul>
+      </div>
+
+      <h2>The Future: Technical PMs in AI Era</h2>
+
+      <h3>Growing Demand</h3>
+      <p>Technical product managers are increasingly valuable as products become more sophisticated:</p>
+      <ul>
+        <li><strong>AI/ML products:</strong> Require deep understanding of capabilities and limitations</li>
+        <li><strong>Platform products:</strong> Need architectural thinking and scalability planning</li>
+        <li><strong>Developer tools:</strong> Must understand developer workflows and pain points</li>
+        <li><strong>Complex integrations:</strong> Require systems thinking and technical feasibility assessment</li>
+      </ul>
+
+      <h3>Career Paths</h3>
+      <p>Technical PMs can pursue various specializations:</p>
+      <ul>
+        <li><strong>AI Product Manager:</strong> Focus on machine learning and AI capabilities</li>
+        <li><strong>Platform PM:</strong> Build products that other products depend on</li>
+        <li><strong>Technical Program Manager:</strong> Coordinate complex technical initiatives</li>
+        <li><strong>Chief Product Officer:</strong> Lead product strategy for technical companies</li>
+      </ul>
+
+      <h2>Conclusion</h2>
+
+      <p>Transitioning from Technical Lead to Product Manager was one of the best career decisions I've made. It combined my technical expertise with broader business impact, leading to more engaging work and accelerated career growth.</p>
+
+      <p>The transition isn't easy—it requires developing new skills, changing mindsets, and stepping outside your comfort zone. But for technical leaders who want greater influence over product direction and user impact, it's an incredibly rewarding path.</p>
+
+      <p>My technical background continues to be my competitive advantage, especially in the AI space where understanding both technical capabilities and user needs is crucial for product success.</p>
+
+      <p><em>Are you considering a similar transition? I'd love to hear about your journey and challenges. Feel free to reach out—happy to share more specific insights about making this career change successfully.</em></p>
+    </article>
+
+    <!-- Author Bio -->
+    <div class="reveal mt-12 p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
+      <div class="flex items-center gap-4">
+        <img src="./headshot.jpg" alt="Srija Harshika" class="h-16 w-16 rounded-xl object-cover ring-2 ring-slate-200 dark:ring-white/10" />
+        <div>
+          <h3 class="font-semibold">Srija Harshika</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Senior Product Manager at Jio Platforms (AI Division). Successfully transitioned from Technical Lead to PM, now building AI products for 20M+ users. ISB MBA with expertise in AI/ML product strategy.</p>
+          <div class="mt-3 flex gap-3">
+            <a href="https://www.linkedin.com/in/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">LinkedIn</a>
+            <a href="mailto:srijaharshika.d@gmail.com" class="text-sm text-brand-600 hover:text-brand-700">Email</a>
+            <a href="https://topmate.io/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">Topmate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Posts -->
+    <div class="reveal mt-12">
+      <h3 class="text-xl font-semibold mb-6">More Insights</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <a href="blog-chatgpt-teardown.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">Growth</span>
+          </div>
+          <h4 class="font-semibold mb-2">How ChatGPT Achieved 100M Users in 2 Months</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">Deep dive into OpenAI's product strategy and growth mechanics.</p>
+        </a>
+        <a href="blog-anthropic-ai.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200">AI Ethics</span>
+          </div>
+          <h4 class="font-semibold mb-2">Building Responsible AI: Lessons from Anthropic</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">How to build safety-first AI products at scale.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200/70 dark:border-white/10 mt-16">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-between">
+      <p>© 2025 Srija Harshika</p>
+      <a href="index.html" class="underline">Back to Portfolio</a>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode sync with main site
+    const pref = localStorage.getItem('theme');
+    if (pref === 'dark' || (!pref && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=> {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, {threshold: .16});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

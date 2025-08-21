@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The RAG Revolution: Why Context Matters More Than Model Size | Srija Harshika</title>
+  <meta name="description" content="Building better AI products through retrieval-augmented generation. Real-world insights from implementing RAG at scale.">
+  <meta name="theme-color" content="#0B1220">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors:{brand:{600:'#4f46e5',700:'#4338ca'}},
+          boxShadow:{soft:'0 14px 40px rgba(2,6,23,.12)'},
+          fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}
+        }
+      }
+    }
+  </script>
+  <style>
+    .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.2,.65,.3,1), transform .6s cubic-bezier(.2,.65,.3,1)}
+    .reveal.show{opacity:1; transform:none}
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 font-sans">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-white/10 bg-white/80 dark:bg-[#0b1220]/70 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200 dark:ring-white/10" />
+          <span class="font-semibold">Srija Harshika</span>
+        </a>
+      </div>
+      <nav class="flex items-center gap-6 text-sm">
+        <a href="index.html#work" class="hover:text-brand-600">Work</a>
+        <a href="index.html#projects" class="hover:text-brand-600">Projects</a>
+        <a href="index.html#blog" class="hover:text-brand-600">Blog</a>
+        <a href="index.html#contact" class="hover:text-brand-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Blog Header -->
+    <div class="reveal show mb-8">
+      <a href="index.html#blog" class="inline-flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700 mb-4">
+        ← Back to Blog
+      </a>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="px-3 py-1 text-sm rounded-full bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-200 font-medium">Product</span>
+        <span class="text-sm text-slate-500 dark:text-slate-400">January 1, 2025 • 6 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">The RAG Revolution: Why Context Matters More Than Model Size</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">Building better AI products through retrieval-augmented generation. Real-world insights from implementing RAG at scale with 100GB+ corpus at Jio Platforms.</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">RAG</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">AI Architecture</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200">Product Strategy</span>
+      </div>
+    </div>
+
+    <!-- Blog Content -->
+    <article class="reveal prose prose-lg dark:prose-invert max-w-none">
+      <div class="bg-slate-50 dark:bg-white/[0.02] p-6 rounded-2xl border border-slate-200 dark:border-white/10 mb-8">
+        <h2 class="text-xl font-semibold mb-3">The Context Problem</h2>
+        <p>When we launched JIA (Jio's AI assistant) across 20M+ devices, we faced a critical challenge: How do you make an AI assistant truly helpful for complex, domain-specific queries without training a model from scratch?</p>
+        <p class="mt-4">The answer wasn't bigger models or more parameters. It was <strong>Retrieval-Augmented Generation (RAG)</strong>—and it transformed our accuracy by +35% while keeping costs manageable.</p>
+      </div>
+
+      <h2>What Is RAG and Why Does It Matter?</h2>
+
+      <p>RAG combines the best of two worlds: the reasoning capabilities of large language models with the precision of information retrieval systems. Instead of relying solely on what an LLM learned during training, RAG:</p>
+
+      <ol>
+        <li><strong>Retrieves</strong> relevant information from a knowledge base</li>
+        <li><strong>Augments</strong> the user's query with this context</li>
+        <li><strong>Generates</strong> responses based on both the query and retrieved information</li>
+      </ol>
+
+      <p>Think of it as giving your AI assistant a constantly updated reference library instead of expecting it to memorize everything.</p>
+
+      <h3>The Traditional Approach vs. RAG</h3>
+
+      <div class="grid md:grid-cols-2 gap-6 my-8">
+        <div class="p-5 rounded-2xl border border-red-200 dark:border-red-800/30 bg-red-50 dark:bg-red-900/20">
+          <h4 class="font-semibold text-red-800 dark:text-red-200 mb-3">❌ Traditional LLM Approach</h4>
+          <ul class="text-sm space-y-2 text-red-700 dark:text-red-300">
+            <li>Knowledge cutoff dates</li>
+            <li>Hallucination on specific facts</li>
+            <li>No company-specific information</li>
+            <li>Expensive fine-tuning for domain knowledge</li>
+            <li>Static knowledge base</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl border border-green-200 dark:border-green-800/30 bg-green-50 dark:bg-green-900/20">
+          <h4 class="font-semibold text-green-800 dark:text-green-200 mb-3">✅ RAG Approach</h4>
+          <ul class="text-sm space-y-2 text-green-700 dark:text-green-300">
+            <li>Real-time information access</li>
+            <li>Grounded, factual responses</li>
+            <li>Company/domain-specific knowledge</li>
+            <li>No expensive retraining needed</li>
+            <li>Dynamic, updatable knowledge base</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Implementing RAG at Scale: Lessons from JIA</h2>
+
+      <p>At Jio Platforms, we implemented RAG across a 100GB+ corpus covering telecommunications, financial services, and digital products. Here's what we learned:</p>
+
+      <h3>1. Chunking Strategy Is Everything</h3>
+
+      <p>How you break down your documents determines the quality of your retrieval. We experimented with multiple approaches:</p>
+
+      <ul>
+        <li><strong>Fixed-size chunks (512 tokens):</strong> Simple but often breaks context</li>
+        <li><strong>Semantic chunks:</strong> Better context preservation but computationally expensive</li>
+        <li><strong>Hierarchical chunks:</strong> Our winning approach—combining document structure with semantic boundaries</li>
+      </ul>
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800/30 my-8">
+        <h4 class="font-semibold mb-3">🛠️ Technical Deep Dive: Our Chunking Pipeline</h4>
+        <pre class="text-sm bg-white dark:bg-slate-800 p-4 rounded-lg overflow-x-auto"><code>1. Document parsing (preserve structure)
+2. Semantic boundary detection
+3. Chunk size optimization (256-512 tokens)
+4. Overlap strategy (50 tokens)
+5. Metadata enrichment (source, section, timestamp)
+6. Vector embedding generation (Gemini embeddings)
+7. Index storage (Pinecone/Weaviate)</code></pre>
+      </div>
+
+      <h3>2. Embedding Quality > Model Size</h3>
+
+      <p>We tested various embedding models and found that <strong>domain-specific fine-tuning</strong> of smaller models often outperformed larger general-purpose embeddings:</p>
+
+      <ul>
+        <li><strong>Gemini Embeddings:</strong> Our primary choice for general queries</li>
+        <li><strong>Fine-tuned BERT:</strong> For domain-specific telecommunications queries</li>
+        <li><strong>Multilingual embeddings:</strong> Essential for India's diverse language landscape</li>
+      </ul>
+
+      <h3>3. The Retrieval-Generation Balance</h3>
+
+      <p>Finding the right balance between retrieved context and generated content was crucial:</p>
+
+      <ul>
+        <li><strong>Too little context:</strong> Incomplete or vague answers</li>
+        <li><strong>Too much context:</strong> Information overload and higher latency</li>
+        <li><strong>Sweet spot:</strong> 3-5 relevant chunks with confidence scoring</li>
+      </ul>
+
+      <h2>RAG Architecture Patterns</h2>
+
+      <h3>1. Simple RAG (Good for MVP)</h3>
+      <p>Query → Retrieve → Generate</p>
+      <p><strong>Pros:</strong> Simple to implement, fast</p>
+      <p><strong>Cons:</strong> Limited query understanding, single-hop retrieval</p>
+
+      <h3>2. Advanced RAG (Our Production Setup)</h3>
+      <p>Query Enhancement → Multi-step Retrieval → Reranking → Generation</p>
+      <ul>
+        <li><strong>Query enhancement:</strong> Expand user queries with context</li>
+        <li><strong>Multi-step retrieval:</strong> Iterative information gathering</li>
+        <li><strong>Reranking:</strong> LLM-based relevance scoring</li>
+        <li><strong>Generation:</strong> Context-aware response generation</li>
+      </ul>
+
+      <h3>3. Agentic RAG (Future Direction)</h3>
+      <p>Agent Planning → Tool Selection → Multi-source Retrieval → Synthesis</p>
+      <p>This is where we're heading with JIA's next iteration—autonomous information gathering and synthesis.</p>
+
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-6 rounded-2xl border border-yellow-200 dark:border-yellow-800/30 my-8">
+        <h4 class="font-semibold mb-3">⚡ Performance Impact: Real Numbers</h4>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <h5 class="font-medium mb-2">Before RAG:</h5>
+            <ul class="space-y-1">
+              <li>Accuracy: 62%</li>
+              <li>Hallucination rate: 23%</li>
+              <li>User satisfaction: 3.2/5</li>
+              <li>Query resolution: 48%</li>
+            </ul>
+          </div>
+          <div>
+            <h5 class="font-medium mb-2">After RAG:</h5>
+            <ul class="space-y-1">
+              <li>Accuracy: 84% (+35%)</li>
+              <li>Hallucination rate: 8% (-65%)</li>
+              <li>User satisfaction: 4.1/5</li>
+              <li>Query resolution: 72% (+50%)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2>Common RAG Pitfalls and How to Avoid Them</h2>
+
+      <h3>1. The "Garbage In, Garbage Out" Problem</h3>
+      <p><strong>Issue:</strong> Poor document quality leads to poor retrieval</p>
+      <p><strong>Solution:</strong> Implement rigorous data curation and quality scoring</p>
+
+      <h3>2. Context Window Overload</h3>
+      <p><strong>Issue:</strong> Too much retrieved context confuses the model</p>
+      <p><strong>Solution:</strong> Implement relevance scoring and context summarization</p>
+
+      <h3>3. Retrieval Bias</h3>
+      <p><strong>Issue:</strong> System favors certain types of documents or sources</p>
+      <p><strong>Solution:</strong> Diversify retrieval with multiple ranking signals</p>
+
+      <h3>4. Latency Creep</h3>
+      <p><strong>Issue:</strong> Complex RAG pipelines become too slow for real-time use</p>
+      <p><strong>Solution:</strong> Implement caching, async processing, and smart prefetching</p>
+
+      <h2>Building RAG for Production: Technical Considerations</h2>
+
+      <h3>Infrastructure Requirements</h3>
+      <ul>
+        <li><strong>Vector Database:</strong> Pinecone, Weaviate, or Qdrant for embedding storage</li>
+        <li><strong>Compute Resources:</strong> GPU clusters for embedding generation</li>
+        <li><strong>Caching Layer:</strong> Redis for frequently accessed embeddings</li>
+        <li><strong>Monitoring:</strong> Custom metrics for retrieval quality and latency</li>
+      </ul>
+
+      <h3>Cost Optimization Strategies</h3>
+      <ul>
+        <li><strong>Embedding caching:</strong> Avoid recomputing similar queries</li>
+        <li><strong>Tiered storage:</strong> Frequently accessed data in fast storage</li>
+        <li><strong>Batch processing:</strong> Efficient embedding generation</li>
+        <li><strong>Smart indexing:</strong> Optimize vector database performance</li>
+      </ul>
+
+      <h2>The Future of RAG</h2>
+
+      <h3>Emerging Trends</h3>
+      <ul>
+        <li><strong>Multimodal RAG:</strong> Combining text, images, and other data types</li>
+        <li><strong>Real-time RAG:</strong> Live data integration and streaming updates</li>
+        <li><strong>Federated RAG:</strong> Retrieving from multiple, distributed knowledge bases</li>
+        <li><strong>Self-improving RAG:</strong> Systems that learn from user feedback</li>
+      </ul>
+
+      <h3>Integration with Other AI Capabilities</h3>
+      <p>RAG is becoming a foundational component in larger AI systems:</p>
+      <ul>
+        <li><strong>RAG + Function Calling:</strong> Combining retrieval with action execution</li>
+        <li><strong>RAG + Code Generation:</strong> Context-aware programming assistance</li>
+        <li><strong>RAG + Multimodal:</strong> Visual question answering with knowledge bases</li>
+      </ul>
+
+      <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-2xl border border-brand-200 dark:border-brand-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">🚀 Key Takeaways for Product Managers</h3>
+        <ul class="space-y-2">
+          <li><strong>Start with simple RAG:</strong> Prove value before adding complexity</li>
+          <li><strong>Invest in data quality:</strong> Your knowledge base is your competitive advantage</li>
+          <li><strong>Measure everything:</strong> Track retrieval quality, not just generation quality</li>
+          <li><strong>Plan for scale:</strong> Design your architecture for 10x growth</li>
+          <li><strong>User feedback is gold:</strong> Use it to improve both retrieval and generation</li>
+        </ul>
+      </div>
+
+      <h2>Getting Started with RAG</h2>
+
+      <p>If you're considering implementing RAG in your product, here's a practical roadmap:</p>
+
+      <h3>Phase 1: MVP (4-6 weeks)</h3>
+      <ul>
+        <li>Simple document ingestion pipeline</li>
+        <li>Basic chunking and embedding</li>
+        <li>Vector database setup</li>
+        <li>Simple retrieval + generation flow</li>
+      </ul>
+
+      <h3>Phase 2: Production (8-12 weeks)</h3>
+      <ul>
+        <li>Advanced chunking strategies</li>
+        <li>Reranking and relevance scoring</li>
+        <li>Performance optimization</li>
+        <li>Quality metrics and monitoring</li>
+      </ul>
+
+      <h3>Phase 3: Advanced (12+ weeks)</h3>
+      <ul>
+        <li>Multi-step retrieval</li>
+        <li>Dynamic knowledge base updates</li>
+        <li>Personalization and user context</li>
+        <li>Integration with broader AI capabilities</li>
+      </ul>
+
+      <h2>Conclusion</h2>
+
+      <p>RAG represents a fundamental shift in how we build AI products. Instead of relying on increasingly large models to memorize everything, we're creating systems that can dynamically access and reason over vast knowledge bases.</p>
+
+      <p>At Jio Platforms, RAG transformed JIA from a generic assistant to a knowledgeable expert across telecommunications, finance, and digital services. The 35% accuracy improvement wasn't just a number—it translated to better user experiences, reduced support costs, and increased trust in AI capabilities.</p>
+
+      <p>As AI products become more sophisticated, RAG will be the bridge between general intelligence and domain expertise. The companies that master RAG today will build the most valuable AI products of tomorrow.</p>
+
+      <p><em>What's your experience with RAG implementation? Share your challenges and successes—I'd love to learn from your journey.</em></p>
+    </article>
+
+    <!-- Author Bio -->
+    <div class="reveal mt-12 p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
+      <div class="flex items-center gap-4">
+        <img src="./headshot.jpg" alt="Srija Harshika" class="h-16 w-16 rounded-xl object-cover ring-2 ring-slate-200 dark:ring-white/10" />
+        <div>
+          <h3 class="font-semibold">Srija Harshika</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Senior Product Manager at Jio Platforms (AI Division). Led RAG implementation across 100GB+ corpus, improving accuracy by 35%. Expertise in scaling AI products across 20M+ devices.</p>
+          <div class="mt-3 flex gap-3">
+            <a href="https://www.linkedin.com/in/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">LinkedIn</a>
+            <a href="mailto:srijaharshika.d@gmail.com" class="text-sm text-brand-600 hover:text-brand-700">Email</a>
+            <a href="https://topmate.io/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">Topmate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Posts -->
+    <div class="reveal mt-12">
+      <h3 class="text-xl font-semibold mb-6">More Insights</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <a href="blog-chatgpt-teardown.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">Growth</span>
+          </div>
+          <h4 class="font-semibold mb-2">How ChatGPT Achieved 100M Users in 2 Months</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">Deep dive into OpenAI's product strategy and growth mechanics.</p>
+        </a>
+        <a href="blog-anthropic-ai.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200">AI Ethics</span>
+          </div>
+          <h4 class="font-semibold mb-2">Building Responsible AI: Lessons from Anthropic</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">How to build safety-first AI products at scale.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200/70 dark:border-white/10 mt-16">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-between">
+      <p>© 2025 Srija Harshika</p>
+      <a href="index.html" class="underline">Back to Portfolio</a>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode sync with main site
+    const pref = localStorage.getItem('theme');
+    if (pref === 'dark' || (!pref && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=> {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, {threshold: .16});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
