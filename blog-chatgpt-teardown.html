@@ -20,8 +20,75 @@
     }
   </script>
   <style>
-    .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.2,.65,.3,1), transform .6s cubic-bezier(.2,.65,.3,1)}
+    /* Enhanced blog post styling */
+    .reveal{opacity:0; transform:translateY(24px); transition:all .8s cubic-bezier(.2,.65,.3,1)}
     .reveal.show{opacity:1; transform:none}
+    .reveal-delay{animation-delay: .2s}
+    .reveal-delay-2{animation-delay: .4s}
+
+    /* Reading progress indicator */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #4f46e5, #06b6d4);
+      z-index: 1000;
+      transition: width .1s ease;
+    }
+
+    /* Interactive elements */
+    .highlight-box {
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .highlight-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+      transition: left .6s;
+    }
+    .highlight-box:hover::before {
+      left: 100%;
+    }
+    .highlight-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(2,6,23,.15);
+    }
+
+    /* Animated prose */
+    .prose h2, .prose h3 {
+      position: relative;
+    }
+    .prose h2::after, .prose h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #4f46e5, #06b6d4);
+      transition: width .6s ease;
+    }
+    .prose h2:hover::after, .prose h3:hover::after {
+      width: 100px;
+    }
+
+    /* Enhanced tags */
+    .tag {
+      transition: all .3s ease;
+      cursor: pointer;
+    }
+    .tag:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(99,102,241,.3);
+    }
   </style>
 </head>
 <body class="bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 font-sans">
@@ -64,7 +131,7 @@
 
     <!-- Blog Content -->
     <article class="reveal prose prose-lg dark:prose-invert max-w-none">
-      <div class="bg-slate-50 dark:bg-white/[0.02] p-6 rounded-2xl border border-slate-200 dark:border-white/10 mb-8">
+      <div class="reveal highlight-box bg-slate-50 dark:bg-white/[0.02] p-6 rounded-2xl border border-slate-200 dark:border-white/10 mb-8">
         <h2 class="text-xl font-semibold mb-3">The Numbers That Shocked Silicon Valley</h2>
         <p>When ChatGPT hit 100 million users in just 2 months, it didn't just break records—it redefined what rapid adoption looks like in the digital age. To put this in perspective:</p>
         <ul class="mt-4 space-y-2">
@@ -266,6 +333,16 @@
     </div>
   </footer>
 
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress"></div>
+
+  <!-- Floating Action Button -->
+  <button class="fab hidden fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50" id="scrollToTop" aria-label="Scroll to top">
+    <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+  </button>
+
   <script>
     // Dark mode sync with main site
     const pref = localStorage.getItem('theme');
@@ -273,11 +350,66 @@
       document.documentElement.classList.add('dark');
     }
 
-    // Reveal on scroll
-    const io = new IntersectionObserver((entries)=> {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, {threshold: .16});
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    // Reading progress indicator
+    function updateReadingProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.querySelector('.reading-progress').style.width = `${Math.min(scrollPercent, 100)}%`;
+    }
+
+    // Floating action button
+    const fab = document.getElementById('scrollToTop');
+    function updateFAB() {
+      if (window.scrollY > 300) {
+        fab.classList.remove('hidden');
+      } else {
+        fab.classList.add('hidden');
+      }
+    }
+
+    fab?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Enhanced scroll handling
+    let ticking = false;
+    function handleScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateReadingProgress();
+          updateFAB();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Enhanced reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('show');
+          }, index * 100);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Enhanced tag interactions
+    document.querySelectorAll('.tag').forEach(tag => {
+      tag.addEventListener('click', function() {
+        const ripple = document.createElement('span');
+        ripple.className = 'absolute inset-0 bg-white/30 rounded-full scale-0 animate-ping';
+        this.style.position = 'relative';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
   </script>
 </body>
 </html>
