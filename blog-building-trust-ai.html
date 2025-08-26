@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Building Trust in AI Products: Lessons from Scaling to 20M+ Users | Srija Harshika</title>
+  <meta name="description" content="How to build user trust in AI products through transparency, reliability, and user-centric design. Real insights from scaling JIA across 20M+ devices.">
+  <meta name="theme-color" content="#0B1220">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors:{brand:{600:'#4f46e5',700:'#4338ca'}},
+          boxShadow:{soft:'0 14px 40px rgba(2,6,23,.12)'},
+          fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Enhanced blog post styling */
+    .reveal{opacity:0; transform:translateY(24px); transition:all .8s cubic-bezier(.2,.65,.3,1)}
+    .reveal.show{opacity:1; transform:none}
+    .reveal-delay{animation-delay: .2s}
+    .reveal-delay-2{animation-delay: .4s}
+
+    /* Reading progress indicator */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #4f46e5, #06b6d4);
+      z-index: 1000;
+      transition: width .1s ease;
+    }
+
+    /* Interactive elements */
+    .highlight-box {
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .highlight-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+      transition: left .6s;
+    }
+    .highlight-box:hover::before {
+      left: 100%;
+    }
+    .highlight-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(2,6,23,.15);
+    }
+
+    /* Animated prose */
+    .prose h2, .prose h3 {
+      position: relative;
+    }
+    .prose h2::after, .prose h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #4f46e5, #06b6d4);
+      transition: width .6s ease;
+    }
+    .prose h2:hover::after, .prose h3:hover::after {
+      width: 100px;
+    }
+
+    /* Enhanced tags */
+    .tag {
+      transition: all .3s ease;
+      cursor: pointer;
+    }
+    .tag:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(99,102,241,.3);
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 font-sans">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-white/10 bg-white/80 dark:bg-[#0b1220]/70 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200 dark:ring-white/10" />
+          <span class="font-semibold">Srija Harshika</span>
+        </a>
+      </div>
+      <nav class="flex items-center gap-6 text-sm">
+        <a href="index.html#work" class="hover:text-brand-600">Work</a>
+        <a href="index.html#projects" class="hover:text-brand-600">Projects</a>
+        <a href="index.html#blog" class="hover:text-brand-600">Blog</a>
+        <a href="index.html#contact" class="hover:text-brand-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Blog Header -->
+    <div class="reveal show mb-8">
+      <a href="index.html#blog" class="inline-flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700 mb-4">
+        ← Back to Blog
+      </a>
+      <div class="flex items-center gap-2 mb-4">
+        <span class="px-3 py-1 text-sm rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200 font-medium">New</span>
+        <span class="text-sm text-slate-500 dark:text-slate-400">January 22, 2025 • 7 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Building Trust in AI Products: Lessons from Scaling to 20M+ Users</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">How to build and maintain user trust in AI products through transparency, reliability, and user-centric design. Real insights from scaling JIA across 20M+ devices at Jio Platforms.</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">User Trust</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">AI Products</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200">Scale</span>
+      </div>
+    </div>
+
+    <!-- Blog Content -->
+    <article class="reveal prose prose-lg dark:prose-invert max-w-none">
+      <div class="reveal highlight-box bg-slate-50 dark:bg-white/[0.02] p-6 rounded-2xl border border-slate-200 dark:border-white/10 mb-8">
+        <h2 class="text-xl font-semibold mb-3">The Trust Crisis in AI</h2>
+        <p>When we launched JIA (Jio's AI assistant) to 20M+ users, our biggest challenge wasn't technical scaling—it was earning and maintaining user trust. Despite having a sophisticated AI system powered by RAG and advanced guardrails, users were hesitant to rely on AI for important decisions.</p>
+        <p class="mt-4">Fast-forward 18 months: JIA now has 58K+ weekly active users with a 4.1/5 satisfaction rating. Here's how we built trust at scale.</p>
+      </div>
+
+      <h2>Why Trust Matters More Than Technology</h2>
+
+      <p>In the rush to ship AI features, many product teams focus on technical capabilities while overlooking the human element. But here's what we learned: <strong>users don't care how sophisticated your AI is if they don't trust it.</strong></p>
+
+      <h3>The Trust Equation for AI Products</h3>
+      <p>After analyzing user feedback from thousands of JIA interactions, we discovered that trust in AI products comes from four key components:</p>
+
+      <div class="my-8 p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800/30">
+        <h4 class="font-semibold text-lg mb-4">Trust = Reliability + Transparency + Control + Value</h4>
+        <ul class="space-y-3">
+          <li><strong>Reliability:</strong> Consistent, accurate responses across different contexts</li>
+          <li><strong>Transparency:</strong> Clear explanation of how and why AI makes decisions</li>
+          <li><strong>Control:</strong> User ability to override, modify, or guide AI behavior</li>
+          <li><strong>Value:</strong> Tangible benefits that users can measure and appreciate</li>
+        </ul>
+      </div>
+
+      <h2>Building Trust Through Reliability</h2>
+
+      <h3>1. Start with Accuracy, But Don't Stop There</h3>
+      <p>Our initial focus was on improving JIA's accuracy from 62% to 84% through RAG implementation. While important, accuracy alone wasn't enough. Users needed <em>predictable</em> accuracy.</p>
+
+      <p><strong>What we learned:</strong> Users prefer an AI that's consistently 80% accurate over one that's sometimes 95% but occasionally gives completely wrong answers.</p>
+
+      <h4>Practical Implementation:</h4>
+      <ul>
+        <li><strong>Confidence scoring:</strong> Show users when AI is certain vs. uncertain</li>
+        <li><strong>Fallback strategies:</strong> Clear escalation paths when AI can't help</li>
+        <li><strong>Consistent personality:</strong> Maintain the same tone and approach across interactions</li>
+        <li><strong>Error handling:</strong> Graceful failure with clear next steps</li>
+      </ul>
+
+      <h3>2. The Power of Consistent UX</h3>
+      <p>Reliability isn't just about AI accuracy—it's about the entire user experience being predictable and consistent.</p>
+
+      <div class="grid md:grid-cols-2 gap-6 my-8">
+        <div class="p-5 rounded-2xl border border-red-200 dark:border-red-800/30 bg-red-50 dark:bg-red-900/20">
+          <h5 class="font-semibold text-red-800 dark:text-red-200 mb-3">❌ What Breaks Trust</h5>
+          <ul class="text-sm space-y-2 text-red-700 dark:text-red-300">
+            <li>Inconsistent response formats</li>
+            <li>Unpredictable loading times</li>
+            <li>Different answers to similar questions</li>
+            <li>Unclear when AI is "thinking" vs. stuck</li>
+            <li>Features that work sometimes</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl border border-green-200 dark:border-green-800/30 bg-green-50 dark:bg-green-900/20">
+          <h5 class="font-semibold text-green-800 dark:text-green-200 mb-3">✅ What Builds Trust</h5>
+          <ul class="text-sm space-y-2 text-green-700 dark:text-green-300">
+            <li>Structured, predictable responses</li>
+            <li>Clear loading indicators</li>
+            <li>Consistent reasoning patterns</li>
+            <li>Visible AI processing states</li>
+            <li>Reliable feature availability</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Transparency: Making AI Decisions Understandable</h2>
+
+      <h3>1. The "Show Your Work" Principle</h3>
+      <p>One of our biggest trust breakthroughs came when we started showing users <em>how</em> JIA arrived at answers, not just the answers themselves.</p>
+
+      <div class="bg-slate-100 dark:bg-slate-800 p-6 rounded-2xl my-6">
+        <h4 class="font-semibold mb-3">Before vs. After: Response Transparency</h4>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <h5 class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">Before (Opaque)</h5>
+            <div class="p-3 bg-white dark:bg-slate-700 rounded-lg text-sm">
+              <p><strong>User:</strong> "What's my account balance?"</p>
+              <p><strong>JIA:</strong> "Your current balance is ₹2,450."</p>
+            </div>
+          </div>
+          <div>
+            <h5 class="text-sm font-medium text-green-600 dark:text-green-400 mb-2">After (Transparent)</h5>
+            <div class="p-3 bg-white dark:bg-slate-700 rounded-lg text-sm">
+              <p><strong>User:</strong> "What's my account balance?"</p>
+              <p><strong>JIA:</strong> "I checked your linked SBI account (ending in 4567) and found your current balance is ₹2,450."</p>
+              <p class="text-xs text-slate-500 mt-2">ℹ️ <em>Source: Real-time bank API • Last updated: 2 min ago</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>2. Progressive Disclosure of AI Reasoning</h3>
+      <p>We implemented a three-tier transparency system:</p>
+
+      <ul>
+        <li><strong>Level 1 (Default):</strong> Quick source attribution and confidence indicator</li>
+        <li><strong>Level 2 (On Request):</strong> Detailed reasoning steps and data sources</li>
+        <li><strong>Level 3 (Power Users):</strong> Technical details about model decisions and retrieval process</li>
+      </ul>
+
+      <p><strong>Result:</strong> User trust scores increased by 35% without overwhelming casual users with technical details.</p>
+
+      <h2>Giving Users Control</h2>
+
+      <h3>1. The Override Principle</h3>
+      <p>Trust requires users to feel in control. Every AI decision should be overridable, and users should understand how to guide the AI's behavior.</p>
+
+      <h4>Control Mechanisms We Implemented:</h4>
+      <ul>
+        <li><strong>Correction feedback:</strong> "This isn't what I meant" with easy correction options</li>
+        <li><strong>Preference settings:</strong> Users can adjust AI personality, verbosity, and risk tolerance</li>
+        <li><strong>Context controls:</strong> Users can specify which data sources AI should prioritize</li>
+        <li><strong>Escalation options:</strong> Clear paths to human support when AI isn't sufficient</li>
+      </ul>
+
+      <h3>2. Privacy and Data Control</h3>
+      <p>In the Indian market, data privacy concerns are particularly high. We built trust through granular data controls:</p>
+
+      <ul>
+        <li><strong>Data usage transparency:</strong> Clear explanation of what data AI accesses and why</li>
+        <li><strong>Selective permissions:</strong> Users choose which accounts/services AI can access</li>
+        <li><strong>Data retention controls:</strong> Users can delete conversation history and preferences</li>
+        <li><strong>Offline modes:</strong> Critical functions work without sharing additional data</li>
+      </ul>
+
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-6 rounded-2xl border border-yellow-200 dark:border-yellow-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">📊 Trust Metrics That Matter</h3>
+        <p>How we measured trust at scale across 20M+ users:</p>
+        <ul class="mt-3 space-y-2">
+          <li><strong>Repeat usage rate:</strong> Users returning to AI for similar tasks</li>
+          <li><strong>Feature adoption depth:</strong> Users trying advanced AI capabilities</li>
+          <li><strong>Error recovery rate:</strong> How often users continue after AI mistakes</li>
+          <li><strong>Recommendation willingness:</strong> NPS specifically for AI features</li>
+          <li><strong>Escalation patterns:</strong> When users prefer human support vs. trusting AI</li>
+        </ul>
+      </div>
+
+      <h2>Trust at Scale: Operational Challenges</h2>
+
+      <h3>1. Consistency Across Languages and Cultures</h3>
+      <p>Scaling trust across India's diverse linguistic and cultural landscape required deep localization:</p>
+
+      <ul>
+        <li><strong>Cultural context awareness:</strong> AI understanding of regional preferences and sensitivities</li>
+        <li><strong>Language-specific trust patterns:</strong> Different transparency expectations across Hindi, English, Tamil, etc.</li>
+        <li><strong>Localized error handling:</strong> Culturally appropriate ways to communicate AI limitations</li>
+        <li><strong>Regional data preferences:</strong> Different privacy expectations across states and demographics</li>
+      </ul>
+
+      <h3>2. Trust During High-Load Periods</h3>
+      <p>Trust is most fragile when systems are under stress. During peak usage periods (festivals, product launches), we learned to:</p>
+
+      <ul>
+        <li><strong>Proactive communication:</strong> Warning users about potential delays before they experience them</li>
+        <li><strong>Graceful degradation:</strong> Reducing AI capabilities rather than failing completely</li>
+        <li><strong>Transparent queuing:</strong> Showing users their position in line for AI responses</li>
+        <li><strong>Alternative paths:</strong> Offering non-AI solutions when AI is overloaded</li>
+      </ul>
+
+      <h2>The Business Impact of Trust</h2>
+
+      <h3>Measuring Trust ROI</h3>
+      <p>Building trust isn't just about user satisfaction—it drives concrete business metrics:</p>
+
+      <div class="grid md:grid-cols-2 gap-6 my-8">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+          <h4 class="font-semibold mb-3">User Behavior Changes</h4>
+          <ul class="text-sm space-y-2">
+            <li>+40% increase in task completion rate</li>
+            <li>+25% growth in feature adoption</li>
+            <li>+60% reduction in support escalations</li>
+            <li>+30% improvement in user retention</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+          <h4 class="font-semibold mb-3">Business Outcomes</h4>
+          <ul class="text-sm space-y-2">
+            <li>50% reduction in customer support costs</li>
+            <li>22-point NPS improvement for AI features</li>
+            <li>35% increase in premium feature usage</li>
+            <li>$1.7M QoQ uplift in AI-driven services</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Common Trust-Building Mistakes to Avoid</h2>
+
+      <h3>1. Over-Promising AI Capabilities</h3>
+      <p>The temptation to market AI as "magical" or "perfect" backfires when users encounter limitations. Instead:</p>
+      <ul>
+        <li>Set realistic expectations from the first interaction</li>
+        <li>Clearly communicate what AI can and cannot do</li>
+        <li>Use specific examples rather than broad claims</li>
+        <li>Update capability descriptions as AI improves</li>
+      </ul>
+
+      <h3>2. Hiding AI Involvement</h3>
+      <p>Some products try to make AI invisible, but users are more trusting when they know AI is involved and understand its role:</p>
+      <ul>
+        <li>Clear labeling of AI-generated content</li>
+        <li>Explanation of human vs. AI involvement in processes</li>
+        <li>Transparent about when AI is learning from user interactions</li>
+      </ul>
+
+      <h3>3. Treating All Users the Same</h3>
+      <p>Trust preferences vary significantly across user segments. Consider:</p>
+      <ul>
+        <li><strong>Tech-savvy users:</strong> Want more technical details and control</li>
+        <li><strong>Casual users:</strong> Prefer simple explanations and clear safety nets</li>
+        <li><strong>Enterprise users:</strong> Need audit trails and compliance features</li>
+        <li><strong>Privacy-conscious users:</strong> Want granular data controls and local processing options</li>
+      </ul>
+
+      <h2>Building Trust for Emerging AI Capabilities</h2>
+
+      <h3>1. The Gradual Introduction Strategy</h3>
+      <p>When launching new AI features, we learned to use a "trust ladder" approach:</p>
+
+      <ol>
+        <li><strong>Preview mode:</strong> Show AI capabilities without acting on them</li>
+        <li><strong>Assisted mode:</strong> AI suggests, user confirms each action</li>
+        <li><strong>Supervised mode:</strong> AI acts, but user can easily undo</li>
+        <li><strong>Autonomous mode:</strong> AI acts independently with user oversight</li>
+      </ol>
+
+      <h3>2. Community-Driven Trust</h3>
+      <p>Users trust other users more than they trust companies. We built trust through:</p>
+      <ul>
+        <li><strong>User success stories:</strong> Real examples of AI helping solve problems</li>
+        <li><strong>Peer reviews:</strong> User ratings and feedback on AI responses</li>
+        <li><strong>Community validation:</strong> Users can verify AI answers with community knowledge</li>
+        <li><strong>Transparent metrics:</strong> Publicly shared accuracy and satisfaction scores</li>
+      </ul>
+
+      <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-2xl border border-brand-200 dark:border-brand-800/30 my-8">
+        <h3 class="text-lg font-semibold mb-3">🚀 Key Takeaways for AI Product Managers</h3>
+        <ul class="space-y-2">
+          <li><strong>Trust is a product feature:</strong> Design and measure it like any other capability</li>
+          <li><strong>Transparency beats perfection:</strong> Users prefer honest AI over perfect-seeming AI</li>
+          <li><strong>Control builds confidence:</strong> Give users ways to guide and override AI decisions</li>
+          <li><strong>Consistency compounds trust:</strong> Reliable mediocre AI beats unreliable excellent AI</li>
+          <li><strong>Cultural context matters:</strong> Trust expectations vary across markets and demographics</li>
+          <li><strong>Measure trust metrics:</strong> Track user behavior changes, not just satisfaction scores</li>
+        </ul>
+      </div>
+
+      <h2>The Future of Trust in AI Products</h2>
+
+      <h3>Emerging Trust Challenges</h3>
+      <p>As AI capabilities expand, new trust challenges are emerging:</p>
+      <ul>
+        <li><strong>Multimodal AI:</strong> Building trust across text, voice, and visual interactions</li>
+        <li><strong>Agentic AI:</strong> Trust when AI takes autonomous actions across multiple systems</li>
+        <li><strong>Personalized AI:</strong> Balancing customization with privacy concerns</li>
+        <li><strong>Regulatory compliance:</strong> Building trust while meeting evolving AI regulations</li>
+      </ul>
+
+      <h3>Trust-First AI Development</h3>
+      <p>The companies that will succeed with AI are those that build trust into their development process from day one:</p>
+      <ul>
+        <li><strong>Trust by design:</strong> Consider trust implications in every feature decision</li>
+        <li><strong>User research on trust:</strong> Regular studies on what builds/breaks trust for your users</li>
+        <li><strong>Cross-functional trust teams:</strong> Include legal, ethics, and user research in AI development</li>
+        <li><strong>Trust metrics in OKRs:</strong> Make trust a measurable business objective</li>
+      </ul>
+
+      <h2>Conclusion</h2>
+
+      <p>Building trust in AI products isn't a one-time effort—it's an ongoing commitment to transparency, reliability, and user empowerment. At Jio Platforms, our focus on trust transformed JIA from a technical achievement into a product that 58K+ users actively rely on every week.</p>
+
+      <p>The AI product landscape is becoming increasingly competitive, but trust remains a sustainable differentiator. Users will choose AI products they trust over ones they don't, regardless of technical capabilities.</p>
+
+      <p>As we continue scaling JIA and building new AI features, we've learned that trust isn't just about avoiding harm—it's about creating products that users feel confident using for their most important decisions.</p>
+
+      <p>The companies that master trust in AI will build the most valuable and enduring AI products of the next decade.</p>
+
+      <p><em>What trust challenges are you facing with your AI products? I'd love to hear about your experiences and approaches to building user trust at scale.</em></p>
+    </article>
+
+    <!-- Author Bio -->
+    <div class="reveal mt-12 p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
+      <div class="flex items-center gap-4">
+        <img src="./headshot.jpg" alt="Srija Harshika" class="h-16 w-16 rounded-xl object-cover ring-2 ring-slate-200 dark:ring-white/10" />
+        <div>
+          <h3 class="font-semibold">Srija Harshika</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Senior Product Manager at Jio Platforms (AI Division). Built and scaled JIA AI assistant to 20M+ users with 58K+ WAUs. Expertise in building trust and user adoption in AI products at scale.</p>
+          <div class="mt-3 flex gap-3">
+            <a href="https://www.linkedin.com/in/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">LinkedIn</a>
+            <a href="mailto:srijaharshika.d@gmail.com" class="text-sm text-brand-600 hover:text-brand-700">Email</a>
+            <a href="https://topmate.io/srijaharshika/" target="_blank" class="text-sm text-brand-600 hover:text-brand-700">Topmate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Posts -->
+    <div class="reveal mt-12">
+      <h3 class="text-xl font-semibold mb-6">More Insights</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <a href="blog-anthropic-ai.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200">AI Ethics</span>
+          </div>
+          <h4 class="font-semibold mb-2">Building Responsible AI: Lessons from Anthropic</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">How to build safety-first AI products at scale.</p>
+        </a>
+        <a href="blog-rag-revolution.html" class="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/[0.05] shadow-soft hover:translate-y-[-1px] transition">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-200">Technical</span>
+          </div>
+          <h4 class="font-semibold mb-2">The RAG Revolution: Why Context Matters More Than Model Size</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300">Building better AI products through retrieval-augmented generation.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200/70 dark:border-white/10 mt-16">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-between">
+      <p>© 2025 Srija Harshika</p>
+      <a href="index.html" class="underline">Back to Portfolio</a>
+    </div>
+  </footer>
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress"></div>
+
+  <!-- Floating Action Button -->
+  <button class="fab hidden fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50" id="scrollToTop" aria-label="Scroll to top">
+    <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+  </button>
+
+  <script>
+    // Dark mode sync with main site
+    const pref = localStorage.getItem('theme');
+    if (pref === 'dark' || (!pref && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Reading progress indicator
+    function updateReadingProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.querySelector('.reading-progress').style.width = `${Math.min(scrollPercent, 100)}%`;
+    }
+
+    // Floating action button
+    const fab = document.getElementById('scrollToTop');
+    function updateFAB() {
+      if (window.scrollY > 300) {
+        fab.classList.remove('hidden');
+      } else {
+        fab.classList.add('hidden');
+      }
+    }
+
+    fab?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Enhanced scroll handling
+    let ticking = false;
+    function handleScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateReadingProgress();
+          updateFAB();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Enhanced reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('show');
+          }, index * 100);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Enhanced tag interactions
+    document.querySelectorAll('.tag').forEach(tag => {
+      tag.addEventListener('click', function() {
+        const ripple = document.createElement('span');
+        ripple.className = 'absolute inset-0 bg-white/30 rounded-full scale-0 animate-ping';
+        this.style.position = 'relative';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+  </script>
+</body>
+</html>
