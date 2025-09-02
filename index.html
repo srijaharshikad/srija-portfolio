@@ -102,6 +102,59 @@
       animation: gradientShift 3s ease infinite;
     }
 
+    /* Interactive Game Elements */
+    .quiz-option {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .quiz-option:hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .quiz-option:hover::before {
+      left: 100%;
+    }
+
+    /* Achievement unlock animation */
+    @keyframes achievementGlow {
+      0% { box-shadow: 0 0 0 rgba(255, 215, 0, 0); }
+      50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+      100% { box-shadow: 0 0 0 rgba(255, 215, 0, 0); }
+    }
+    
+    .achievement-unlocked {
+      animation: achievementGlow 2s ease-in-out;
+    }
+
+    /* Interactive chip effects */
+    .interactive-chip {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .interactive-chip:active {
+      transform: scale(0.95);
+    }
+
+    /* Easter egg effects */
+    .easter-egg {
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    
+    .easter-egg:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+
     /* Floating elements */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
@@ -242,6 +295,71 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Interactive Game Widget -->
+  <div id="gameWidget" class="fixed bottom-6 left-6 z-40 group">
+    <!-- Game Toggle Button -->
+    <button id="gameToggle" class="bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 p-[2px] rounded-full shadow-2xl hover:shadow-pink-500/25 transition-all duration-500 hover:scale-110 animate-bounce">
+      <div class="bg-black/90 backdrop-blur-xl rounded-full p-4 border border-white/10 relative overflow-hidden">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 animate-pulse rounded-full"></div>
+      </div>
+    </button>
+    
+    <!-- Game Panel -->
+    <div id="gamePanel" class="absolute bottom-16 left-0 w-80 bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-left scale-0 transition-all duration-500 opacity-0">
+      
+      <!-- AI Product Quiz Game -->
+      <div id="quizGame" class="p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-white">🧠 AI Product Quiz</h3>
+          <div class="text-sm text-purple-300">
+            Score: <span id="quizScore" class="font-bold text-white">0</span>
+          </div>
+        </div>
+        
+        <div id="quizQuestion" class="mb-4">
+          <p class="text-sm text-gray-300 mb-3" id="questionText">Which AI technique helps models understand context better?</p>
+          <div class="space-y-2" id="quizOptions">
+            <button class="quiz-option w-full text-left p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition" data-answer="correct">Transformers</button>
+            <button class="quiz-option w-full text-left p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition" data-answer="wrong">Decision Trees</button>
+            <button class="quiz-option w-full text-left p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition" data-answer="wrong">Linear Regression</button>
+          </div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+          <button id="newQuizQuestion" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg text-sm hover:scale-105 transition">New Question</button>
+          <div class="text-xs text-gray-400">
+            Question <span id="questionNumber">1</span> of ∞
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden Achievement System -->
+      <div class="border-t border-white/10 p-4">
+        <h4 class="text-sm font-semibold text-purple-300 mb-2">🏆 Achievements</h4>
+        <div class="grid grid-cols-4 gap-2" id="achievements">
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="first-visit" title="First Visit">👋</div>
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="quiz-master" title="Quiz Master">🧠</div>
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="explorer" title="Explorer">🔍</div>
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="reader" title="Blog Reader">📚</div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-2" id="secretAchievements">
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="secret-master" title="Konami Code Master">🎮</div>
+          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="interaction-king" title="Interaction King">⚡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Easter Eggs Scattered Throughout -->
+  <div id="easterEggs" class="hidden">
+    <div class="easter-egg fixed top-1/2 left-10 w-4 h-4 bg-yellow-400 rounded-full opacity-50 hover:opacity-100 animate-ping cursor-pointer" data-egg="secret1"></div>
+    <div class="easter-egg fixed top-1/3 right-20 w-4 h-4 bg-green-400 rounded-full opacity-50 hover:opacity-100 animate-ping cursor-pointer" data-egg="secret2"></div>
+    <div class="easter-egg fixed bottom-1/3 left-1/2 w-4 h-4 bg-blue-400 rounded-full opacity-50 hover:opacity-100 animate-ping cursor-pointer" data-egg="secret3"></div>
   </div>
 
   <!-- Enhanced Glassmorphism Navigation -->
@@ -900,6 +1018,394 @@
     }
     
     initializeAnalytics();
+
+    // ===== INTERACTIVE MINI-GAMES SYSTEM =====
+    
+    // AI Product Quiz Questions Database
+    const quizQuestions = [
+      {
+        question: "Which AI technique helps models understand context better?",
+        options: ["Transformers", "Decision Trees", "Linear Regression"],
+        correct: 0
+      },
+      {
+        question: "What does RAG stand for in AI?",
+        options: ["Random Access Generation", "Retrieval Augmented Generation", "Rapid Algorithm Growth"],
+        correct: 1
+      },
+      {
+        question: "Which metric is most important for measuring AI model hallucinations?",
+        options: ["Accuracy", "Latency", "Factual Consistency"],
+        correct: 2
+      },
+      {
+        question: "What is the primary purpose of A/B testing in product management?",
+        options: ["Debug code", "Compare feature variants", "Increase server speed"],
+        correct: 1
+      },
+      {
+        question: "Which company created the transformer architecture?",
+        options: ["OpenAI", "Google", "Meta"],
+        correct: 1
+      },
+      {
+        question: "What does LLM stand for?",
+        options: ["Large Language Model", "Linear Learning Method", "Low Latency Mode"],
+        correct: 0
+      },
+      {
+        question: "Which is a key principle of product-led growth?",
+        options: ["Focus on sales", "Product drives acquisition", "Marketing first"],
+        correct: 1
+      },
+      {
+        question: "What is the main advantage of fine-tuning an AI model?",
+        options: ["Faster inference", "Domain-specific performance", "Lower cost"],
+        correct: 1
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let quizScore = 0;
+    let questionsAnswered = 0;
+    let interactionCount = parseInt(localStorage.getItem('interaction-count') || '0');
+    
+    // Game State Management
+    let gameState = {
+      gameOpen: false,
+      achievements: JSON.parse(localStorage.getItem('portfolio-achievements') || '{}'),
+      easterEggsFound: JSON.parse(localStorage.getItem('easter-eggs-found') || '[]')
+    };
+
+    // Track interactions
+    function trackInteraction() {
+      interactionCount++;
+      localStorage.setItem('interaction-count', interactionCount);
+      
+      // Check for interaction king achievement
+      if (interactionCount >= 20) {
+        unlockAchievement('interaction-king');
+      }
+    }
+
+    // Initialize Game System
+    function initializeGameSystem() {
+      // Check for first visit achievement
+      if (!gameState.achievements['first-visit']) {
+        setTimeout(() => unlockAchievement('first-visit'), 2000);
+      }
+
+      // Setup game toggle
+      document.getElementById('gameToggle')?.addEventListener('click', toggleGamePanel);
+      
+      // Setup quiz functionality
+      document.getElementById('newQuizQuestion')?.addEventListener('click', loadNewQuestion);
+      
+      // Setup quiz options
+      document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', handleQuizAnswer);
+      });
+
+      // Setup easter eggs
+      setupEasterEggs();
+      
+      // Load first question
+      loadQuestion(currentQuestionIndex);
+      
+      // Update achievements display
+      updateAchievementsDisplay();
+    }
+
+    // Toggle Game Panel
+    function toggleGamePanel() {
+      const panel = document.getElementById('gamePanel');
+      const button = document.getElementById('gameToggle');
+      
+      gameState.gameOpen = !gameState.gameOpen;
+      
+      if (gameState.gameOpen) {
+        panel.classList.remove('scale-0', 'opacity-0');
+        panel.classList.add('scale-100', 'opacity-100');
+        button.classList.remove('animate-bounce');
+      } else {
+        panel.classList.add('scale-0', 'opacity-0');
+        panel.classList.remove('scale-100', 'opacity-100');
+        button.classList.add('animate-bounce');
+      }
+    }
+
+    // Load Quiz Question
+    function loadQuestion(index) {
+      const question = quizQuestions[index];
+      document.getElementById('questionText').textContent = question.question;
+      document.getElementById('questionNumber').textContent = questionsAnswered + 1;
+      
+      const optionsContainer = document.getElementById('quizOptions');
+      optionsContainer.innerHTML = '';
+      
+      question.options.forEach((option, i) => {
+        const button = document.createElement('button');
+        button.className = 'quiz-option w-full text-left p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition';
+        button.textContent = option;
+        button.dataset.answer = i === question.correct ? 'correct' : 'wrong';
+        button.dataset.index = i;
+        button.addEventListener('click', handleQuizAnswer);
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    // Handle Quiz Answer
+    function handleQuizAnswer(e) {
+      const button = e.target;
+      const isCorrect = button.dataset.answer === 'correct';
+      
+      // Disable all options
+      document.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.disabled = true;
+        opt.classList.add('opacity-50');
+      });
+      
+      if (isCorrect) {
+        button.classList.add('bg-green-600');
+        quizScore += 10;
+        showFloatingText('+10 points!', 'text-green-400');
+      } else {
+        button.classList.add('bg-red-600');
+        // Highlight correct answer
+        document.querySelector('[data-answer="correct"]').classList.add('bg-green-600');
+      }
+      
+      document.getElementById('quizScore').textContent = quizScore;
+      questionsAnswered++;
+      
+      // Check for quiz master achievement
+      if (questionsAnswered >= 5 && quizScore >= 40) {
+        unlockAchievement('quiz-master');
+      }
+      
+      setTimeout(() => {
+        loadNewQuestion();
+      }, 1500);
+    }
+
+    // Load New Question
+    function loadNewQuestion() {
+      currentQuestionIndex = (currentQuestionIndex + 1) % quizQuestions.length;
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // Achievement System
+    function unlockAchievement(achievementId) {
+      if (!gameState.achievements[achievementId]) {
+        gameState.achievements[achievementId] = true;
+        localStorage.setItem('portfolio-achievements', JSON.stringify(gameState.achievements));
+        
+        // Show achievement notification
+        showAchievementNotification(achievementId);
+        updateAchievementsDisplay();
+      }
+    }
+
+    function updateAchievementsDisplay() {
+      document.querySelectorAll('.achievement').forEach(elem => {
+        const achievementId = elem.dataset.achievement;
+        if (gameState.achievements[achievementId]) {
+          elem.classList.remove('bg-gray-800');
+          elem.classList.add('bg-gradient-to-r', 'from-yellow-400', 'to-orange-500');
+        }
+      });
+    }
+
+    function showAchievementNotification(achievementId) {
+      const achievements = {
+        'first-visit': { name: 'Welcome Explorer!', icon: '👋' },
+        'quiz-master': { name: 'Quiz Master!', icon: '🧠' },
+        'explorer': { name: 'Easter Egg Hunter!', icon: '🔍' },
+        'reader': { name: 'Knowledge Seeker!', icon: '📚' },
+        'secret-master': { name: 'Konami Code Master!', icon: '🎮' },
+        'interaction-king': { name: 'Interaction King!', icon: '⚡' }
+      };
+      
+      const achievement = achievements[achievementId];
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-4 rounded-xl shadow-2xl animate-bounce';
+      notification.innerHTML = `
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">${achievement.icon}</span>
+          <div>
+            <div class="font-bold">Achievement Unlocked!</div>
+            <div class="text-sm">${achievement.name}</div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.classList.add('scale-0', 'opacity-0');
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Easter Eggs System
+    function setupEasterEggs() {
+      // Show easter eggs after 5 seconds
+      setTimeout(() => {
+        document.getElementById('easterEggs').classList.remove('hidden');
+      }, 5000);
+
+      document.querySelectorAll('.easter-egg').forEach(egg => {
+        egg.addEventListener('click', function() {
+          const eggId = this.dataset.egg;
+          if (!gameState.easterEggsFound.includes(eggId)) {
+            gameState.easterEggsFound.push(eggId);
+            localStorage.setItem('easter-eggs-found', JSON.stringify(gameState.easterEggsFound));
+            
+            this.classList.add('scale-0', 'opacity-0');
+            showFloatingText('Secret found! +5 points!', 'text-yellow-400');
+            quizScore += 5;
+            document.getElementById('quizScore').textContent = quizScore;
+            
+            if (gameState.easterEggsFound.length >= 3) {
+              unlockAchievement('explorer');
+            }
+          }
+        });
+      });
+    }
+
+    // Floating Text Effects
+    function showFloatingText(text, className = 'text-white') {
+      const floatingText = document.createElement('div');
+      floatingText.className = `fixed z-50 pointer-events-none font-bold ${className} animate-bounce`;
+      floatingText.textContent = text;
+      floatingText.style.left = Math.random() * 200 + 'px';
+      floatingText.style.top = '50%';
+      floatingText.style.fontSize = '14px';
+      
+      document.body.appendChild(floatingText);
+      
+      setTimeout(() => {
+        floatingText.style.transform = 'translateY(-100px)';
+        floatingText.style.opacity = '0';
+        setTimeout(() => floatingText.remove(), 1000);
+      }, 100);
+    }
+
+    // Track blog reading achievement
+    document.querySelectorAll('a[href^="blog-"]').forEach(link => {
+      link.addEventListener('click', () => {
+        unlockAchievement('reader');
+      });
+    });
+
+    // Interactive Skill Chips
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', function(e) {
+        trackInteraction();
+        
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        ripple.style.cssText = `
+          position: absolute;
+          left: ${x}px;
+          top: ${y}px;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.6);
+          transform: translate(-50%, -50%);
+          animation: ripple 0.6s linear;
+          pointer-events: none;
+        `;
+        
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+        
+        // Remove ripple after animation
+        setTimeout(() => ripple.remove(), 600);
+        
+        // Show floating text
+        showFloatingText(`${this.textContent}! ✨`, 'text-purple-500');
+      });
+    });
+
+    // Track various interactions
+    document.getElementById('gameToggle')?.addEventListener('click', trackInteraction);
+    document.querySelectorAll('.quiz-option').forEach(option => {
+      option.addEventListener('click', trackInteraction);
+    });
+    document.querySelectorAll('.easter-egg').forEach(egg => {
+      egg.addEventListener('click', trackInteraction);
+    });
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', trackInteraction);
+    });
+
+    // Add ripple animation CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          width: 100px;
+          height: 100px;
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Add hero interaction - secret konami code
+    let konamiCode = [];
+    const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑ ↑ ↓ ↓ ← → ← → B A
+    
+    document.addEventListener('keydown', function(e) {
+      konamiCode.push(e.keyCode);
+      konamiCode = konamiCode.slice(-10);
+      
+      if (konamiCode.join(',') === konamiSequence.join(',')) {
+        // Unlock secret achievement
+        unlockAchievement('secret-master');
+        
+        // Create spectacular effect
+        document.body.style.animation = 'rainbow 2s ease-in-out';
+        showFloatingText('🎉 Konami Code Master! 🎉', 'text-rainbow');
+        quizScore += 50;
+        document.getElementById('quizScore').textContent = quizScore;
+        
+        setTimeout(() => {
+          document.body.style.animation = '';
+        }, 2000);
+      }
+    });
+
+    // Add rainbow animation for konami code
+    const rainbowStyle = document.createElement('style');
+    rainbowStyle.textContent = `
+      @keyframes rainbow {
+        0%, 100% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+      }
+      
+      .text-rainbow {
+        background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff0080);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbow 1s ease-in-out infinite;
+      }
+    `;
+    document.head.appendChild(rainbowStyle);
+
+    // Initialize the game system
+    initializeGameSystem();
 
     // Mobile menu toggle
     document.getElementById('mobileMenuToggle')?.addEventListener('click', () => {
