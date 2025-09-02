@@ -172,25 +172,31 @@
   <a href="#content" class="sr-only focus:not-sr-only focus:absolute m-3 px-3 py-2 rounded bg-brand-600 text-white">Skip to content</a>
   
   <!-- View Counter -->
-  <div class="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 shadow-lg">
-    <div class="flex items-center gap-2">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-      </svg>
-      <span id="viewCounter">0</span>
+  <div class="fixed top-6 right-6 z-50 bg-slate-900 text-white rounded-xl px-4 py-3 shadow-2xl border border-slate-700">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+        </svg>
+      </div>
+      <div class="text-right">
+        <div class="text-xs text-slate-400 leading-none">Portfolio Views</div>
+        <div id="viewCounter" class="text-lg font-bold text-white leading-none transition-all duration-300">0</div>
+      </div>
     </div>
   </div>
 
   <!-- NAV -->
-  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur">
+  <header class="sticky top-0 z-50 border-b border-slate-700/30 bg-slate-900/95 backdrop-blur text-white">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200" />
-        <span class="font-semibold">Srija Harshika</span>
+        <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-600" />
+        <span class="font-semibold text-white">Srija Harshika</span>
       </div>
       <!-- Mobile menu button -->
-      <button id="mobileMenuToggle" class="md:hidden p-2 rounded-lg hover:bg-slate-100">
+      <button id="mobileMenuToggle" class="md:hidden p-2 rounded-lg hover:bg-slate-800 text-white">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -198,27 +204,27 @@
       
       <!-- Desktop navigation -->
       <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#work" class="hover:text-brand-600">Work</a>
-        <a href="#projects" class="hover:text-brand-600">Projects</a>
-        <a href="#blog" class="hover:text-brand-600">Blog</a>
-        <a href="#education" class="hover:text-brand-600">Education</a>
-        <a href="#contact" class="hover:text-brand-600">Contact</a>
+        <a href="#work" class="text-slate-200 hover:text-blue-400 transition">Work</a>
+        <a href="#projects" class="text-slate-200 hover:text-blue-400 transition">Projects</a>
+        <a href="#blog" class="text-slate-200 hover:text-blue-400 transition">Blog</a>
+        <a href="#education" class="text-slate-200 hover:text-blue-400 transition">Education</a>
+        <a href="#contact" class="text-slate-200 hover:text-blue-400 transition">Contact</a>
       </nav>
       
       <div class="hidden md:flex items-center gap-2">
-        <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="px-3 py-2 text-sm rounded-lg border border-slate-300/70 hover:bg-slate-100">Resume</a>
+        <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="px-3 py-2 text-sm rounded-lg border border-slate-600 hover:bg-slate-800 text-slate-200 hover:text-white transition">Resume</a>
       </div>
     </div>
     
     <!-- Mobile menu dropdown -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-200 shadow-lg">
+    <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-t border-slate-700 shadow-lg">
       <div class="max-w-6xl mx-auto px-4 py-4 space-y-2">
-        <a href="#work" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Work</a>
-        <a href="#projects" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Projects</a>
-        <a href="#blog" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Blog</a>
-        <a href="#education" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Education</a>
-        <a href="#contact" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Contact</a>
-        <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="block py-2 px-3 rounded-lg hover:bg-slate-100 text-brand-600">Resume</a>
+        <a href="#work" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-slate-200">Work</a>
+        <a href="#projects" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-slate-200">Projects</a>
+        <a href="#blog" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-slate-200">Blog</a>
+        <a href="#education" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-slate-200">Education</a>
+        <a href="#contact" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-slate-200">Contact</a>
+        <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="block py-2 px-3 rounded-lg hover:bg-slate-800 text-blue-400">Resume</a>
       </div>
     </div>
   </header>
@@ -701,7 +707,15 @@
       let views = localStorage.getItem('portfolio-views') || 0;
       views = parseInt(views) + 1;
       localStorage.setItem('portfolio-views', views);
-      document.getElementById('viewCounter').textContent = views;
+      
+      const counter = document.getElementById('viewCounter');
+      counter.textContent = views;
+      
+      // Add flash animation for new views
+      counter.classList.add('scale-110', 'text-blue-400');
+      setTimeout(() => {
+        counter.classList.remove('scale-110', 'text-blue-400');
+      }, 300);
     }
     updateViewCounter();
 
