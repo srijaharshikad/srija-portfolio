@@ -383,7 +383,7 @@
         </button>
     
     <!-- Game Panel -->
-    <div id="gamePanel" class="absolute bottom-16 left-0 w-80 bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-left scale-0 transition-all duration-500 opacity-0">
+    <div id="gamePanel" class="absolute bottom-16 left-2 w-[min(320px,calc(100vw-2rem))] max-w-[380px] bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-left scale-0 transition-all duration-500 opacity-0">
       
       <!-- AI Product Quiz Game -->
       <div id="quizGame" class="p-6">
@@ -545,7 +545,7 @@
     </button>
     
     <!-- Copilot Panel -->
-    <div id="copilotPanel" class="absolute bottom-16 right-0 w-[420px] bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-3xl border border-gray-200/50 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
+    <div id="copilotPanel" class="absolute bottom-16 right-2 w-[min(420px,calc(100vw-2rem))] max-w-[420px] bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-3xl border border-gray-200/50 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
       
       <!-- Modern Chat Header -->
       <div class="p-6 border-b border-gray-200/50">
@@ -556,8 +556,8 @@
             </svg>
           </div>
           <div>
-            <h3 class="font-bold text-white">Srija AI Assistant</h3>
-            <p class="text-xs text-blue-300">Your personal portfolio guide</p>
+            <h3 class="font-bold text-gray-900">Srija AI Assistant</h3>
+            <p class="text-xs text-gray-600">Your personal portfolio guide</p>
           </div>
           <div class="ml-auto">
             <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -569,24 +569,29 @@
       <div class="p-4 border-b border-white/10">
         <h4 class="text-sm font-semibold text-cyan-300 mb-3">🚀 Quick Actions</h4>
         <div class="grid grid-cols-2 gap-2">
-          <button class="copilot-action p-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition" data-action="resume">📄 View Resume</button>
-          <button class="copilot-action p-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition" data-action="contact">💬 Contact Info</button>
-          <button class="copilot-action p-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition" data-action="projects">🚀 Top Projects</button>
-          <button class="copilot-action p-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition" data-action="game">🎮 Play Game</button>
+          <button class="copilot-action px-3 py-1.5 text-xs bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full transition-all duration-200 hover:scale-105 font-medium" data-action="resume">📄 Resume</button>
+          <button class="copilot-action px-3 py-1.5 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-full transition-all duration-200 hover:scale-105 font-medium" data-action="contact">💬 Contact</button>
+          <button class="copilot-action px-3 py-1.5 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-full transition-all duration-200 hover:scale-105 font-medium" data-action="projects">🚀 Projects</button>
+          <button class="copilot-action px-3 py-1.5 text-xs bg-pink-100 hover:bg-pink-200 text-pink-700 rounded-full transition-all duration-200 hover:scale-105 font-medium" data-action="game">🎮 Quiz</button>
         </div>
       </div>
 
       <!-- Chat Interface -->
       <div class="p-4">
-        <div id="chatMessages" class="h-32 overflow-y-auto mb-3 space-y-2">
-          <div class="text-xs text-gray-300 bg-white/5 p-2 rounded-lg">
-            👋 Hi! I'm Srija's AI assistant. Ask me about her experience with AI products, the JIA agentic assistant, or anything else!
+        <div id="chatMessages" class="h-40 overflow-y-auto mb-3 space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-white text-sm">🤖</span>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-md max-w-[280px]">
+              <p class="text-sm text-gray-800">👋 Hi! I'm Srija's AI assistant. Ask me about her experience with AI products, the JIA agentic assistant, or anything else!</p>
+            </div>
           </div>
         </div>
         
         <div class="flex gap-2">
-          <input type="text" id="chatInput" placeholder="Ask about Srija's experience..." class="flex-1 px-3 py-2 text-sm bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400">
-          <button id="sendMessage" class="px-3 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg hover:scale-105 transition">
+          <input type="text" id="chatInput" placeholder="Ask about Srija's experience..." class="flex-1 px-3 py-2 text-sm bg-gray-100 border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-400 focus:bg-white transition-all">
+          <button id="sendMessage" class="px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:scale-105 transition-all shadow-lg">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
             </svg>
@@ -2127,11 +2132,25 @@
     function addChatMessage(message, sender) {
       const messagesContainer = document.getElementById('chatMessages');
       const messageDiv = document.createElement('div');
-      messageDiv.className = `text-xs p-2 rounded-lg chat-message ${
-        sender === 'user' 
-          ? 'bg-cyan-600/20 text-cyan-100 ml-4' 
-          : 'bg-white/5 text-gray-300'
-      }`;
+      
+      if (sender === 'user') {
+        messageDiv.className = 'flex justify-end mb-3';
+        messageDiv.innerHTML = `
+          <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-2xl rounded-tr-md max-w-[280px]">
+            <p class="text-sm text-white">${message}</p>
+          </div>
+        `;
+      } else {
+        messageDiv.className = 'flex items-start gap-3 mb-3';
+        messageDiv.innerHTML = `
+          <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+            <span class="text-white text-sm">🤖</span>
+          </div>
+          <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-md max-w-[280px]">
+            <p class="text-sm text-gray-800">${message}</p>
+          </div>
+        `;
+      }
       
       // Handle multi-line messages
       if (message.includes('\n')) {
@@ -2288,16 +2307,34 @@
         }
       }
       
-      /* Enhanced mobile responsiveness for bubbles */
-      @media (max-width: 640px) {
+      /* Enhanced mobile responsiveness */
+      @media (max-width: 768px) {
+        #gamePanel {
+          left: 0.5rem !important;
+          right: auto;
+          width: calc(100vw - 1rem) !important;
+          max-width: 350px !important;
+          bottom: 5rem !important;
+        }
+        
+        #copilotPanel {
+          right: 0.5rem !important;
+          left: auto;
+          width: calc(100vw - 1rem) !important;
+          max-width: 380px !important;
+          bottom: 5rem !important;
+        }
+        
         #gameCoachBubble {
           left: 1rem;
           bottom: 5rem;
+          max-width: calc(100vw - 2rem);
         }
         
         #chatbotCoachBubble {
           right: 1rem;
           bottom: 5rem;
+          max-width: calc(100vw - 2rem);
         }
         
         .max-w-xs {
@@ -2315,6 +2352,30 @@
         
         #chatbotCoachBubble .absolute.-bottom-2 {
           right: 2rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        #gamePanel {
+          width: calc(100vw - 1rem) !important;
+          max-width: none !important;
+          left: 0.5rem !important;
+          right: 0.5rem !important;
+        }
+        
+        #copilotPanel {
+          width: calc(100vw - 1rem) !important;
+          max-width: none !important;
+          left: 0.5rem !important;
+          right: 0.5rem !important;
+        }
+        
+        #gamePanel .p-6 {
+          padding: 1rem !important;
+        }
+        
+        #copilotPanel .p-6 {
+          padding: 1rem !important;
         }
       }
       
