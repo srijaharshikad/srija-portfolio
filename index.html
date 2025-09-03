@@ -383,7 +383,7 @@
         </button>
     
     <!-- Game Panel -->
-    <div id="gamePanel" class="absolute bottom-16 left-2 w-[min(320px,calc(100vw-2rem))] max-w-[380px] bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-left scale-0 transition-all duration-500 opacity-0">
+    <div id="gamePanel" class="fixed bottom-4 left-4 w-[min(380px,calc(100vw-2rem))] max-w-[400px] max-h-[calc(100vh-2rem)] overflow-y-auto bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-left scale-0 transition-all duration-500 opacity-0">
       
       <!-- AI Product Quiz Game -->
       <div id="quizGame" class="p-6">
@@ -545,7 +545,7 @@
     </button>
     
     <!-- Copilot Panel -->
-    <div id="copilotPanel" class="absolute bottom-16 right-2 w-[min(420px,calc(100vw-2rem))] max-w-[420px] bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-3xl border border-gray-200/50 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
+    <div id="copilotPanel" class="fixed bottom-4 right-4 w-[min(420px,calc(100vw-2rem))] max-w-[440px] max-h-[calc(100vh-2rem)] overflow-y-auto bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-3xl border border-gray-200/50 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
       
       <!-- Modern Chat Header -->
       <div class="p-6 border-b border-gray-200/50">
@@ -2314,7 +2314,8 @@
           right: auto;
           width: calc(100vw - 1rem) !important;
           max-width: 350px !important;
-          bottom: 5rem !important;
+          bottom: 1rem !important;
+          max-height: calc(100vh - 2rem) !important;
         }
         
         #copilotPanel {
@@ -2322,7 +2323,8 @@
           left: auto;
           width: calc(100vw - 1rem) !important;
           max-width: 380px !important;
-          bottom: 5rem !important;
+          bottom: 1rem !important;
+          max-height: calc(100vh - 2rem) !important;
         }
         
         #gameCoachBubble {
@@ -2361,6 +2363,8 @@
           max-width: none !important;
           left: 0.5rem !important;
           right: 0.5rem !important;
+          bottom: 0.5rem !important;
+          max-height: calc(100vh - 1rem) !important;
         }
         
         #copilotPanel {
@@ -2368,6 +2372,8 @@
           max-width: none !important;
           left: 0.5rem !important;
           right: 0.5rem !important;
+          bottom: 0.5rem !important;
+          max-height: calc(100vh - 1rem) !important;
         }
         
         #gamePanel .p-6 {
@@ -2377,6 +2383,36 @@
         #copilotPanel .p-6 {
           padding: 1rem !important;
         }
+      }
+      
+      /* Game panel scroll behavior */
+      #gamePanel {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.3) transparent;
+      }
+      
+      #gamePanel::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      #gamePanel::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      #gamePanel::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.3);
+        border-radius: 3px;
+      }
+      
+      #gamePanel::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.5);
+      }
+      
+      /* Ensure panels don't extend beyond viewport */
+      .panel-container {
+        position: fixed;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
       }
       
       /* Subtle hover effects for bubbles */
