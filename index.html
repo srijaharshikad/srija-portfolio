@@ -593,7 +593,7 @@
         <!-- Quick stats -->
         <div class="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg p-3 mb-4">
           <div class="text-xs text-orange-700 font-medium">
-            🔥 <span id="liveStatsWelcome">120+</span> people played this week!
+            👀 <span id="liveStatsWelcome">0</span> portfolio views so far!
           </div>
         </div>
         
@@ -2022,18 +2022,13 @@
     }
     
     function updateLiveStats() {
-      const baseViews = parseInt(localStorage.getItem('portfolio-views') || '0');
-      const weeklyPlayers = Math.max(85, baseViews + Math.floor(Math.random() * 50) + 35);
+      const actualViews = parseInt(localStorage.getItem('portfolio-views') || '0');
       
-      // Update both stats elements
-      const statsElement = document.getElementById('liveStats');
+      // Update welcome bubble with actual portfolio views
       const welcomeStatsElement = document.getElementById('liveStatsWelcome');
       
-      if (statsElement) {
-        statsElement.textContent = weeklyPlayers + '+';
-      }
       if (welcomeStatsElement) {
-        welcomeStatsElement.textContent = weeklyPlayers + '+';
+        welcomeStatsElement.textContent = actualViews;
       }
     }
     
