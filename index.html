@@ -412,18 +412,55 @@
         </div>
       </div>
 
-      <!-- Hidden Achievement System -->
+      <!-- Achievement System -->
       <div class="border-t border-white/10 p-4">
-        <h4 class="text-sm font-semibold text-purple-300 mb-2">🏆 Achievements</h4>
-        <div class="grid grid-cols-4 gap-2" id="achievements">
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="first-visit" title="First Visit">👋</div>
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="quiz-master" title="Quiz Master">🧠</div>
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="explorer" title="Explorer">🔍</div>
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="reader" title="Blog Reader">📚</div>
+        <h4 class="text-sm font-semibold text-purple-300 mb-3">🏆 Your Achievements</h4>
+        <div class="space-y-2" id="achievements">
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="first-visit">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">👋</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">Welcome Visitor</div>
+              <div class="text-xs text-gray-400">Visited Srija's portfolio</div>
+            </div>
+          </div>
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="quiz-master">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">🧠</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">AI Quiz Master</div>
+              <div class="text-xs text-gray-400">Score 50+ points in quiz</div>
+            </div>
+          </div>
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="explorer">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">🔍</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">Portfolio Explorer</div>
+              <div class="text-xs text-gray-400">Visit all main sections</div>
+            </div>
+          </div>
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="reader">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">📚</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">Blog Reader</div>
+              <div class="text-xs text-gray-400">Read blog articles</div>
+            </div>
+          </div>
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="chatbot-friend">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">🤖</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">AI Assistant Friend</div>
+              <div class="text-xs text-gray-400">Chat with Srija's AI</div>
+            </div>
+          </div>
+          <div class="achievement-item flex items-center gap-2 p-2 rounded bg-gray-800/50" data-achievement="feedback-giver">
+            <div class="w-6 h-6 bg-gray-700 rounded flex items-center justify-center text-xs">💬</div>
+            <div class="flex-1">
+              <div class="text-xs text-white">Feedback Provider</div>
+              <div class="text-xs text-gray-400">Share your thoughts</div>
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-2 mt-2" id="secretAchievements">
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="secret-master" title="Konami Code Master">🎮</div>
-          <div class="achievement w-8 h-8 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs" data-achievement="interaction-king" title="Interaction King">⚡</div>
+        <div class="mt-3 text-xs text-center text-gray-500">
+          Complete actions to unlock achievements! 🎯
         </div>
       </div>
     </div>
@@ -508,10 +545,10 @@
     </button>
     
     <!-- Copilot Panel -->
-    <div id="copilotPanel" class="absolute bottom-16 right-0 w-96 bg-gradient-to-br from-slate-900/95 to-blue-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
+    <div id="copilotPanel" class="absolute bottom-16 right-0 w-[420px] bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-3xl border border-gray-200/50 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
       
-      <!-- Copilot Header -->
-      <div class="p-4 border-b border-white/10">
+      <!-- Modern Chat Header -->
+      <div class="p-6 border-b border-gray-200/50">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center animate-pulse">
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1343,6 +1380,9 @@
     } else {
       initializeFeedback();
     }
+    
+    // Show coach bubbles automatically after page loads
+    setTimeout(showCoachBubbles, 5000);
 
     // ===== INTERACTIVE MINI-GAMES SYSTEM =====
     
@@ -1565,11 +1605,28 @@
     }
 
     function updateAchievementsDisplay() {
-      document.querySelectorAll('.achievement').forEach(elem => {
+      document.querySelectorAll('.achievement-item').forEach(elem => {
         const achievementId = elem.dataset.achievement;
         if (gameState.achievements[achievementId]) {
-          elem.classList.remove('bg-gray-800');
-          elem.classList.add('bg-gradient-to-r', 'from-yellow-400', 'to-orange-500');
+          // Update the icon background
+          const icon = elem.querySelector('div:first-child');
+          if (icon) {
+            icon.classList.remove('bg-gray-700');
+            icon.classList.add('bg-gradient-to-r', 'from-yellow-400', 'to-orange-500', 'text-black');
+            icon.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+          }
+          
+          // Update the container
+          elem.classList.remove('bg-gray-800/50');
+          elem.classList.add('bg-gradient-to-r', 'from-yellow-400/20', 'to-orange-500/20', 'border', 'border-yellow-400/50');
+          
+          // Add achievement unlocked text
+          const statusDiv = elem.querySelector('.text-gray-400');
+          if (statusDiv && !statusDiv.textContent.includes('✓')) {
+            statusDiv.textContent = '✓ Unlocked!';
+            statusDiv.classList.remove('text-gray-400');
+            statusDiv.classList.add('text-yellow-400', 'font-semibold');
+          }
         }
       });
     }
@@ -1840,14 +1897,18 @@
       // Add some demo entries if empty
       if (leaderboard.length === 0) {
         leaderboard = [
-          { name: 'AIEnthusiast', score: 85, date: '8/25/2025', achievements: 4 },
-          { name: 'ProductPro', score: 75, date: '8/24/2025', achievements: 3 },
-          { name: 'TechRecruiter', score: 60, date: '8/23/2025', achievements: 2 },
-          { name: 'StartupFounder', score: 45, date: '8/22/2025', achievements: 2 },
-          { name: 'MLEngineer', score: 30, date: '8/21/2025', achievements: 1 }
+          { name: 'SrijaFan ⭐', score: 95, date: new Date().toLocaleDateString(), achievements: 6 },
+          { name: 'AIEnthusiast', score: 85, date: new Date(Date.now() - 86400000).toLocaleDateString(), achievements: 4 },
+          { name: 'ProductPro', score: 75, date: new Date(Date.now() - 172800000).toLocaleDateString(), achievements: 3 },
+          { name: 'TechRecruiter', score: 65, date: new Date(Date.now() - 259200000).toLocaleDateString(), achievements: 3 },
+          { name: 'StartupFounder', score: 55, date: new Date(Date.now() - 345600000).toLocaleDateString(), achievements: 2 },
+          { name: 'MLEngineer', score: 45, date: new Date(Date.now() - 432000000).toLocaleDateString(), achievements: 2 }
         ];
         localStorage.setItem('portfolio-leaderboard', JSON.stringify(leaderboard));
       }
+      
+      // Sort leaderboard by score
+      leaderboard.sort((a, b) => b.score - a.score);
       
       content.innerHTML = leaderboard.map((entry, index) => `
         <div class="flex items-center justify-between p-3 rounded-lg ${index === 0 ? 'bg-yellow-400/10 border border-yellow-400/20' : 'bg-white/5'}">
@@ -2164,17 +2225,22 @@
       setTimeout(() => {
         document.getElementById('gameCoachBubble').classList.remove('hidden');
         document.getElementById('gameCoachBubble').style.animation = 'bubbleSlideUp 0.5s ease-out';
-      }, 200);
+      }, 3000); // Show after 3 seconds
       
       setTimeout(() => {
         document.getElementById('chatbotCoachBubble').classList.remove('hidden');
         document.getElementById('chatbotCoachBubble').style.animation = 'bubbleSlideUp 0.5s ease-out';
-      }, 400);
+      }, 4000); // Show after 4 seconds
       
-      // Auto-hide after 10 seconds
+      // Auto-hide after 15 seconds (longer time)
       setTimeout(() => {
-        hideAllBubbles();
-      }, 10000);
+        hideCoachBubbles();
+      }, 18000);
+    }
+    
+    function hideCoachBubbles() {
+      document.getElementById('gameCoachBubble').classList.add('hidden');
+      document.getElementById('chatbotCoachBubble').classList.add('hidden');
     }
     
     function hideAllBubbles() {
