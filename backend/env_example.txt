@@ -1,0 +1,10 @@
+# Google Sheets Configuration
+GOOGLE_SPREADSHEET_ID=your-spreadsheet-id-here
+
+# Flask Configuration
+FLASK_ENV=development
+PORT=5000
+
+# Optional: For production deployment
+# FLASK_ENV=production
+# PORT=8080
