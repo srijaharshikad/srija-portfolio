@@ -535,71 +535,76 @@
     </div>
   </div>
 
-  <!-- Interactive Coach Card -->
-  <div id="coachCard" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl shadow-2xl border border-white/20 max-w-lg w-full mx-4 relative overflow-hidden animate-bounce">
-      <!-- Animated background -->
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-purple-400/10 to-cyan-400/10 animate-pulse"></div>
+  <!-- Interactive Coach Bubbles -->
+  <!-- Game Guide Bubble -->
+  <div id="gameCoachBubble" class="fixed bottom-20 left-6 z-30 hidden">
+    <div class="relative bg-white rounded-2xl shadow-2xl border border-purple-200 p-4 max-w-xs">
+      <!-- Arrow pointing to game button -->
+      <div class="absolute -bottom-2 left-8 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-white"></div>
       
       <!-- Close button -->
-      <button id="closeCoachCard" class="absolute top-4 right-4 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors z-10">
-        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
+      <button class="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 hover:bg-purple-600 text-white rounded-full text-xs flex items-center justify-center transition-colors" onclick="document.getElementById('gameCoachBubble').classList.add('hidden')">×</button>
       
       <!-- Content -->
-      <div class="relative p-8 text-center">
-        <!-- Header with animated emoji -->
-        <div class="mb-6">
-          <div class="text-6xl mb-4 animate-bounce">🚀</div>
-          <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent mb-2">
-            Welcome to Srija's Interactive Portfolio!
-          </h2>
-          <p class="text-gray-600 font-medium">
-            🎮 Play, Learn, and Explore AI Product Management
-          </p>
-        </div>
+      <div class="text-center">
+        <div class="text-2xl mb-2">🎯</div>
+        <h3 class="font-bold text-purple-700 mb-1 text-sm">AI Quiz Game!</h3>
+        <p class="text-xs text-gray-600 mb-3">Test your AI/ML knowledge & compete on the global leaderboard!</p>
+        <button id="startGameBubble" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:scale-105 transition-all duration-300">
+          🎮 Play Now
+        </button>
+      </div>
+    </div>
+  </div>
 
-        <!-- Features showcase -->
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div class="p-4 bg-white/60 rounded-xl border border-purple-200 hover:scale-105 transition-transform">
-            <div class="text-2xl mb-2">🎯</div>
-            <h3 class="font-bold text-purple-700 mb-1">AI Quiz Game</h3>
-            <p class="text-xs text-gray-600">Test your AI/ML knowledge & compete on the leaderboard!</p>
-          </div>
-          <div class="p-4 bg-white/60 rounded-xl border border-cyan-200 hover:scale-105 transition-transform">
-            <div class="text-2xl mb-2">🤖</div>
-            <h3 class="font-bold text-cyan-700 mb-1">AI Assistant</h3>
-            <p class="text-xs text-gray-600">Ask me anything about Srija's experience!</p>
-          </div>
-        </div>
+  <!-- Chatbot Guide Bubble -->
+  <div id="chatbotCoachBubble" class="fixed bottom-20 right-6 z-30 hidden">
+    <div class="relative bg-white rounded-2xl shadow-2xl border border-cyan-200 p-4 max-w-xs">
+      <!-- Arrow pointing to chatbot button -->
+      <div class="absolute -bottom-2 right-8 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-white"></div>
+      
+      <!-- Close button -->
+      <button class="absolute -top-2 -right-2 w-6 h-6 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full text-xs flex items-center justify-center transition-colors" onclick="document.getElementById('chatbotCoachBubble').classList.add('hidden')">×</button>
+      
+      <!-- Content -->
+      <div class="text-center">
+        <div class="text-2xl mb-2">🤖</div>
+        <h3 class="font-bold text-cyan-700 mb-1 text-sm">AI Assistant!</h3>
+        <p class="text-xs text-gray-600 mb-3">Ask me anything about Srija's experience with AI products!</p>
+        <button id="openChatBubble" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:scale-105 transition-all duration-300">
+          💬 Chat Now
+        </button>
+      </div>
+    </div>
+  </div>
 
-        <!-- Call to action -->
-        <div class="space-y-3">
-          <p class="text-sm text-gray-700 font-medium">
-            💫 <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent font-bold">Most Interactive Portfolio</span> you'll ever see!
-          </p>
-          
-          <div class="flex gap-3">
-            <button id="startGame" class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300 shadow-lg">
-              🎮 Play Quiz
-            </button>
-            <button id="openChat" class="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300 shadow-lg">
-              💬 Chat Now
-            </button>
-          </div>
-          
-          <button id="exploreNormally" class="text-sm text-gray-500 hover:text-gray-700 underline transition-colors">
-            Or explore the portfolio normally →
-          </button>
-        </div>
-
-        <!-- Fun stats -->
-        <div class="mt-6 p-3 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-xl border border-yellow-200">
+  <!-- Welcome Message Bubble -->
+  <div id="welcomeBubble" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 hidden">
+    <div class="bg-gradient-to-r from-purple-500 to-cyan-500 p-[2px] rounded-2xl shadow-2xl">
+      <div class="bg-white rounded-2xl p-6 text-center max-w-sm relative">
+        <!-- Close button -->
+        <button id="closeWelcomeBubble" class="absolute top-2 right-2 w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded-full text-xs flex items-center justify-center transition-colors">×</button>
+        
+        <!-- Content -->
+        <div class="text-4xl mb-3">🚀</div>
+        <h2 class="font-bold text-gray-800 mb-2 text-lg">Welcome to Srija's Interactive Portfolio!</h2>
+        <p class="text-sm text-gray-600 mb-4">🎮 Play AI Quiz & 🤖 Chat with AI Assistant</p>
+        
+        <!-- Quick stats -->
+        <div class="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg p-3 mb-4">
           <div class="text-xs text-orange-700 font-medium">
-            🔥 <span id="liveStats">120+</span> people have played this week! • ⭐ Average score: 65 points
+            🔥 <span id="liveStatsWelcome">120+</span> people played this week!
           </div>
+        </div>
+        
+        <!-- Action buttons -->
+        <div class="flex gap-2">
+          <button id="showGuides" class="flex-1 bg-gradient-to-r from-purple-600 to-cyan-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:scale-105 transition-all duration-300">
+            Show Me Around ✨
+          </button>
+          <button id="dismissWelcome" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-xs font-medium transition-colors">
+            Explore Freely
+          </button>
         </div>
       </div>
     </div>
@@ -1916,47 +1921,56 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    // ===== COACH CARD SYSTEM =====
+    // ===== COACH BUBBLE SYSTEM =====
     
-    function initializeCoachCard() {
-      // Check if user has seen coach card today
-      const lastShown = localStorage.getItem('coach-card-last-shown');
+    function initializeCoachBubbles() {
+      // Check if user has seen welcome bubble today
+      const lastShown = localStorage.getItem('welcome-bubble-last-shown');
       const today = new Date().toDateString();
       
       if (lastShown !== today) {
-        // Show coach card after 3 seconds for first visit of the day
+        // Show welcome bubble after 3 seconds for first visit of the day
         setTimeout(() => {
-          showCoachCard();
+          showWelcomeBubble();
         }, 3000);
       }
       
-      // Add keyboard shortcut to show coach card (Ctrl/Cmd + H for Help)
+      // Add keyboard shortcut to show welcome bubble (Ctrl/Cmd + H for Help)
       document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
           e.preventDefault();
-          showCoachCard();
+          showWelcomeBubble();
         }
       });
       
-      // Setup coach card events
-      document.getElementById('closeCoachCard')?.addEventListener('click', hideCoachCard);
-      document.getElementById('exploreNormally')?.addEventListener('click', hideCoachCard);
+      // Setup welcome bubble events
+      document.getElementById('closeWelcomeBubble')?.addEventListener('click', hideWelcomeBubble);
+      document.getElementById('dismissWelcome')?.addEventListener('click', hideWelcomeBubble);
       
-      document.getElementById('startGame')?.addEventListener('click', function() {
-        hideCoachCard();
+      document.getElementById('showGuides')?.addEventListener('click', function() {
+        hideWelcomeBubble();
         setTimeout(() => {
-          document.getElementById('gameToggle')?.click();
-          addChatMessage('🎮 Welcome to the AI Quiz! Test your knowledge and compete for the high score!', 'bot');
-        }, 500);
+          showCoachBubbles();
+        }, 300);
         trackInteraction();
       });
       
-      document.getElementById('openChat')?.addEventListener('click', function() {
-        hideCoachCard();
+      // Setup individual bubble events
+      document.getElementById('startGameBubble')?.addEventListener('click', function() {
+        hideAllBubbles();
+        setTimeout(() => {
+          document.getElementById('gameToggle')?.click();
+          addChatMessage('🎮 Welcome to the AI Quiz! Test your knowledge and compete for the high score!', 'bot');
+        }, 300);
+        trackInteraction();
+      });
+      
+      document.getElementById('openChatBubble')?.addEventListener('click', function() {
+        hideAllBubbles();
         setTimeout(() => {
           document.getElementById('copilotToggle')?.click();
           addChatMessage('👋 Hi there! I\'m Srija\'s AI assistant. Ask me anything about her experience with AI products, the JIA agentic assistant, or her journey in product management!', 'bot');
-        }, 500);
+        }, 300);
         trackInteraction();
       });
       
@@ -1965,107 +1979,136 @@
       setInterval(updateLiveStats, 30000); // Update every 30 seconds
     }
     
-    function showCoachCard() {
-      const coachCard = document.getElementById('coachCard');
-      coachCard.classList.remove('hidden');
+    function showWelcomeBubble() {
+      const welcomeBubble = document.getElementById('welcomeBubble');
+      welcomeBubble.classList.remove('hidden');
       
-      // Add some sparkle effects around the card
-      createCoachCardSparkles();
+      // Add subtle entrance animation
+      welcomeBubble.style.animation = 'fadeInScale 0.5s ease-out';
     }
     
-    function hideCoachCard() {
-      const coachCard = document.getElementById('coachCard');
-      coachCard.classList.add('hidden');
+    function hideWelcomeBubble() {
+      const welcomeBubble = document.getElementById('welcomeBubble');
+      welcomeBubble.classList.add('hidden');
       
       // Mark as seen today
       const today = new Date().toDateString();
-      localStorage.setItem('coach-card-last-shown', today);
+      localStorage.setItem('welcome-bubble-last-shown', today);
       trackInteraction();
     }
     
+    function showCoachBubbles() {
+      // Show guide bubbles with staggered timing
+      setTimeout(() => {
+        document.getElementById('gameCoachBubble').classList.remove('hidden');
+        document.getElementById('gameCoachBubble').style.animation = 'bubbleSlideUp 0.5s ease-out';
+      }, 200);
+      
+      setTimeout(() => {
+        document.getElementById('chatbotCoachBubble').classList.remove('hidden');
+        document.getElementById('chatbotCoachBubble').style.animation = 'bubbleSlideUp 0.5s ease-out';
+      }, 400);
+      
+      // Auto-hide after 10 seconds
+      setTimeout(() => {
+        hideAllBubbles();
+      }, 10000);
+    }
+    
+    function hideAllBubbles() {
+      document.getElementById('gameCoachBubble').classList.add('hidden');
+      document.getElementById('chatbotCoachBubble').classList.add('hidden');
+      document.getElementById('welcomeBubble').classList.add('hidden');
+    }
+    
     function updateLiveStats() {
+      const baseViews = parseInt(localStorage.getItem('portfolio-views') || '0');
+      const weeklyPlayers = Math.max(85, baseViews + Math.floor(Math.random() * 50) + 35);
+      
+      // Update both stats elements
       const statsElement = document.getElementById('liveStats');
+      const welcomeStatsElement = document.getElementById('liveStatsWelcome');
+      
       if (statsElement) {
-        // Generate realistic but varied numbers
-        const baseViews = parseInt(localStorage.getItem('portfolio-views') || '0');
-        const weeklyPlayers = Math.max(85, baseViews + Math.floor(Math.random() * 50) + 35);
         statsElement.textContent = weeklyPlayers + '+';
       }
-    }
-    
-    function createCoachCardSparkles() {
-      const coachCard = document.querySelector('#coachCard .bg-gradient-to-br');
-      if (!coachCard) return;
-      
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          const sparkle = document.createElement('div');
-          sparkle.className = 'absolute pointer-events-none';
-          sparkle.innerHTML = '✨';
-          sparkle.style.left = Math.random() * 100 + '%';
-          sparkle.style.top = Math.random() * 100 + '%';
-          sparkle.style.fontSize = '1rem';
-          sparkle.style.animation = 'sparkleFloat 3s ease-out forwards';
-          
-          coachCard.appendChild(sparkle);
-          
-          setTimeout(() => sparkle.remove(), 3000);
-        }, i * 300);
+      if (welcomeStatsElement) {
+        welcomeStatsElement.textContent = weeklyPlayers + '+';
       }
     }
     
-    // Add sparkle animation
-    const sparkleStyle = document.createElement('style');
-    sparkleStyle.textContent = `
-      @keyframes sparkleFloat {
+    // Add bubble animations
+    const bubbleStyle = document.createElement('style');
+    bubbleStyle.textContent = `
+      @keyframes fadeInScale {
         0% {
           opacity: 0;
-          transform: translateY(20px) scale(0.5);
-        }
-        50% {
-          opacity: 1;
-          transform: translateY(-10px) scale(1);
+          transform: translate(-50%, -50%) scale(0.8);
         }
         100% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      
+      @keyframes bubbleSlideUp {
+        0% {
           opacity: 0;
-          transform: translateY(-40px) scale(0.5);
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
       
-      /* Coach card bounce with delay */
-      #coachCard .animate-bounce {
-        animation: bounce 1s infinite;
-        animation-delay: 0.5s;
-      }
-      
-      /* Enhanced mobile responsiveness for coach card */
+      /* Enhanced mobile responsiveness for bubbles */
       @media (max-width: 640px) {
-        #coachCard .max-w-lg {
-          max-width: 90vw;
+        #gameCoachBubble {
+          left: 1rem;
+          bottom: 5rem;
         }
         
-        #coachCard .grid-cols-2 {
-          grid-template-columns: 1fr;
-          gap: 0.75rem;
+        #chatbotCoachBubble {
+          right: 1rem;
+          bottom: 5rem;
         }
         
-        #coachCard .flex {
-          flex-direction: column;
+        .max-w-xs {
+          max-width: calc(100vw - 3rem);
         }
         
-        #coachCard .text-2xl {
-          font-size: 1.5rem;
+        #welcomeBubble .max-w-sm {
+          max-width: calc(100vw - 2rem);
         }
         
-        #coachCard .text-6xl {
-          font-size: 3rem;
+        /* Adjust arrow positions on mobile */
+        #gameCoachBubble .absolute.-bottom-2 {
+          left: 2rem;
         }
+        
+        #chatbotCoachBubble .absolute.-bottom-2 {
+          right: 2rem;
+        }
+      }
+      
+      /* Subtle hover effects for bubbles */
+      .relative.bg-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+      }
+      
+      /* Close button hover effects */
+      .absolute.-top-2.-right-2:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
       }
     `;
-    document.head.appendChild(sparkleStyle);
+    document.head.appendChild(bubbleStyle);
 
     // Initialize systems
-    initializeCoachCard();
+    initializeCoachBubbles();
     initializeCopilot();
     initializeGameSystem();
 
