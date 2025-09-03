@@ -38,6 +38,9 @@
     /* Enhanced reveal animations */
     .reveal{opacity:0; transform:translateY(24px); transition:all .8s cubic-bezier(.2,.65,.3,1)}
     .reveal.show{opacity:1; transform:none}
+    /* Fallback: ensure content is visible after 2 seconds if JS fails */
+    .reveal{animation: fadeInFallback 0.1s ease-in-out 2s forwards;}
+    @keyframes fadeInFallback { to { opacity: 1; transform: none; } }
     .reveal-delay{animation-delay: .2s}
     .reveal-delay-2{animation-delay: .4s}
     .reveal-delay-3{animation-delay: .6s}
@@ -754,7 +757,7 @@
   <section class="relative hero-bg overflow-hidden">
     <span class="blob b1"></span><span class="blob b2"></span>
     <div class="max-w-6xl mx-auto px-4 pt-12 pb-6 md:py-16 grid md:grid-cols-2 gap-10 items-center">
-      <div class="reveal show">
+      <div class="reveal show" style="opacity: 1; transform: none;">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/85 ring-1 ring-slate-200 text-sm shadow-soft">
           🎓 <span class="font-medium">ISB MBA — Strategy & Leadership, Marketing</span>
         </div>
@@ -778,7 +781,7 @@
       </div>
 
       <!-- Smaller, offset portrait -->
-      <div class="relative reveal">
+      <div class="relative reveal show" style="opacity: 1; transform: none;">
         <div class="w-[min(360px,75vw)] ml-auto rounded-3xl overflow-hidden ring-1 ring-slate-200 shadow-soft translate-y-2">
           <img src="./headshot.jpg" alt="Portrait of Srija" class="w-full h-auto object-cover">
         </div>
@@ -2384,6 +2387,5 @@
       });
     }, 1000);
   </script>
-  <script src="script.js"></script>
 </body>
 </html>
