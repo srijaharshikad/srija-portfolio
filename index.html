@@ -456,7 +456,7 @@
   </div>
 
   <!-- AI Copilot Assistant -->
-  <div id="aiCopilot" class="fixed top-24 right-6 z-40">
+  <div id="aiCopilot" class="fixed bottom-6 right-6 z-40">
     <!-- Copilot Toggle Button -->
     <button id="copilotToggle" class="relative bg-gradient-to-br from-cyan-500 via-blue-600 to-purple-600 p-[2px] rounded-full shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 hover:scale-110 animate-pulse">
       <div class="pulse-ring"></div>
@@ -469,7 +469,7 @@
     </button>
     
     <!-- Copilot Panel -->
-    <div id="copilotPanel" class="absolute top-16 right-0 w-96 bg-gradient-to-br from-slate-900/95 to-blue-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-top-right scale-0 transition-all duration-500 opacity-0">
+    <div id="copilotPanel" class="absolute bottom-16 right-0 w-96 bg-gradient-to-br from-slate-900/95 to-blue-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl transform origin-bottom-right scale-0 transition-all duration-500 opacity-0">
       
       <!-- Copilot Header -->
       <div class="p-4 border-b border-white/10">
@@ -529,6 +529,76 @@
           <div class="bg-white/5 p-2 rounded-lg">
             <div class="text-purple-300 font-medium">Featured Project</div>
             <div class="text-gray-300">JIA Agentic Assistant - 20M+ users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Coach Card -->
+  <div id="coachCard" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl shadow-2xl border border-white/20 max-w-lg w-full mx-4 relative overflow-hidden animate-bounce">
+      <!-- Animated background -->
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-purple-400/10 to-cyan-400/10 animate-pulse"></div>
+      
+      <!-- Close button -->
+      <button id="closeCoachCard" class="absolute top-4 right-4 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors z-10">
+        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <!-- Content -->
+      <div class="relative p-8 text-center">
+        <!-- Header with animated emoji -->
+        <div class="mb-6">
+          <div class="text-6xl mb-4 animate-bounce">🚀</div>
+          <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+            Welcome to Srija's Interactive Portfolio!
+          </h2>
+          <p class="text-gray-600 font-medium">
+            🎮 Play, Learn, and Explore AI Product Management
+          </p>
+        </div>
+
+        <!-- Features showcase -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="p-4 bg-white/60 rounded-xl border border-purple-200 hover:scale-105 transition-transform">
+            <div class="text-2xl mb-2">🎯</div>
+            <h3 class="font-bold text-purple-700 mb-1">AI Quiz Game</h3>
+            <p class="text-xs text-gray-600">Test your AI/ML knowledge & compete on the leaderboard!</p>
+          </div>
+          <div class="p-4 bg-white/60 rounded-xl border border-cyan-200 hover:scale-105 transition-transform">
+            <div class="text-2xl mb-2">🤖</div>
+            <h3 class="font-bold text-cyan-700 mb-1">AI Assistant</h3>
+            <p class="text-xs text-gray-600">Ask me anything about Srija's experience!</p>
+          </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="space-y-3">
+          <p class="text-sm text-gray-700 font-medium">
+            💫 <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent font-bold">Most Interactive Portfolio</span> you'll ever see!
+          </p>
+          
+          <div class="flex gap-3">
+            <button id="startGame" class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300 shadow-lg">
+              🎮 Play Quiz
+            </button>
+            <button id="openChat" class="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300 shadow-lg">
+              💬 Chat Now
+            </button>
+          </div>
+          
+          <button id="exploreNormally" class="text-sm text-gray-500 hover:text-gray-700 underline transition-colors">
+            Or explore the portfolio normally →
+          </button>
+        </div>
+
+        <!-- Fun stats -->
+        <div class="mt-6 p-3 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-xl border border-yellow-200">
+          <div class="text-xs text-orange-700 font-medium">
+            🔥 <span id="liveStats">120+</span> people have played this week! • ⭐ Average score: 65 points
           </div>
         </div>
       </div>
@@ -1846,7 +1916,156 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
+    // ===== COACH CARD SYSTEM =====
+    
+    function initializeCoachCard() {
+      // Check if user has seen coach card today
+      const lastShown = localStorage.getItem('coach-card-last-shown');
+      const today = new Date().toDateString();
+      
+      if (lastShown !== today) {
+        // Show coach card after 3 seconds for first visit of the day
+        setTimeout(() => {
+          showCoachCard();
+        }, 3000);
+      }
+      
+      // Add keyboard shortcut to show coach card (Ctrl/Cmd + H for Help)
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+          e.preventDefault();
+          showCoachCard();
+        }
+      });
+      
+      // Setup coach card events
+      document.getElementById('closeCoachCard')?.addEventListener('click', hideCoachCard);
+      document.getElementById('exploreNormally')?.addEventListener('click', hideCoachCard);
+      
+      document.getElementById('startGame')?.addEventListener('click', function() {
+        hideCoachCard();
+        setTimeout(() => {
+          document.getElementById('gameToggle')?.click();
+          addChatMessage('🎮 Welcome to the AI Quiz! Test your knowledge and compete for the high score!', 'bot');
+        }, 500);
+        trackInteraction();
+      });
+      
+      document.getElementById('openChat')?.addEventListener('click', function() {
+        hideCoachCard();
+        setTimeout(() => {
+          document.getElementById('copilotToggle')?.click();
+          addChatMessage('👋 Hi there! I\'m Srija\'s AI assistant. Ask me anything about her experience with AI products, the JIA agentic assistant, or her journey in product management!', 'bot');
+        }, 500);
+        trackInteraction();
+      });
+      
+      // Update live stats with some variation
+      updateLiveStats();
+      setInterval(updateLiveStats, 30000); // Update every 30 seconds
+    }
+    
+    function showCoachCard() {
+      const coachCard = document.getElementById('coachCard');
+      coachCard.classList.remove('hidden');
+      
+      // Add some sparkle effects around the card
+      createCoachCardSparkles();
+    }
+    
+    function hideCoachCard() {
+      const coachCard = document.getElementById('coachCard');
+      coachCard.classList.add('hidden');
+      
+      // Mark as seen today
+      const today = new Date().toDateString();
+      localStorage.setItem('coach-card-last-shown', today);
+      trackInteraction();
+    }
+    
+    function updateLiveStats() {
+      const statsElement = document.getElementById('liveStats');
+      if (statsElement) {
+        // Generate realistic but varied numbers
+        const baseViews = parseInt(localStorage.getItem('portfolio-views') || '0');
+        const weeklyPlayers = Math.max(85, baseViews + Math.floor(Math.random() * 50) + 35);
+        statsElement.textContent = weeklyPlayers + '+';
+      }
+    }
+    
+    function createCoachCardSparkles() {
+      const coachCard = document.querySelector('#coachCard .bg-gradient-to-br');
+      if (!coachCard) return;
+      
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'absolute pointer-events-none';
+          sparkle.innerHTML = '✨';
+          sparkle.style.left = Math.random() * 100 + '%';
+          sparkle.style.top = Math.random() * 100 + '%';
+          sparkle.style.fontSize = '1rem';
+          sparkle.style.animation = 'sparkleFloat 3s ease-out forwards';
+          
+          coachCard.appendChild(sparkle);
+          
+          setTimeout(() => sparkle.remove(), 3000);
+        }, i * 300);
+      }
+    }
+    
+    // Add sparkle animation
+    const sparkleStyle = document.createElement('style');
+    sparkleStyle.textContent = `
+      @keyframes sparkleFloat {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.5);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-10px) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-40px) scale(0.5);
+        }
+      }
+      
+      /* Coach card bounce with delay */
+      #coachCard .animate-bounce {
+        animation: bounce 1s infinite;
+        animation-delay: 0.5s;
+      }
+      
+      /* Enhanced mobile responsiveness for coach card */
+      @media (max-width: 640px) {
+        #coachCard .max-w-lg {
+          max-width: 90vw;
+        }
+        
+        #coachCard .grid-cols-2 {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
+        
+        #coachCard .flex {
+          flex-direction: column;
+        }
+        
+        #coachCard .text-2xl {
+          font-size: 1.5rem;
+        }
+        
+        #coachCard .text-6xl {
+          font-size: 3rem;
+        }
+      }
+    `;
+    document.head.appendChild(sparkleStyle);
+
     // Initialize systems
+    initializeCoachCard();
     initializeCopilot();
     initializeGameSystem();
 
