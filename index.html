@@ -35,12 +35,19 @@
     .b2{width:180px;height:180px; background:#22d3ee; right:-40px; top:60px; animation-duration:22s}
     @keyframes drift{from{transform:translateY(0)} to{transform:translateY(30px)}}
 
-    /* Enhanced reveal animations */
-    .reveal{opacity:0; transform:translateY(24px); transition:all .8s cubic-bezier(.2,.65,.3,1)}
-    .reveal.show{opacity:1; transform:none}
-    /* Fallback: ensure content is visible after 2 seconds if JS fails */
-    .reveal{animation: fadeInFallback 0.1s ease-in-out 2s forwards;}
-    @keyframes fadeInFallback { to { opacity: 1; transform: none; } }
+    /* Enhanced reveal animations - OVERRIDE TO ALWAYS SHOW CONTENT */
+    .reveal{opacity:1 !important; transform:none !important; transition:all .8s cubic-bezier(.2,.65,.3,1)}
+    .reveal.show{opacity:1 !important; transform:none !important}
+    
+    /* Ensure all buttons and links are clickable */
+    a, button, .clickable { pointer-events: auto !important; z-index: 10 !important; }
+    
+    /* Force visibility for all main content areas */
+    main, section, article, .hero-bg { opacity: 1 !important; visibility: visible !important; }
+    
+    /* Override any hiding CSS */
+    * { opacity: 1 !important; visibility: visible !important; }
+    .blob { opacity: 0.22 !important; } /* Restore background blobs opacity */
     .reveal-delay{animation-delay: .2s}
     .reveal-delay-2{animation-delay: .4s}
     .reveal-delay-3{animation-delay: .6s}

@@ -5,8 +5,8 @@
   transition: all 1s ease-in-out;
 }
 .section {
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Typing effect placeholder */
