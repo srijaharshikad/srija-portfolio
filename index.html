@@ -1259,9 +1259,6 @@
     </svg>
   </button>
 
-  <!-- Google Sheets API Integration -->
-  <script src="https://apis.google.com/js/api.js"></script>
-  
   <!-- Enhanced JS with animations -->
   <script>
     // ===== BACKEND API INTEGRATION =====
@@ -1279,8 +1276,36 @@
       }
     };
     
+    // Check if backend is available
+    let backendAvailable = false;
+    
+    // Check backend availability
+    async function checkBackendAvailability() {
+      try {
+        const response = await fetch(`${API_CONFIG.BASE_URL}/health`, {
+          method: 'GET',
+          timeout: 3000
+        });
+        if (response.ok) {
+          backendAvailable = true;
+          console.log('✅ Backend is available');
+          return true;
+        }
+      } catch (error) {
+        console.log('⚠️ Backend not available, using local storage only');
+        backendAvailable = false;
+      }
+      return false;
+    }
+    
     // Send data to backend API
     async function sendToBackend(data) {
+      // If backend is not available, just store locally
+      if (!backendAvailable) {
+        storeForLaterSync(data);
+        return false;
+      }
+      
       try {
         const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.ANALYTICS}`, {
           method: 'POST',
@@ -1298,7 +1323,8 @@
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
       } catch (error) {
-        console.error('❌ Error sending to backend:', error);
+        console.log('⚠️ Backend not available, storing locally:', error.message);
+        backendAvailable = false;
         // Fallback: store in localStorage for later sync
         storeForLaterSync(data);
         return false;
@@ -1373,40 +1399,45 @@
 
     // Enhanced Portfolio Analytics
     function initializeAnalytics() {
-      // Total portfolio views
-      let totalViews = localStorage.getItem('portfolio-views') || 0;
-      totalViews = parseInt(totalViews) + 1;
-      localStorage.setItem('portfolio-views', totalViews);
-      
-      // Debug: Log view counter updates
-      console.log('View counter updated to:', totalViews);
-      
-      // Send view data to backend
-      sendToBackend({
-        type: 'portfolio_view',
-        views: totalViews,
-        interactions: parseInt(localStorage.getItem('interaction-count') || '0')
-      });
-      
-      // Session views  
-      let sessionViews = sessionStorage.getItem('session-views') || 0;
-      sessionViews = parseInt(sessionViews) + 1;
-      sessionStorage.setItem('session-views', sessionViews);
-      
-      // Update UI with animations
-      const totalCounter = document.getElementById('viewCounter');
-      const sessionCounter = document.getElementById('sessionViews');
-      
-      // Animate total counter
-      animateCounter(totalCounter, totalViews);
-      
-      // Update session counter
-      if (sessionCounter) {
-        sessionCounter.textContent = sessionViews;
+      try {
+        // Total portfolio views
+        let totalViews = localStorage.getItem('portfolio-views') || 0;
+        totalViews = parseInt(totalViews) + 1;
+        localStorage.setItem('portfolio-views', totalViews);
+        
+        // Debug: Log view counter updates
+        console.log('View counter updated to:', totalViews);
+        
+        // Send view data to backend
+        sendToBackend({
+          type: 'portfolio_view',
+          views: totalViews,
+          interactions: parseInt(localStorage.getItem('interaction-count') || '0')
+        });
+        // Session views  
+        let sessionViews = sessionStorage.getItem('session-views') || 0;
+        sessionViews = parseInt(sessionViews) + 1;
+        sessionStorage.setItem('session-views', sessionViews);
+        
+        // Update UI with animations
+        const totalCounter = document.getElementById('viewCounter');
+        const sessionCounter = document.getElementById('sessionViews');
+        
+        // Animate total counter
+        if (totalCounter) {
+          animateCounter(totalCounter, totalViews);
+        }
+        
+        // Update session counter
+        if (sessionCounter) {
+          sessionCounter.textContent = sessionViews;
+        }
+        
+        // Add sparkle effect
+        createSparkleEffect();
+      } catch (error) {
+        console.error('Error in initializeAnalytics:', error);
       }
-      
-      // Add sparkle effect
-      createSparkleEffect();
     }
     
     function animateCounter(element, finalValue) {
@@ -2387,8 +2418,10 @@
     initializeCopilot();
     initializeGameSystem();
     
-    // Initialize Google Sheets sync
-    syncPendingData();
+    // Check backend availability and sync pending data
+    checkBackendAvailability().then(() => {
+      syncPendingData();
+    });
 
     // Mobile menu toggle
     document.getElementById('mobileMenuToggle')?.addEventListener('click', () => {
