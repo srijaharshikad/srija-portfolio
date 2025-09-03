@@ -394,7 +394,7 @@
         
         <div class="flex justify-between items-center">
           <button id="newQuizQuestion" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg text-sm hover:scale-105 transition">New Question</button>
-          <button id="showLeaderboard" class="px-3 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg text-xs hover:scale-105 transition">🏆 Leaderboard</button>
+          <button id="showLeaderboard" class="px-3 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg text-xs hover:scale-105 transition">🎯 Leaderboard</button>
         </div>
         <div class="text-xs text-gray-400 text-center mt-2">
           Question <span id="questionNumber">1</span> of ∞
@@ -425,12 +425,40 @@
     <div class="easter-egg fixed bottom-1/3 left-1/2 w-4 h-4 bg-blue-400 rounded-full opacity-50 hover:opacity-100 animate-ping cursor-pointer" data-egg="secret3"></div>
   </div>
 
+  <!-- Name Collection Modal -->
+  <div id="nameModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div class="bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-6 max-w-md w-full mx-4">
+      <div class="text-center">
+        <div class="text-4xl mb-4">🎯</div>
+        <h3 class="text-xl font-bold text-white mb-2">Enter Your Name</h3>
+        <p class="text-gray-400 mb-6">Join the AI Quiz Leaderboard!</p>
+        
+        <input 
+          type="text" 
+          id="playerNameInput" 
+          placeholder="Your name or nickname" 
+          class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 mb-4"
+          maxlength="20"
+        >
+        
+        <div class="flex gap-3">
+          <button id="startQuizWithName" class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:scale-105 transition-all duration-300">
+            Start Quiz 🚀
+          </button>
+          <button id="skipName" class="px-4 py-3 text-gray-400 hover:text-white transition-colors">
+            Skip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Leaderboard Modal -->
   <div id="leaderboardModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
     <div class="bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-6 max-w-md w-full mx-4">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-xl font-bold text-white flex items-center gap-2">
-          🏆 <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Global Leaderboard</span>
+          🎯 <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">AI Quiz Leaderboard</span>
         </h3>
         <button id="closeLeaderboard" class="text-gray-400 hover:text-white transition">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1201,6 +1229,9 @@
       totalViews = parseInt(totalViews) + 1;
       localStorage.setItem('portfolio-views', totalViews);
       
+      // Debug: Log view counter updates
+      console.log('View counter updated to:', totalViews);
+      
       // Session views  
       let sessionViews = sessionStorage.getItem('session-views') || 0;
       sessionViews = parseInt(sessionViews) + 1;
@@ -1346,6 +1377,21 @@
       // Setup game toggle
       document.getElementById('gameToggle')?.addEventListener('click', toggleGamePanel);
       
+      // Setup name modal
+      document.getElementById('startQuizWithName')?.addEventListener('click', startQuizWithName);
+      document.getElementById('skipName')?.addEventListener('click', function() {
+        hideNameModal();
+        // Start quiz with default name
+        startQuizWithName();
+      });
+      
+      // Allow Enter key in name input
+      document.getElementById('playerNameInput')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          startQuizWithName();
+        }
+      });
+      
       // Setup quiz functionality
       document.getElementById('newQuizQuestion')?.addEventListener('click', loadNewQuestion);
       
@@ -1368,6 +1414,15 @@
     function toggleGamePanel() {
       const panel = document.getElementById('gamePanel');
       const button = document.getElementById('gameToggle');
+      
+      // Check if this is the first time opening the game
+      const hasPlayedBefore = localStorage.getItem('has-played-quiz');
+      
+      if (!gameState.gameOpen && !hasPlayedBefore) {
+        // Show name collection modal first
+        showNameModal();
+        return;
+      }
       
       gameState.gameOpen = !gameState.gameOpen;
       
@@ -1661,18 +1716,64 @@
     `;
     document.head.appendChild(rainbowStyle);
 
+    // ===== NAME COLLECTION SYSTEM =====
+    
+    // Name Collection Functions
+    function showNameModal() {
+      const modal = document.getElementById('nameModal');
+      modal.classList.remove('hidden');
+      
+      // Focus on input
+      setTimeout(() => {
+        document.getElementById('playerNameInput').focus();
+      }, 100);
+    }
+    
+    function hideNameModal() {
+      const modal = document.getElementById('nameModal');
+      modal.classList.add('hidden');
+    }
+    
+    function startQuizWithName() {
+      const nameInput = document.getElementById('playerNameInput');
+      const playerName = nameInput.value.trim() || `Player${Date.now().toString().slice(-4)}`;
+      
+      // Store player name
+      localStorage.setItem('player-name', playerName);
+      localStorage.setItem('has-played-quiz', 'true');
+      
+      hideNameModal();
+      
+      // Now open the game panel
+      gameState.gameOpen = true;
+      const panel = document.getElementById('gamePanel');
+      const button = document.getElementById('gameToggle');
+      
+      panel.classList.remove('scale-0', 'opacity-0');
+      panel.classList.add('scale-100', 'opacity-100');
+      button.classList.remove('animate-bounce');
+      
+      // Load first question
+      loadQuestion(0);
+      
+      showFloatingText(`Welcome ${playerName}! 🎯`, 'text-purple-400');
+    }
+
     // ===== LEADERBOARD SYSTEM =====
     
     // Leaderboard Management
     function updateLeaderboard(playerName, score) {
       let leaderboard = JSON.parse(localStorage.getItem('portfolio-leaderboard') || '[]');
       
+      // Use stored player name or provided name
+      const finalName = playerName || localStorage.getItem('player-name') || `Player${Date.now().toString().slice(-4)}`;
+      
       // Add new entry
       leaderboard.push({
-        name: playerName || `Player${Date.now().toString().slice(-4)}`,
+        name: finalName,
         score: score,
         date: new Date().toLocaleDateString(),
-        achievements: Object.keys(gameState.achievements).length
+        achievements: Object.keys(gameState.achievements).filter(key => gameState.achievements[key]).length
       });
       
       // Sort by score (descending) and keep top 10
@@ -2030,6 +2131,9 @@
       if (welcomeStatsElement) {
         welcomeStatsElement.textContent = actualViews;
       }
+      
+      // Debug: Log the actual view count
+      console.log('Portfolio views:', actualViews);
     }
     
     // Add bubble animations
