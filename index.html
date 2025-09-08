@@ -202,6 +202,7 @@
         <a href="#projects" class="hover:text-brand-600">Projects</a>
         <a href="#blog" class="hover:text-brand-600">Blog</a>
         <a href="#education" class="hover:text-brand-600">Education</a>
+        <a href="#testimonials" class="hover:text-brand-600">In Their Words</a>
         <a href="#contact" class="hover:text-brand-600">Contact</a>
         </nav>
         
@@ -217,6 +218,7 @@
         <a href="#projects" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Projects</a>
         <a href="#blog" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Blog</a>
         <a href="#education" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Education</a>
+        <a href="#testimonials" class="block py-2 px-3 rounded-lg hover:bg-slate-100">In Their Words</a>
         <a href="#contact" class="block py-2 px-3 rounded-lg hover:bg-slate-100">Contact</a>
         <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="block py-2 px-3 rounded-lg hover:bg-slate-100 text-brand-600">Resume</a>
       </div>
@@ -663,6 +665,105 @@
       </div>
     </section>
 
+    <!-- IN THEIR WORDS -->
+    <section id="testimonials" class="scroll-mt-24">
+      <h2 class="text-2xl md:text-3xl font-semibold mb-8">In Their Words</h2>
+      
+      <!-- Add Testimonial Form -->
+      <div class="reveal mb-12 p-8 rounded-3xl border border-slate-200 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+        <div class="max-w-2xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-purple-200 mb-4">
+            <svg class="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-medium text-purple-800">Share Your Experience</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Leave a Testimonial</h3>
+          <p class="text-slate-700 mb-6">Share your thoughts about working with Srija or her portfolio!</p>
+          
+          <form id="testimonialForm" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input 
+                type="text" 
+                id="testimonialName" 
+                placeholder="Your name"
+                required
+                class="px-4 py-3 rounded-xl border border-slate-300 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              >
+              <input 
+                type="text" 
+                id="testimonialTitle" 
+                placeholder="Your title/company (optional)"
+                class="px-4 py-3 rounded-xl border border-slate-300 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              >
+            </div>
+            <textarea 
+              id="testimonialMessage" 
+              placeholder="Share your experience working with Srija or thoughts about her work..."
+              rows="4"
+              required
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none"
+            ></textarea>
+            <div class="flex items-center justify-center gap-2">
+              <span class="text-sm text-slate-600">Rate your experience:</span>
+              <div class="flex gap-1" id="testimonialStars">
+                <button type="button" class="star-btn text-gray-300 hover:text-amber-400 transition-colors" data-rating="1">⭐</button>
+                <button type="button" class="star-btn text-gray-300 hover:text-amber-400 transition-colors" data-rating="2">⭐</button>
+                <button type="button" class="star-btn text-gray-300 hover:text-amber-400 transition-colors" data-rating="3">⭐</button>
+                <button type="button" class="star-btn text-gray-300 hover:text-amber-400 transition-colors" data-rating="4">⭐</button>
+                <button type="button" class="star-btn text-gray-300 hover:text-amber-400 transition-colors" data-rating="5">⭐</button>
+              </div>
+            </div>
+            <button 
+              type="submit" 
+              id="submitTestimonialBtn"
+              class="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            >
+              <span class="submit-text">Share Testimonial</span>
+              <span class="loading-text hidden">Sharing...</span>
+            </button>
+            <div id="testimonialResponse" class="mt-4 text-sm hidden"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Testimonials Grid -->
+      <div id="testimonialsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Testimonials will be inserted here -->
+      </div>
+      
+      <!-- Empty State -->
+      <div id="noTestimonials" class="text-center py-12 text-slate-500">
+        <div class="text-4xl mb-4">💭</div>
+        <p class="text-lg font-medium mb-2">No testimonials yet</p>
+        <p class="text-sm">Be the first to share your experience!</p>
+      </div>
+
+      <!-- View All Testimonials Button -->
+      <div class="text-center">
+        <button id="viewAllTestimonials" class="px-6 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-xl font-medium hover:from-slate-700 hover:to-slate-800 transition-all duration-300 hover:scale-105">
+          View All Testimonials (<span id="totalTestimonials">0</span>)
+        </button>
+      </div>
+
+      <!-- All Testimonials Modal -->
+      <div id="allTestimonialsModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+          <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-xl font-bold text-gray-900">All Testimonials</h3>
+            <button id="closeAllTestimonials" class="text-gray-400 hover:text-gray-600 transition">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div id="allTestimonialsList" class="p-6 overflow-y-auto max-h-[70vh] space-y-4">
+            <!-- All testimonials will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" class="scroll-mt-24">
       <h2 class="text-2xl md:text-3xl font-semibold">Contact</h2>
@@ -791,8 +892,8 @@
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
             Successfully subscribed! Check your email for confirmation.
-          </div>
-        `;
+        </div>
+      `;
         messageDiv.classList.remove('hidden');
         
         // Clear form
@@ -802,7 +903,7 @@
         subscribeBtn.classList.add('pulse-glow');
         
         // Reset button after delay
-        setTimeout(() => {
+      setTimeout(() => {
           subscribeText.classList.remove('hidden');
           loadingText.classList.add('hidden');
           subscribeBtn.disabled = false;
@@ -829,7 +930,7 @@
         subscribeBtn.classList.remove('opacity-75');
         
         // Hide message after delay
-        setTimeout(() => {
+      setTimeout(() => {
           messageDiv.classList.add('hidden');
         }, 4000);
       }
@@ -868,7 +969,7 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     // Initialize stagger animations
-    setTimeout(() => {
+        setTimeout(() => {
       document.querySelectorAll('.stagger-item').forEach((item, index) => {
         setTimeout(() => {
           item.style.animationDelay = `${index * 0.1}s`;
@@ -1013,6 +1114,11 @@
             <button class="quick-question px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition">Resume highlights</button>
           </div>
         </div>
+        <div class="border-t border-gray-200 pt-3">
+          <button id="openTestimonials" class="w-full px-3 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-lg hover:from-purple-200 hover:to-pink-200 transition text-xs font-medium">
+            💬 Leave a Testimonial
+          </button>
+        </div>
       </div>
 
       <!-- Chat Input -->
@@ -1146,9 +1252,9 @@
 
     document.getElementById('closeChat').addEventListener('click', function() {
       document.getElementById('chatModal').classList.add('hidden');
-    });
-
-    // Chat functionality
+      });
+      
+      // Chat functionality
     const chatResponses = {
       'tell me about jia': "JIA is Srija's flagship project - an agentic assistant used across 20M+ devices at Jio! It features multimodal orchestration, RAG on 100GB+ corpus, and achieved 50% support deflection with +22 NPS improvement.",
       'ai/ml experience': "Srija has 6+ years of AI/ML experience across cloud, telecom, and fintech. She's built GenAI platforms with RAG, guardrails, and evaluation systems. Key achievements include +35% accuracy improvements and $1.7M QoQ uplift.",
@@ -1205,9 +1311,9 @@
       if (message) {
         addChatMessage(message, true);
         input.value = '';
-        
+      
         // Simulate AI response delay
-        setTimeout(() => {
+      setTimeout(() => {
           const response = getChatResponse(message);
           addChatMessage(response);
         }, 1000);
@@ -1233,6 +1339,265 @@
         }, 1000);
       });
     });
+
+    // Testimonials System
+    let selectedTestimonialRating = 0;
+
+    // Initialize testimonials system
+    function initializeTestimonials() {
+      // Star rating system for testimonials
+      document.querySelectorAll('#testimonialStars .star-btn').forEach(star => {
+        star.addEventListener('click', function() {
+          selectedTestimonialRating = parseInt(this.dataset.rating);
+          updateTestimonialStars();
+        });
+        
+        star.addEventListener('mouseenter', function() {
+          const rating = parseInt(this.dataset.rating);
+          highlightTestimonialStars(rating);
+        });
+      });
+      
+      document.getElementById('testimonialStars')?.addEventListener('mouseleave', function() {
+        highlightTestimonialStars(selectedTestimonialRating);
+      });
+      
+      // Testimonial form submission
+      document.getElementById('testimonialForm')?.addEventListener('submit', handleTestimonialSubmit);
+      
+      // Modal event listeners
+      document.getElementById('viewAllTestimonials')?.addEventListener('click', showAllTestimonials);
+      document.getElementById('closeAllTestimonials')?.addEventListener('click', hideAllTestimonials);
+      
+      // Chat integration
+      document.getElementById('openTestimonials')?.addEventListener('click', function() {
+        document.getElementById('chatModal').classList.add('hidden');
+        document.getElementById('testimonials').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Load and display existing testimonials
+      loadTestimonials();
+    }
+
+    function updateTestimonialStars() {
+      document.querySelectorAll('#testimonialStars .star-btn').forEach((star, index) => {
+        if (index < selectedTestimonialRating) {
+          star.classList.remove('text-gray-300');
+          star.classList.add('text-amber-400');
+        } else {
+          star.classList.remove('text-amber-400');
+          star.classList.add('text-gray-300');
+        }
+      });
+    }
+    
+    function highlightTestimonialStars(rating) {
+      document.querySelectorAll('#testimonialStars .star-btn').forEach((star, index) => {
+        if (index < rating) {
+          star.classList.remove('text-gray-300');
+          star.classList.add('text-amber-400');
+        } else {
+          star.classList.remove('text-amber-400');
+          star.classList.add('text-gray-300');
+        }
+      });
+    }
+
+    async function handleTestimonialSubmit(e) {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('testimonialName');
+      const titleInput = document.getElementById('testimonialTitle');
+      const messageInput = document.getElementById('testimonialMessage');
+      const submitBtn = document.getElementById('submitTestimonialBtn');
+      const responseDiv = document.getElementById('testimonialResponse');
+      const submitText = submitBtn.querySelector('.submit-text');
+      const loadingText = submitBtn.querySelector('.loading-text');
+      
+      const name = nameInput.value.trim();
+      const title = titleInput.value.trim();
+      const message = messageInput.value.trim();
+      
+      if (!name || !message || selectedTestimonialRating === 0) {
+        showTestimonialResponse('Please fill in all required fields and provide a rating!', 'error');
+        return;
+      }
+      
+      // Update button state
+      submitText.classList.add('hidden');
+      loadingText.classList.remove('hidden');
+      submitBtn.disabled = true;
+      
+      try {
+        // Create testimonial object
+        const testimonial = {
+          id: Date.now(),
+          name: name,
+          title: title || '',
+          message: message,
+          rating: selectedTestimonialRating,
+          timestamp: new Date().toISOString(),
+          date: new Date().toLocaleDateString()
+        };
+        
+        // Save to localStorage
+        saveTestimonial(testimonial);
+        
+        // Add to display
+        addTestimonialToGrid(testimonial);
+        
+        // Show success message
+        showTestimonialResponse('Thank you for your testimonial! 🎉', 'success');
+        
+        // Reset form
+        nameInput.value = '';
+        titleInput.value = '';
+        messageInput.value = '';
+        selectedTestimonialRating = 0;
+        updateTestimonialStars();
+        
+      } catch (error) {
+        showTestimonialResponse('Something went wrong. Please try again!', 'error');
+      } finally {
+        // Reset button
+        setTimeout(() => {
+          submitText.classList.remove('hidden');
+          loadingText.classList.add('hidden');
+          submitBtn.disabled = false;
+        }, 1000);
+      }
+    }
+
+    function saveTestimonial(testimonial) {
+      const existingTestimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
+      existingTestimonials.unshift(testimonial);
+      if (existingTestimonials.length > 100) {
+        existingTestimonials.splice(100);
+      }
+      localStorage.setItem('portfolio-testimonials', JSON.stringify(existingTestimonials));
+      updateTestimonialCount();
+    }
+    
+    function loadTestimonials() {
+      const testimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
+      const testimonialsGrid = document.getElementById('testimonialsGrid');
+      const noTestimonials = document.getElementById('noTestimonials');
+      
+      testimonialsGrid.innerHTML = '';
+      
+      if (testimonials.length === 0) {
+        noTestimonials.classList.remove('hidden');
+      } else {
+        noTestimonials.classList.add('hidden');
+        testimonials.slice(0, 6).forEach(testimonial => {
+          addTestimonialToGrid(testimonial, true);
+        });
+      }
+      
+      updateTestimonialCount();
+    }
+
+    function addTestimonialToGrid(testimonial, isLoadingExisting = false) {
+      const testimonialsGrid = document.getElementById('testimonialsGrid');
+      const noTestimonials = document.getElementById('noTestimonials');
+      
+      if (noTestimonials) {
+        noTestimonials.classList.add('hidden');
+      }
+      
+      if (!isLoadingExisting && testimonialsGrid.children.length >= 6) {
+        testimonialsGrid.removeChild(testimonialsGrid.lastChild);
+      }
+      
+      const testimonialCard = document.createElement('div');
+      testimonialCard.className = 'p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-300';
+      
+      const stars = '⭐'.repeat(testimonial.rating);
+      
+      testimonialCard.innerHTML = `
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <div class="font-semibold text-slate-900">${testimonial.name}</div>
+            ${testimonial.title ? `<div class="text-sm text-slate-600">${testimonial.title}</div>` : ''}
+          </div>
+          <div class="text-amber-400 text-sm">${stars}</div>
+        </div>
+        <p class="text-slate-700 text-sm leading-relaxed mb-3">${testimonial.message}</p>
+        <div class="text-xs text-slate-500">${testimonial.date}</div>
+      `;
+      
+      if (isLoadingExisting) {
+        testimonialsGrid.appendChild(testimonialCard);
+      } else {
+        testimonialsGrid.insertBefore(testimonialCard, testimonialsGrid.firstChild);
+      }
+    }
+    
+    function updateTestimonialCount() {
+      const testimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
+      const totalElement = document.getElementById('totalTestimonials');
+      if (totalElement) {
+        totalElement.textContent = testimonials.length;
+      }
+    }
+    
+    function showAllTestimonials() {
+      const testimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
+      const modal = document.getElementById('allTestimonialsModal');
+      const testimonialsList = document.getElementById('allTestimonialsList');
+      
+      testimonialsList.innerHTML = '';
+      
+      testimonials.forEach(testimonial => {
+        const stars = '⭐'.repeat(testimonial.rating);
+        const testimonialElement = document.createElement('div');
+        testimonialElement.className = 'p-4 rounded-xl bg-gray-50 border border-gray-200';
+        
+        testimonialElement.innerHTML = `
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <div class="font-medium text-gray-900">${testimonial.name}</div>
+              ${testimonial.title ? `<div class="text-sm text-gray-600">${testimonial.title}</div>` : ''}
+          </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 text-sm">${stars}</span>
+              <span class="text-xs text-gray-500">${testimonial.date}</span>
+            </div>
+          </div>
+          <p class="text-gray-700 text-sm">${testimonial.message}</p>
+        `;
+        
+        testimonialsList.appendChild(testimonialElement);
+      });
+      
+      modal.classList.remove('hidden');
+    }
+    
+    function hideAllTestimonials() {
+      const modal = document.getElementById('allTestimonialsModal');
+      modal.classList.add('hidden');
+    }
+    
+    function showTestimonialResponse(message, type) {
+      const responseDiv = document.getElementById('testimonialResponse');
+      const bgColor = type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+      const icon = type === 'success' ? '✓' : '✗';
+      
+      responseDiv.innerHTML = `
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg ${bgColor}">
+          <span>${icon}</span>
+          ${message}
+          </div>
+        `;
+      responseDiv.classList.remove('hidden');
+      
+        setTimeout(() => {
+        responseDiv.classList.add('hidden');
+        }, 4000);
+      }
+
+    // Initialize testimonials system when page loads
+    initializeTestimonials();
   </script>
 </body>
 </html>
