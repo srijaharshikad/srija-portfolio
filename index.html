@@ -1479,9 +1479,14 @@
     }
     
     function loadTestimonials() {
-      const testimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
+      let testimonials = JSON.parse(localStorage.getItem('portfolio-testimonials') || '[]');
       const testimonialsGrid = document.getElementById('testimonialsGrid');
       const noTestimonials = document.getElementById('noTestimonials');
+      
+      // Add sample testimonials if none exist
+      if (testimonials.length === 0) {
+        testimonials = loadSampleTestimonials();
+      }
       
       testimonialsGrid.innerHTML = '';
       
@@ -1495,6 +1500,60 @@
       }
       
       updateTestimonialCount();
+    }
+    
+    function loadSampleTestimonials() {
+      const sampleTestimonials = [
+        {
+          id: 1,
+          name: 'Samuel',
+          title: 'AI Engineer, Jio',
+          message: 'Srija consistently brought clarity and vision to complex AI problems. Her ability to translate technical depth into product value made collaboration seamless.',
+          rating: 5,
+          timestamp: new Date('2024-01-15').toISOString(),
+          date: new Date('2024-01-15').toLocaleDateString()
+        },
+        {
+          id: 2,
+          name: 'Varun',
+          title: 'AI Engineer, Jio',
+          message: 'Her product intuition and leadership ensured our AI solutions moved from experimentation to business-ready products quickly.',
+          rating: 5,
+          timestamp: new Date('2024-01-10').toISOString(),
+          date: new Date('2024-01-10').toLocaleDateString()
+        },
+        {
+          id: 3,
+          name: 'Bhupendra',
+          title: 'Vice President, VI Products, Jio',
+          message: 'Srija has the rare balance of technical depth and customer empathy. She can align engineering efforts with business goals while keeping teams motivated and focused.',
+          rating: 5,
+          timestamp: new Date('2024-01-08').toISOString(),
+          date: new Date('2024-01-08').toLocaleDateString()
+        },
+        {
+          id: 4,
+          name: 'Praveen',
+          title: 'Head of Engineering, Jio',
+          message: 'Her structured approach to product delivery and ability to rally cross-functional teams was critical in executing AI-first solutions at scale.',
+          rating: 5,
+          timestamp: new Date('2024-01-05').toISOString(),
+          date: new Date('2024-01-05').toLocaleDateString()
+        },
+        {
+          id: 5,
+          name: 'Rajesh Bodduna',
+          title: 'Manager, Cyient',
+          message: 'From day one, Srija displayed strong ownership and creativity. She rapidly grew into a product leader capable of driving innovation and measurable outcomes.',
+          rating: 5,
+          timestamp: new Date('2024-01-01').toISOString(),
+          date: new Date('2024-01-01').toLocaleDateString()
+        }
+      ];
+      
+      // Save sample testimonials to localStorage
+      localStorage.setItem('portfolio-testimonials', JSON.stringify(sampleTestimonials));
+      return sampleTestimonials;
     }
 
     function addTestimonialToGrid(testimonial, isLoadingExisting = false) {
