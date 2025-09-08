@@ -903,7 +903,7 @@
         subscribeBtn.classList.add('pulse-glow');
         
         // Reset button after delay
-      setTimeout(() => {
+          setTimeout(() => {
           subscribeText.classList.remove('hidden');
           loadingText.classList.add('hidden');
           subscribeBtn.disabled = false;
@@ -958,7 +958,7 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
+        setTimeout(() => {
             entry.target.classList.add('show');
           }, index * 100); // Stagger animation
         }
@@ -1126,10 +1126,10 @@
         <div class="flex gap-2">
           <input type="text" id="chatInput" placeholder="Ask me anything..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500">
           <button id="sendChat" class="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition text-sm">Send</button>
+            </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
   <script>
     // Simple Game System
@@ -1148,12 +1148,99 @@
         question: "Which company developed the Gemini AI model?",
         options: ["OpenAI", "Google", "Microsoft"],
         correct: 1
+      },
+      {
+        question: "What is the primary purpose of LangChain?",
+        options: ["Image processing", "Building LLM applications", "Database management"],
+        correct: 1
+      },
+      {
+        question: "Which technique is used for fine-tuning large language models?",
+        options: ["PEFT (Parameter Efficient Fine Tuning)", "SQL queries", "CSS styling"],
+        correct: 0
+      },
+      {
+        question: "What does GPT stand for?",
+        options: ["General Purpose Technology", "Generative Pre-trained Transformer", "Graphics Processing Tool"],
+        correct: 1
+      },
+      {
+        question: "Which is a popular vector database for AI applications?",
+        options: ["MySQL", "Pinecone", "Excel"],
+        correct: 1
+      },
+      {
+        question: "What is the main advantage of using embeddings?",
+        options: ["Faster computers", "Semantic similarity search", "Better graphics"],
+        correct: 1
+      },
+      {
+        question: "Which company created ChatGPT?",
+        options: ["Google", "Microsoft", "OpenAI"],
+        correct: 2
+      },
+      {
+        question: "What is prompt engineering?",
+        options: ["Building bridges", "Crafting effective AI prompts", "Network configuration"],
+        correct: 1
+      },
+      {
+        question: "Which is NOT a common AI evaluation metric?",
+        options: ["BLEU score", "ROUGE score", "Pizza score"],
+        correct: 2
+      },
+      {
+        question: "What does API stand for in software development?",
+        options: ["Application Programming Interface", "Automated Program Integration", "Advanced Product Implementation"],
+        correct: 0
+      },
+      {
+        question: "Which is a key component of responsible AI?",
+        options: ["Speed optimization", "Bias detection and mitigation", "Color schemes"],
+        correct: 1
+      },
+      {
+        question: "What is the purpose of AI guardrails?",
+        options: ["Physical safety barriers", "Controlling AI behavior and outputs", "Data storage limits"],
+        correct: 1
+      },
+      {
+        question: "Which technique helps reduce AI hallucinations?",
+        options: ["More colorful interfaces", "Grounding with reliable sources", "Faster processors"],
+        correct: 1
+      },
+      {
+        question: "What is the main benefit of multimodal AI?",
+        options: ["Processing text, images, and audio together", "Multiple screens", "Faster typing"],
+        correct: 0
+      },
+      {
+        question: "Which is a popular framework for building AI agents?",
+        options: ["WordPress", "LangGraph", "Photoshop"],
+        correct: 1
+      },
+      {
+        question: "What does MLOps focus on?",
+        options: ["Machine Learning Operations and deployment", "Music streaming", "Mobile app design"],
+        correct: 0
+      },
+      {
+        question: "Which is important for AI product management?",
+        options: ["Understanding user needs and AI capabilities", "Graphic design skills", "Social media followers"],
+        correct: 0
+      },
+      {
+        question: "What is the purpose of A/B testing in AI products?",
+        options: ["Alphabet learning", "Comparing model performance", "Audio testing"],
+        correct: 1
       }
     ];
 
     let currentQuestion = 0;
     let score = 0;
     let gameActive = false;
+    let usedQuestions = [];
+    let gameQuestions = [];
 
     // Game Toggle
     document.getElementById('gameToggle').addEventListener('click', function() {
@@ -1179,14 +1266,26 @@
       currentQuestion = 0;
       score = 0;
       gameActive = true;
+      usedQuestions = [];
+      gameQuestions = getRandomQuestions(5); // Get 5 unique random questions
       document.getElementById('questionSection').classList.remove('hidden');
       document.getElementById('resultSection').classList.add('hidden');
       document.getElementById('gameComplete').classList.add('hidden');
       loadQuestion();
     }
+    
+    function getRandomQuestions(count) {
+      const shuffled = [...questions].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, Math.min(count, questions.length));
+    }
 
     function loadQuestion() {
-      const q = questions[currentQuestion];
+      if (currentQuestion >= gameQuestions.length) {
+        endGame();
+        return;
+      }
+      
+      const q = gameQuestions[currentQuestion];
       document.getElementById('question').textContent = q.question;
       const optionsDiv = document.getElementById('options');
       optionsDiv.innerHTML = '';
@@ -1203,7 +1302,7 @@
     function selectAnswer(selected) {
       if (!gameActive) return;
       
-      const correct = questions[currentQuestion].correct;
+      const correct = gameQuestions[currentQuestion].correct;
       const isCorrect = selected === correct;
       
       if (isCorrect) score++;
@@ -1230,10 +1329,10 @@
     function endGame() {
       document.getElementById('resultSection').classList.add('hidden');
       document.getElementById('gameComplete').classList.remove('hidden');
-      document.getElementById('finalScore').textContent = score;
+      document.getElementById('finalScore').textContent = `${score}/${gameQuestions.length}`;
       
       // Unlock achievement if perfect score
-      if (score === questions.length) {
+      if (score === gameQuestions.length) {
         const achievementItem = document.querySelector('.achievement-item');
         achievementItem.classList.remove('opacity-50');
         achievementItem.querySelector('.w-10').classList.remove('bg-gray-200');
@@ -1279,8 +1378,8 @@
           <div class="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center text-sm">🤖</div>
           <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-md max-w-[250px]">
             <p class="text-sm">${message}</p>
-          </div>
-        `;
+        </div>
+      `;
       }
       
       chatMessages.appendChild(messageDiv);
@@ -1355,9 +1454,9 @@
         star.addEventListener('mouseenter', function() {
           const rating = parseInt(this.dataset.rating);
           highlightTestimonialStars(rating);
-        });
       });
-      
+    });
+
       document.getElementById('testimonialStars')?.addEventListener('mouseleave', function() {
         highlightTestimonialStars(selectedTestimonialRating);
       });
