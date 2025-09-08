@@ -1347,6 +1347,15 @@
     // Chat System
     document.getElementById('chatToggle').addEventListener('click', function() {
       document.getElementById('chatModal').classList.remove('hidden');
+      
+      // Add initial greeting if no messages exist
+      const chatMessages = document.getElementById('chatMessages');
+      if (chatMessages.children.length === 0) {
+      setTimeout(() => {
+          const greeting = getChatResponse('hello');
+          addChatMessage(greeting.text, false, greeting.followUps);
+        }, 500);
+      }
     });
 
     document.getElementById('closeChat').addEventListener('click', function() {
@@ -1355,34 +1364,100 @@
       
       // Chat functionality
     const chatResponses = {
-      'tell me about jia': "JIA is Srija's flagship project - an agentic assistant used across 20M+ devices at Jio! It features multimodal orchestration, RAG on 100GB+ corpus, and achieved 50% support deflection with +22 NPS improvement.",
-      'ai/ml experience': "Srija has 6+ years of AI/ML experience across cloud, telecom, and fintech. She's built GenAI platforms with RAG, guardrails, and evaluation systems. Key achievements include +35% accuracy improvements and $1.7M QoQ uplift.",
-      'resume highlights': "🎓 ISB MBA in Strategy & Leadership\n🚀 Senior PM at Jio Platforms (AI Division)\n🤖 Built JIA agentic assistant (20M+ users)\n📊 Delivered +18% approvals, -38% risk in FinTech\n🏆 150+ golden evaluation intents",
-      'default': "I can tell you about Srija's AI/ML experience, the JIA agentic assistant, her role at Jio Platforms, or her educational background. What would you like to know more about?"
+      'jia': {
+        response: "Oh, JIA is absolutely Srija's crown jewel! 🚀 It's this incredible agentic assistant that's now running on over 20 million Jio devices. What makes it special is the multimodal orchestration - it can handle text, voice, everything! The RAG system processes over 100GB of data, and get this - it deflected 50% of support tickets while boosting NPS by 22 points. Pretty impressive, right?",
+        followUps: ["How did she build the RAG system?", "What challenges did she face scaling to 20M users?", "Tell me about the multimodal features"]
+      },
+      'ai_experience': {
+        response: "Srija's been in the AI game for 6+ years, and honestly, her journey is fascinating! 🤖 She started in cloud infrastructure, moved to telecom with Jio, and even did a stint in fintech. She's built these massive GenAI platforms with RAG, guardrails, evaluation systems - the whole nine yards. Her track record? +35% accuracy improvements and a whopping $1.7M quarterly uplift. Not too shabby!",
+        followUps: ["What's her approach to AI product management?", "How does she handle AI guardrails?", "Tell me about her fintech AI work"]
+      },
+      'background': {
+        response: "Here's the scoop on Srija's background! 🎓 She's got this killer combination - an ISB MBA in Strategy & Leadership plus deep technical chops. Currently she's a Senior PM at Jio Platforms in their AI Division. Before that, she was crushing it in fintech with +18% approval rates and -38% risk reduction. Oh, and she's created 150+ golden evaluation intents for AI systems. Talk about attention to detail!",
+        followUps: ["What's her leadership style like?", "How did she transition to product management?", "Tell me about her ISB MBA experience"]
+      },
+      'rag': {
+        response: "Ah, RAG! That's where Srija really shines. 💡 She's built retrieval systems that can handle massive 100GB+ corpuses. Her approach involves smart chunking strategies, embedding optimization, and she's particularly good at making RAG systems that actually understand context - not just keyword matching. The JIA assistant's RAG system is a testament to this - it's serving millions of users daily!",
+        followUps: ["How does she optimize RAG performance?", "What embedding strategies does she use?", "Tell me about RAG evaluation methods"]
+      },
+      'product_management': {
+        response: "Srija's product management style is really unique! 🎯 She bridges the gap between deep technical AI knowledge and business impact beautifully. She's not just about features - she focuses on measurable outcomes. Like, she delivered that $1.7M QoQ uplift by understanding both the AI capabilities AND user needs. She's great at translating complex AI concepts into product strategies that actually work.",
+        followUps: ["How does she measure AI product success?", "What's her approach to user research for AI products?", "Tell me about her stakeholder management"]
+      },
+      'jio': {
+        response: "At Jio, Srija is in the AI Division as a Senior PM, and she's basically revolutionizing how they do customer support! 🔥 The JIA assistant she built is deployed across 20M+ devices. She's working on conversational AI, multimodal experiences, and scaling AI solutions for one of India's largest telecom networks. The impact is massive - 50% support deflection and +22 NPS improvement!",
+        followUps: ["What other AI products is she working on at Jio?", "How does she handle scale at Jio?", "Tell me about the team she works with"]
+      },
+      'challenges': {
+        response: "Oh, the challenges Srija faces are pretty intense! 🤔 Scaling AI to 20M+ users means dealing with latency, cost optimization, and ensuring quality at massive scale. She's had to build robust evaluation frameworks, handle multilingual support, and create guardrails that work across diverse user bases. Plus, convincing stakeholders about AI ROI while managing technical debt - it's like juggling while riding a unicycle!",
+        followUps: ["How does she handle AI bias and fairness?", "What's her approach to cost optimization?", "Tell me about her evaluation frameworks"]
+      },
+      'hello': {
+        response: "Hey there! 👋 I'm Srija's AI assistant, and I'm super excited to chat with you! I know pretty much everything about her journey in AI/ML product management, her work at Jio with the JIA assistant, and her amazing track record. What's got you curious about her work?",
+        followUps: ["Tell me about JIA", "What's her AI/ML experience?", "Show me her background"]
+      },
+      'default': {
+        response: "Hmm, that's an interesting question! 🤔 I'd love to help you learn more about Srija's AI expertise. She's done some pretty amazing work in AI product management, especially with the JIA assistant at Jio. What specific aspect of her work interests you most?",
+        followUps: ["Tell me about her AI products", "What's her technical background?", "How does she approach product management?"]
+      }
     };
 
-    function addChatMessage(message, isUser = false) {
+    function addChatMessage(message, isUser = false, followUps = []) {
       const chatMessages = document.getElementById('chatMessages');
       const messageDiv = document.createElement('div');
-      messageDiv.className = 'flex items-start gap-2' + (isUser ? ' justify-end' : '');
+      messageDiv.className = 'flex flex-col gap-2' + (isUser ? ' items-end' : ' items-start');
       
       if (isUser) {
         messageDiv.innerHTML = `
-          <div class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-3 rounded-2xl rounded-tr-md max-w-[250px]">
-            <p class="text-sm">${message}</p>
+          <div class="flex items-start gap-2 justify-end">
+            <div class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-3 rounded-2xl rounded-tr-md max-w-[280px]">
+              <p class="text-sm">${message}</p>
+            </div>
+            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm">👤</div>
           </div>
-          <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm">👤</div>
         `;
       } else {
+        let followUpButtons = '';
+        if (followUps && followUps.length > 0) {
+          followUpButtons = `
+            <div class="mt-3 flex flex-wrap gap-2">
+              ${followUps.map(followUp => `
+                <button class="follow-up-btn px-3 py-1 text-xs bg-cyan-50 text-cyan-700 rounded-full border border-cyan-200 hover:bg-cyan-100 transition cursor-pointer">
+                  ${followUp}
+                </button>
+              `).join('')}
+            </div>
+          `;
+        }
+        
         messageDiv.innerHTML = `
-          <div class="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center text-sm">🤖</div>
-          <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-md max-w-[250px]">
-            <p class="text-sm">${message}</p>
-        </div>
-      `;
+          <div class="flex items-start gap-2">
+            <div class="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center text-sm">🤖</div>
+            <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-md max-w-[300px]">
+              <p class="text-sm leading-relaxed">${message}</p>
+              ${followUpButtons}
+            </div>
+          </div>
+        `;
       }
       
       chatMessages.appendChild(messageDiv);
+      
+      // Add event listeners to follow-up buttons
+      if (!isUser && followUps && followUps.length > 0) {
+        messageDiv.querySelectorAll('.follow-up-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const question = this.textContent.trim();
+            addChatMessage(question, true);
+            
+            setTimeout(() => {
+              const response = getChatResponse(question);
+              addChatMessage(response.text, false, response.followUps);
+            }, 800);
+          });
+        });
+      }
+      
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
@@ -1390,15 +1465,31 @@
       const lowerInput = input.toLowerCase();
       
       if (lowerInput.includes('jia') || lowerInput.includes('assistant')) {
-        return chatResponses['tell me about jia'];
+        return { text: chatResponses['jia'].response, followUps: chatResponses['jia'].followUps };
+      } else if (lowerInput.includes('rag') && (lowerInput.includes('system') || lowerInput.includes('build') || lowerInput.includes('how'))) {
+        return { text: chatResponses['rag'].response, followUps: chatResponses['rag'].followUps };
       } else if (lowerInput.includes('ai') || lowerInput.includes('ml') || lowerInput.includes('experience')) {
-        return chatResponses['ai/ml experience'];
-      } else if (lowerInput.includes('resume') || lowerInput.includes('background') || lowerInput.includes('education')) {
-        return chatResponses['resume highlights'];
-      } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-        return "Hello! I'm here to help you learn more about Srija's experience in AI/ML product management. What would you like to know?";
+        return { text: chatResponses['ai_experience'].response, followUps: chatResponses['ai_experience'].followUps };
+      } else if (lowerInput.includes('product management') || lowerInput.includes('approach') || lowerInput.includes('style')) {
+        return { text: chatResponses['product_management'].response, followUps: chatResponses['product_management'].followUps };
+      } else if (lowerInput.includes('jio') || lowerInput.includes('work') || lowerInput.includes('company')) {
+        return { text: chatResponses['jio'].response, followUps: chatResponses['jio'].followUps };
+      } else if (lowerInput.includes('challenge') || lowerInput.includes('difficult') || lowerInput.includes('problem')) {
+        return { text: chatResponses['challenges'].response, followUps: chatResponses['challenges'].followUps };
+      } else if (lowerInput.includes('resume') || lowerInput.includes('background') || lowerInput.includes('education') || lowerInput.includes('mba')) {
+        return { text: chatResponses['background'].response, followUps: chatResponses['background'].followUps };
+      } else if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey')) {
+        return { text: chatResponses['hello'].response, followUps: chatResponses['hello'].followUps };
+      } else if (lowerInput.includes('scale') || lowerInput.includes('scaling') || lowerInput.includes('20m') || lowerInput.includes('million')) {
+        return { text: "Scaling to 20M+ users? That's where Srija's expertise really shows! 📈 She had to architect the JIA system for massive concurrent users, optimize response times under 2 seconds, and ensure 99.9% uptime. She implemented smart caching, load balancing, and built monitoring systems that could predict and prevent bottlenecks. The real trick was maintaining quality while scaling - she created automated evaluation pipelines that could catch issues before they hit users!", followUps: ["How does she handle cost at scale?", "What monitoring systems does she use?", "Tell me about her performance optimization"] };
+      } else if (lowerInput.includes('multimodal') || lowerInput.includes('voice') || lowerInput.includes('features')) {
+        return { text: "The multimodal features in JIA are pretty cool! 🎤📱 Srija designed it to seamlessly switch between text, voice, and even image inputs. Users can start a conversation by typing, continue by speaking, and even send screenshots for context. The AI understands all these modalities and maintains conversation context across them. It's like having a conversation with someone who can see, hear, and read - all at the same time!", followUps: ["How does voice recognition work?", "What about image understanding?", "Tell me about context switching"] };
+      } else if (lowerInput.includes('guardrails') || lowerInput.includes('safety') || lowerInput.includes('bias')) {
+        return { text: "AI guardrails are super important, and Srija takes them seriously! 🛡️ She's built multi-layered safety systems - content filters, bias detection, and output validation. The system can catch inappropriate responses before they reach users, and it continuously learns from edge cases. She's also implemented fairness metrics that monitor for demographic bias and ensure the AI treats all users equitably. It's like having a really smart safety net!", followUps: ["How does bias detection work?", "What about content filtering?", "Tell me about fairness metrics"] };
+      } else if (lowerInput.includes('fintech') || lowerInput.includes('risk') || lowerInput.includes('approval')) {
+        return { text: "Srija's fintech work was incredible! 💰 She built AI systems that improved loan approval rates by 18% while reducing risk by 38%. The secret sauce was creating sophisticated risk models that could understand nuanced patterns in financial data. She balanced automation with human oversight, ensuring the AI could make smart decisions while maintaining regulatory compliance. Pretty impressive impact for the bottom line!", followUps: ["How did she reduce risk so much?", "What about regulatory compliance?", "Tell me about the risk models"] };
       } else {
-        return chatResponses['default'];
+        return { text: chatResponses['default'].response, followUps: chatResponses['default'].followUps };
       }
     }
 
@@ -1411,34 +1502,34 @@
         addChatMessage(message, true);
         input.value = '';
       
-        // Simulate AI response delay
-      setTimeout(() => {
+        // Simulate AI response delay with typing indicator
+        setTimeout(() => {
           const response = getChatResponse(message);
-          addChatMessage(response);
-        }, 1000);
+          addChatMessage(response.text, false, response.followUps);
+        }, 1200);
       }
     });
 
     // Enter key to send
     document.getElementById('chatInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
+        if (e.key === 'Enter') {
         document.getElementById('sendChat').click();
       }
     });
 
     // Quick questions
     document.querySelectorAll('.quick-question').forEach(button => {
-      button.addEventListener('click', function() {
+        button.addEventListener('click', function() {
         const question = this.textContent;
         addChatMessage(question, true);
         
         setTimeout(() => {
           const response = getChatResponse(question);
-          addChatMessage(response);
-        }, 1000);
+          addChatMessage(response.text, false, response.followUps);
+        }, 1200);
+        });
       });
-    });
-
+      
     // Testimonials System
     let selectedTestimonialRating = 0;
 
@@ -1483,7 +1574,7 @@
         if (index < selectedTestimonialRating) {
           star.classList.remove('text-gray-300');
           star.classList.add('text-amber-400');
-        } else {
+      } else {
           star.classList.remove('text-amber-400');
           star.classList.add('text-gray-300');
         }
@@ -1503,7 +1594,7 @@
     }
 
     async function handleTestimonialSubmit(e) {
-      e.preventDefault();
+          e.preventDefault();
       
       const nameInput = document.getElementById('testimonialName');
       const titleInput = document.getElementById('testimonialTitle');
@@ -1559,7 +1650,7 @@
         showTestimonialResponse('Something went wrong. Please try again!', 'error');
       } finally {
         // Reset button
-        setTimeout(() => {
+      setTimeout(() => {
           submitText.classList.remove('hidden');
           loadingText.classList.add('hidden');
           submitBtn.disabled = false;
