@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio Admin Panel | Srija Harshika</title>
+  <meta name="description" content="GitHub-hosted admin panel for managing portfolio content">
+  <meta name="theme-color" content="#4f46e5">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors:{brand:{600:'#4f46e5',700:'#4338ca'}},
+          boxShadow:{soft:'0 14px 40px rgba(2,6,23,.12)'},
+          fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}
+        }
+      }
+    }
+  </script>
+  <style>
+    .admin-sidebar {
+      transition: transform 0.3s ease;
+    }
+    .admin-sidebar.collapsed {
+      transform: translateX(-100%);
+    }
+    .success-message {
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .loading-spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #4f46e5;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <!-- GitHub Authentication Modal -->
+  <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-brand-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">GitHub Authentication</h2>
+        <p class="text-gray-600">Connect your GitHub account to manage your portfolio</p>
+      </div>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">GitHub Personal Access Token</label>
+          <input 
+            type="password" 
+            id="githubToken" 
+            placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+          >
+          <p class="text-xs text-gray-500 mt-1">
+            <a href="https://github.com/settings/tokens" target="_blank" class="text-brand-600 hover:text-brand-700">Create a token</a> with 'repo' permissions
+          </p>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Repository (username/repo-name)</label>
+          <input 
+            type="text" 
+            id="githubRepo" 
+            placeholder="srijaharshika/srija-portfolio"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+          >
+        </div>
+        
+        <button 
+          id="connectGitHub" 
+          class="w-full px-4 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium"
+        >
+          Connect to GitHub
+        </button>
+        <div id="authError" class="text-red-600 text-sm text-center hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Interface -->
+  <div id="adminInterface" class="hidden">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="flex items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-4">
+          <button id="sidebarToggle" class="p-2 rounded-lg hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-semibold text-gray-900">Portfolio Admin (GitHub)</h1>
+        </div>
+        <div class="flex items-center gap-4">
+          <div id="saveStatus" class="text-sm text-gray-500"></div>
+          <span id="repoInfo" class="text-sm text-gray-600"></span>
+          <button id="logoutBtn" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition">
+            Disconnect
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="admin-sidebar w-64 bg-white shadow-lg border-r border-gray-200 overflow-y-auto">
+        <nav class="p-4 space-y-2">
+          <button class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition" data-section="dashboard">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+              </svg>
+              Dashboard
+            </div>
+          </button>
+          
+          <button class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition" data-section="blog">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+              </svg>
+              Blog Management
+            </div>
+          </button>
+          
+          <button class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition" data-section="content">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Content Editor
+            </div>
+          </button>
+          
+          <button class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition" data-section="files">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
+              File Manager
+            </div>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto">
+        <div id="mainContent" class="p-6">
+          <!-- Dashboard Section -->
+          <div id="dashboard-section" class="content-section">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Dashboard</h2>
+              <p class="text-gray-600">Manage your portfolio directly from GitHub</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">Repository</p>
+                    <p class="text-lg font-bold text-gray-900" id="repoName">-</p>
+                  </div>
+                  <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">Last Commit</p>
+                    <p class="text-sm font-bold text-gray-900" id="lastCommit">-</p>
+                  </div>
+                  <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">Status</p>
+                    <p class="text-lg font-bold text-green-600">Connected</p>
+                  </div>
+                  <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button class="quick-action p-4 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-section="blog">
+                  <div class="flex items-center gap-3">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    <div>
+                      <div class="font-medium text-gray-900">Create New Blog Post</div>
+                      <div class="text-sm text-gray-500">Write and publish a new article</div>
+                    </div>
+                  </div>
+                </button>
+                
+                <button class="quick-action p-4 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-section="content">
+                  <div class="flex items-center gap-3">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <div>
+                      <div class="font-medium text-gray-900">Edit Portfolio Content</div>
+                      <div class="text-sm text-gray-500">Update your main portfolio page</div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blog Management Section -->
+          <div id="blog-section" class="content-section hidden">
+            <div class="mb-6 flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Blog Management</h2>
+                <p class="text-gray-600">Create and manage blog posts via GitHub</p>
+              </div>
+              <button id="newBlogBtn" class="px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium">
+                <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                New Blog Post
+              </button>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <form id="blogForm" class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Blog Title</label>
+                  <input type="text" id="blogTitle" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                    <input type="date" id="blogDate" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Read Time</label>
+                    <input type="text" id="blogReadTime" placeholder="5 min read" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
+                  <textarea id="blogExcerpt" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Brief description..."></textarea>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Tags (comma separated)</label>
+                  <input type="text" id="blogTags" placeholder="AI, Product Management, Growth" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Content (HTML)</label>
+                  <textarea id="blogContent" rows="15" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono text-sm" placeholder="Write your blog content in HTML..."></textarea>
+                </div>
+                
+                <div class="flex gap-4">
+                  <button type="submit" class="px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium">
+                    Publish Blog Post
+                  </button>
+                  <button type="button" id="saveDraftBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
+                    Save Draft
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Content Editor Section -->
+          <div id="content-section" class="content-section hidden">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Content Editor</h2>
+              <p class="text-gray-600">Edit your main portfolio content</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <div class="mb-4">
+                <button id="loadIndexBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                  Load index.html
+                </button>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">HTML Content</label>
+                <textarea id="indexContent" rows="20" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono text-sm" placeholder="Your index.html content will appear here..."></textarea>
+              </div>
+              
+              <div class="mt-6 flex gap-4">
+                <button id="saveIndexBtn" class="px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium">
+                  Save Changes
+                </button>
+                <button id="previewBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
+                  Preview Changes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- File Manager Section -->
+          <div id="files-section" class="content-section hidden">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">File Manager</h2>
+              <p class="text-gray-600">Manage files in your repository</p>
+            </div>
+            
+            <div class="space-y-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Repository Files</h3>
+                <div id="filesList" class="space-y-2">
+                  <!-- Files will be loaded here -->
+                </div>
+                <button id="refreshFilesBtn" class="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+                  Refresh Files
+                </button>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Upload New File</h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">File Name</label>
+                    <input type="text" id="newFileName" placeholder="example.jpg" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">File Content (Base64 or Text)</label>
+                    <textarea id="newFileContent" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="File content..."></textarea>
+                  </div>
+                  <button id="uploadFileBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                    Upload File
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div id="messageContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+  <script>
+    // GitHub API Configuration
+    let githubToken = '';
+    let githubRepo = '';
+    let isAuthenticated = false;
+    let currentSection = 'dashboard';
+
+    // Authentication
+    document.getElementById('connectGitHub').addEventListener('click', async function() {
+      const token = document.getElementById('githubToken').value.trim();
+      const repo = document.getElementById('githubRepo').value.trim();
+      
+      if (!token || !repo) {
+        showError('Please enter both GitHub token and repository');
+        return;
+      }
+      
+      try {
+        // Test GitHub API connection
+        const response = await fetch(`https://api.github.com/repos/${repo}`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        
+        if (response.ok) {
+          githubToken = token;
+          githubRepo = repo;
+          isAuthenticated = true;
+          
+          // Store credentials (consider security implications)
+          localStorage.setItem('github-token', token);
+          localStorage.setItem('github-repo', repo);
+          
+          document.getElementById('authModal').classList.add('hidden');
+          document.getElementById('adminInterface').classList.remove('hidden');
+          
+          document.getElementById('repoInfo').textContent = repo;
+          document.getElementById('repoName').textContent = repo;
+          
+          loadDashboardData();
+          showMessage('Connected to GitHub successfully!', 'success');
+        } else {
+          throw new Error('Failed to connect to GitHub');
+        }
+      } catch (error) {
+        showError('Failed to connect to GitHub. Check your token and repository.');
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('github-token');
+      localStorage.removeItem('github-repo');
+      location.reload();
+    });
+
+    // Navigation
+    document.querySelectorAll('.nav-item, .quick-action').forEach(item => {
+      item.addEventListener('click', function() {
+        const section = this.dataset.section;
+        if (section) {
+          showSection(section);
+        }
+      });
+    });
+
+    function showSection(section) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+      
+      // Show selected section
+      document.getElementById(section + '-section').classList.remove('hidden');
+      
+      // Update navigation
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('bg-brand-100', 'text-brand-700');
+        if (item.dataset.section === section) {
+          item.classList.add('bg-brand-100', 'text-brand-700');
+        }
+      });
+      
+      currentSection = section;
+    }
+
+    // GitHub API Functions
+    async function githubAPI(endpoint, options = {}) {
+      const response = await fetch(`https://api.github.com/repos/${githubRepo}${endpoint}`, {
+        ...options,
+        headers: {
+          'Authorization': `token ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          ...options.headers
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.statusText}`);
+      }
+      
+      return response.json();
+    }
+
+    // Dashboard Functions
+    async function loadDashboardData() {
+      try {
+        const repoData = await githubAPI('');
+        const commits = await githubAPI('/commits?per_page=1');
+        
+        if (commits.length > 0) {
+          const lastCommitDate = new Date(commits[0].commit.author.date).toLocaleDateString();
+          document.getElementById('lastCommit').textContent = lastCommitDate;
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+      }
+    }
+
+    // Blog Management Functions
+    document.getElementById('blogForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('blogTitle').value;
+      const date = document.getElementById('blogDate').value;
+      const readTime = document.getElementById('blogReadTime').value;
+      const excerpt = document.getElementById('blogExcerpt').value;
+      const tags = document.getElementById('blogTags').value.split(',').map(t => t.trim());
+      const content = document.getElementById('blogContent').value;
+      
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const filename = `blog-${slug}.html`;
+      
+      const blogHTML = generateBlogHTML(title, date, readTime, excerpt, tags, content);
+      
+      try {
+        // Check if file exists
+        let sha = null;
+        try {
+          const existingFile = await githubAPI(`/contents/${filename}`);
+          sha = existingFile.sha;
+        } catch (error) {
+          // File doesn't exist, that's fine
+        }
+        
+        // Create or update file
+        await githubAPI(`/contents/${filename}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            message: `${sha ? 'Update' : 'Create'} blog post: ${title}`,
+            content: btoa(unescape(encodeURIComponent(blogHTML))),
+            sha: sha
+          })
+        });
+        
+        showMessage('Blog post published successfully!', 'success');
+        document.getElementById('blogForm').reset();
+        
+        // Update index.html to include the new blog post
+        await updateIndexWithNewBlog(title, date, excerpt, tags, readTime, slug);
+        
+      } catch (error) {
+        showMessage('Failed to publish blog post', 'error');
+        console.error(error);
+      }
+    });
+
+    function generateBlogHTML(title, date, readTime, excerpt, tags, content) {
+      return `<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${title} | Srija Harshika</title>
+  <meta name="description" content="${excerpt}">
+  <meta name="theme-color" content="#4f46e5">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors:{brand:{600:'#4f46e5',700:'#4338ca'}},
+          boxShadow:{soft:'0 14px 40px rgba(2,6,23,.12)'},
+          fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-white text-slate-900 font-sans">
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+        <img src="./headshot.jpg" alt="Srija headshot" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200" />
+        <span class="font-semibold">Srija Harshika</span>
+      </a>
+      <a href="index.html#blog" class="text-sm text-slate-600 hover:text-slate-900 transition">← Back to Blog</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <article class="prose prose-lg max-w-none">
+      <div class="mb-8">
+        <div class="flex items-center gap-4 text-sm text-slate-600 mb-4">
+          <time datetime="${date}">${new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <span>•</span>
+          <span>${readTime}</span>
+        </div>
+        <h1 class="text-4xl font-bold text-slate-900 mb-4">${title}</h1>
+        <p class="text-xl text-slate-700 leading-relaxed">${excerpt}</p>
+        <div class="flex flex-wrap gap-2 mt-6">
+          ${tags.map(tag => `<span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800 font-medium">${tag}</span>`).join('')}
+        </div>
+      </div>
+      
+      <div class="blog-content">
+        ${content}
+      </div>
+    </article>
+  </main>
+
+  <footer class="border-t border-slate-200/70 mt-16">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+      <a href="index.html" class="inline-flex items-center gap-2 text-brand-600 hover:text-brand-700 font-medium">
+        ← Back to Portfolio
+      </a>
+    </div>
+  </footer>
+</body>
+</html>`;
+    }
+
+    async function updateIndexWithNewBlog(title, date, excerpt, tags, readTime, slug) {
+      try {
+        // Get current index.html
+        const indexFile = await githubAPI('/contents/index.html');
+        const indexContent = atob(indexFile.content);
+        
+        // Create new blog card HTML
+        const blogCardHTML = `
+            <a href="blog-${slug}.html" class="stagger-item blog-card group p-6 rounded-2xl border border-slate-200 bg-white shadow-soft">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-slate-500 text-slate-600">${new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span class="tag px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">${tags[0] || 'Article'}</span>
+                </div>
+                <div class="flex items-center gap-1 text-xs text-slate-400">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>New</span>
+                </div>
+              </div>
+              <h3 class="font-bold mb-3 text-slate-900 group-hover:text-brand-600 transition-colors">${title}</h3>
+              <p class="text-sm text-slate-700 leading-relaxed mb-4">${excerpt}</p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1 text-xs text-slate-500">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>${readTime}</span>
+                </div>
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                  </svg>
+                </div>
+              </div>
+            </a>`;
+        
+        // Find the blog grid and add the new blog post
+        const blogGridRegex = /<div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">(.*?)<\/div>/s;
+        const match = indexContent.match(blogGridRegex);
+        
+        if (match) {
+          const updatedGrid = blogCardHTML + match[1];
+          const updatedContent = indexContent.replace(blogGridRegex, `<div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">${updatedGrid}</div>`);
+          
+          // Update index.html
+          await githubAPI('/contents/index.html', {
+            method: 'PUT',
+            body: JSON.stringify({
+              message: `Add blog post to index: ${title}`,
+              content: btoa(unescape(encodeURIComponent(updatedContent))),
+              sha: indexFile.sha
+            })
+          });
+        }
+      } catch (error) {
+        console.error('Failed to update index.html:', error);
+      }
+    }
+
+    // Content Editor Functions
+    document.getElementById('loadIndexBtn').addEventListener('click', async function() {
+      try {
+        const indexFile = await githubAPI('/contents/index.html');
+        const content = atob(indexFile.content);
+        document.getElementById('indexContent').value = content;
+        showMessage('index.html loaded successfully!', 'success');
+      } catch (error) {
+        showMessage('Failed to load index.html', 'error');
+      }
+    });
+
+    document.getElementById('saveIndexBtn').addEventListener('click', async function() {
+      const content = document.getElementById('indexContent').value;
+      
+      if (!content.trim()) {
+        showMessage('Content cannot be empty', 'error');
+        return;
+      }
+      
+      try {
+        const indexFile = await githubAPI('/contents/index.html');
+        
+        await githubAPI('/contents/index.html', {
+          method: 'PUT',
+          body: JSON.stringify({
+            message: 'Update portfolio content via admin panel',
+            content: btoa(unescape(encodeURIComponent(content))),
+            sha: indexFile.sha
+          })
+        });
+        
+        showMessage('Content saved successfully!', 'success');
+      } catch (error) {
+        showMessage('Failed to save content', 'error');
+      }
+    });
+
+    // File Manager Functions
+    document.getElementById('refreshFilesBtn').addEventListener('click', loadFilesList);
+
+    async function loadFilesList() {
+      try {
+        const files = await githubAPI('/contents');
+        const filesList = document.getElementById('filesList');
+        filesList.innerHTML = '';
+        
+        files.forEach(file => {
+          if (file.type === 'file') {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'flex items-center justify-between p-3 border border-gray-200 rounded-lg';
+            fileItem.innerHTML = `
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="font-medium text-gray-900">${file.name}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="downloadFile('${file.name}')" class="text-blue-600 hover:text-blue-800 text-sm">Download</button>
+                <button onclick="deleteFile('${file.name}', '${file.sha}')" class="text-red-600 hover:text-red-800 text-sm">Delete</button>
+              </div>
+            `;
+            filesList.appendChild(fileItem);
+          }
+        });
+      } catch (error) {
+        showMessage('Failed to load files', 'error');
+      }
+    }
+
+    // Utility Functions
+    function showMessage(message, type = 'info') {
+      const messageContainer = document.getElementById('messageContainer');
+      const messageDiv = document.createElement('div');
+      
+      const colors = {
+        success: 'bg-green-100 text-green-800 border-green-200',
+        error: 'bg-red-100 text-red-800 border-red-200',
+        info: 'bg-blue-100 text-blue-800 border-blue-200'
+      };
+      
+      messageDiv.className = `success-message px-4 py-3 rounded-lg border ${colors[type]} shadow-sm`;
+      messageDiv.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium">${message}</span>
+          <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-current opacity-70 hover:opacity-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      `;
+      
+      messageContainer.appendChild(messageDiv);
+      
+      setTimeout(() => {
+        if (messageDiv.parentElement) {
+          messageDiv.remove();
+        }
+      }, 5000);
+    }
+
+    function showError(message) {
+      document.getElementById('authError').textContent = message;
+      document.getElementById('authError').classList.remove('hidden');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check for stored credentials
+      const storedToken = localStorage.getItem('github-token');
+      const storedRepo = localStorage.getItem('github-repo');
+      
+      if (storedToken && storedRepo) {
+        document.getElementById('githubToken').value = storedToken;
+        document.getElementById('githubRepo').value = storedRepo;
+      }
+      
+      // Set default date
+      document.getElementById('blogDate').value = new Date().toISOString().split('T')[0];
+    });
+  </script>
+</body>
+</html>

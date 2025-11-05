@@ -1,0 +1,21 @@
+{
+  "name": "srija-portfolio-admin",
+  "version": "1.0.0",
+  "description": "Admin panel for Srija's portfolio website",
+  "main": "admin-server.js",
+  "scripts": {
+    "start": "node admin-server.js",
+    "dev": "nodemon admin-server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["portfolio", "admin", "cms"],
+  "author": "Srija Harshika",
+  "license": "MIT"
+}
