@@ -303,41 +303,134 @@
           <div id="hero-section" class="content-section hidden">
             <div class="mb-6">
               <h2 class="text-2xl font-bold text-gray-900 mb-2">Hero / About Me</h2>
-              <p class="text-gray-600">Edit your main introduction and tagline</p>
+              <p class="text-gray-600">Edit your main introduction, image, links, and tags</p>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <form id="heroForm" class="space-y-6">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Education Badge</label>
-                  <input type="text" id="heroEducation" placeholder="ISB MBA — Strategy & Leadership, Marketing" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Preview -->
+              <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 sticky top-6">
+                  <div class="p-4 border-b border-gray-200">
+                    <h3 class="font-semibold text-gray-900">Live Preview</h3>
+                  </div>
+                  <div class="p-4">
+                    <div class="aspect-square w-full bg-gray-100 rounded-lg overflow-hidden mb-4">
+                      <img id="heroImagePreview" src="./headshot.jpg" alt="Preview" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-xs text-gray-500">Current hero image</p>
+                  </div>
                 </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Main Title (Line 1)</label>
-                  <input type="text" id="heroTitle1" placeholder="Senior Product" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Main Title (Line 2) - Highlighted</label>
-                  <input type="text" id="heroTitle2" placeholder="Manager · AI/ML" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
-                  <p class="text-xs text-gray-500 mt-1">This line will be highlighted in blue</p>
-                </div>
-                
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                  <textarea id="heroDescription" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="AI-first PM with 6+ years across cloud, telecom, and fintech..."></textarea>
-                </div>
-                
-                <div class="flex gap-4">
-                  <button type="submit" class="px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium">
-                    <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    Save Hero Section
+              </div>
+              
+              <!-- Editor -->
+              <div class="lg:col-span-2">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                  <button id="loadHeroBtn" class="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                    Load Current Data
                   </button>
+                  
+                  <form id="heroForm" class="space-y-6">
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-900 mb-4">📸 Hero Image</h4>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                        <input type="text" id="heroImageUrl" placeholder="./headshot.jpg" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <p class="text-xs text-gray-500 mt-1">Upload your image in File Manager first, then paste the URL here (e.g., ./your-image.jpg)</p>
+                      </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-900 mb-4">📝 Text Content</h4>
+                      <div class="space-y-4">
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">🎓 Education Badge</label>
+                          <input type="text" id="heroEducation" placeholder="ISB MBA — Strategy & Leadership, Marketing" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Main Title</label>
+                          <input type="text" id="heroTitle" placeholder="Senior Product Manager · AI/ML" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          <p class="text-xs text-gray-500 mt-1">Use · to separate parts. Text after · will be highlighted in blue</p>
+                        </div>
+                        
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                          <textarea id="heroDescription" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="AI-first PM with 6+ years across cloud, telecom, and fintech..."></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-900 mb-4">🏷️ Skills Tags (Pills)</h4>
+                      <div class="space-y-3">
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Tag 1</label>
+                          <input type="text" id="heroTag1" placeholder="GenAI · Agents" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Tag 2</label>
+                          <input type="text" id="heroTag2" placeholder="RAG · Gemini · LangChain" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Tag 3</label>
+                          <input type="text" id="heroTag3" placeholder="Evaluation & Guardrails" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Tag 4</label>
+                          <input type="text" id="heroTag4" placeholder="0→1 Delivery" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-900 mb-4">🔗 Action Buttons</h4>
+                      <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 1 Text</label>
+                            <input type="text" id="heroBtn1Text" placeholder="Contact" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 1 Link</label>
+                            <input type="text" id="heroBtn1Link" placeholder="#contact" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 2 Text</label>
+                            <input type="text" id="heroBtn2Text" placeholder="LinkedIn" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 2 Link</label>
+                            <input type="text" id="heroBtn2Link" placeholder="https://www.linkedin.com/in/srijaharshika/" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 3 Text</label>
+                            <input type="text" id="heroBtn3Text" placeholder="Topmate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button 3 Link</label>
+                            <input type="text" id="heroBtn3Link" placeholder="https://topmate.io/srijaharshika/" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                      <button type="submit" class="px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-medium">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Save Hero Section
+                      </button>
+                    </div>
+                  </form>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
 
@@ -763,13 +856,90 @@
     }
 
     // Hero Section Functions
+    document.getElementById('loadHeroBtn').addEventListener('click', async function() {
+      try {
+        const indexFile = await githubAPI('/contents/index.html');
+        const content = atob(indexFile.content);
+        
+        // Extract current values
+        const eduMatch = content.match(/🎓\s*<span[^>]*>(.*?)<\/span>/);
+        if (eduMatch) document.getElementById('heroEducation').value = eduMatch[1];
+        
+        const titleMatch = content.match(/<h1[^>]*>(.*?)<\/h1>/s);
+        if (titleMatch) {
+          const titleText = titleMatch[1].replace(/<[^>]*>/g, '').trim();
+          document.getElementById('heroTitle').value = titleText;
+        }
+        
+        const descMatch = content.match(/<p class="mt-4 text-\[clamp.*?\]">(.*?)<\/p>/s);
+        if (descMatch) document.getElementById('heroDescription').value = descMatch[1].trim();
+        
+        const tags = content.match(/<span class="chip">(.*?)<\/span>/g);
+        if (tags) {
+          document.getElementById('heroTag1').value = tags[0] ? tags[0].replace(/<[^>]*>/g, '') : '';
+          document.getElementById('heroTag2').value = tags[1] ? tags[1].replace(/<[^>]*>/g, '') : '';
+          document.getElementById('heroTag3').value = tags[2] ? tags[2].replace(/<[^>]*>/g, '') : '';
+          document.getElementById('heroTag4').value = tags[3] ? tags[3].replace(/<[^>]*>/g, '') : '';
+        }
+        
+        const buttons = content.match(/<a href="([^"]*)"[^>]*>(.*?)<\/a>/g);
+        if (buttons && buttons.length >= 3) {
+          const btn1Match = buttons[buttons.length - 3].match(/href="([^"]*)">([^<]*)</);
+          const btn2Match = buttons[buttons.length - 2].match(/href="([^"]*)">([^<]*)</);
+          const btn3Match = buttons[buttons.length - 1].match(/href="([^"]*)">([^<]*)</);
+          
+          if (btn1Match) {
+            document.getElementById('heroBtn1Link').value = btn1Match[1];
+            document.getElementById('heroBtn1Text').value = btn1Match[2];
+          }
+          if (btn2Match) {
+            document.getElementById('heroBtn2Link').value = btn2Match[1];
+            document.getElementById('heroBtn2Text').value = btn2Match[2];
+          }
+          if (btn3Match) {
+            document.getElementById('heroBtn3Link').value = btn3Match[1];
+            document.getElementById('heroBtn3Text').value = btn3Match[2];
+          }
+        }
+        
+        const imgMatch = content.match(/src="(\.\/[^"]*headshot[^"]*)"/i);
+        if (imgMatch) {
+          document.getElementById('heroImageUrl').value = imgMatch[1];
+          document.getElementById('heroImagePreview').src = imgMatch[1];
+        }
+        
+        showMessage('Hero data loaded!', 'success');
+      } catch (error) {
+        showMessage('Failed to load hero data', 'error');
+        console.error(error);
+      }
+    });
+    
+    // Update preview when image URL changes
+    document.getElementById('heroImageUrl').addEventListener('input', function() {
+      const url = this.value;
+      if (url) {
+        document.getElementById('heroImagePreview').src = url;
+      }
+    });
+
     document.getElementById('heroForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const education = document.getElementById('heroEducation').value;
-      const title1 = document.getElementById('heroTitle1').value;
-      const title2 = document.getElementById('heroTitle2').value;
+      const title = document.getElementById('heroTitle').value;
       const description = document.getElementById('heroDescription').value;
+      const tag1 = document.getElementById('heroTag1').value;
+      const tag2 = document.getElementById('heroTag2').value;
+      const tag3 = document.getElementById('heroTag3').value;
+      const tag4 = document.getElementById('heroTag4').value;
+      const btn1Text = document.getElementById('heroBtn1Text').value;
+      const btn1Link = document.getElementById('heroBtn1Link').value;
+      const btn2Text = document.getElementById('heroBtn2Text').value;
+      const btn2Link = document.getElementById('heroBtn2Link').value;
+      const btn3Text = document.getElementById('heroBtn3Text').value;
+      const btn3Link = document.getElementById('heroBtn3Link').value;
+      const imageUrl = document.getElementById('heroImageUrl').value;
       
       try {
         const indexFile = await githubAPI('/contents/index.html');
@@ -778,11 +948,54 @@
         // Update education badge
         content = content.replace(
           /🎓\s*<span[^>]*>.*?<\/span>/s,
-          `🎓 <span>${education}</span>`
+          `🎓 <span class="font-medium">${education}</span>`
         );
         
-        // Update titles (simplified - you may need to adjust the regex based on your HTML structure)
-        // This is a basic implementation - for production, consider a proper HTML parser
+        // Update title (split by · to identify the highlighted part)
+        const titleParts = title.split('·').map(p => p.trim());
+        let titleHTML = '';
+        if (titleParts.length > 1) {
+          titleHTML = `${titleParts[0]} · <span class="text-brand-600">${titleParts.slice(1).join(' · ')}</span>`;
+        } else {
+          titleHTML = title;
+        }
+        content = content.replace(
+          /<h1[^>]*class="mt-4[^"]*"[^>]*>.*?<\/h1>/s,
+          `<h1 class="mt-4 text-[clamp(2rem,5vw,3.2rem)] font-extrabold leading-tight tracking-tight">\n          ${titleHTML}\n        </h1>`
+        );
+        
+        // Update description
+        content = content.replace(
+          /<p class="mt-4 text-\[clamp\(1rem[^>]*>.*?<\/p>/s,
+          `<p class="mt-4 text-[clamp(1rem,2.3vw,1.125rem)] text-slate-700 max-w-prose">\n          ${description}\n        </p>`
+        );
+        
+        // Update tags
+        const tagsHTML = [tag1, tag2, tag3, tag4]
+          .filter(t => t.trim())
+          .map(t => `<span class="chip">${t}</span>`)
+          .join('\n          ');
+        content = content.replace(
+          /<div class="mt-5 flex flex-wrap gap-2">.*?<\/div>/s,
+          `<div class="mt-5 flex flex-wrap gap-2">\n          ${tagsHTML}\n        </div>`
+        );
+        
+        // Update buttons
+        const buttonsHTML = `
+          <a href="${btn1Link}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft hover:scale-[1.02] transition">${btn1Text}</a>
+          <a href="${btn2Link}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300/70 hover:bg-slate-100 transition">${btn2Text}</a>
+          <a href="${btn3Link}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300/70 hover:bg-slate-100 transition">${btn3Text}</a>
+        `;
+        content = content.replace(
+          /<div class="mt-7 flex flex-wrap gap-3">.*?<\/div>/s,
+          `<div class="mt-7 flex flex-wrap gap-3">${buttonsHTML}\n        </div>`
+        );
+        
+        // Update hero image
+        content = content.replace(
+          /<img src="[^"]*" alt="Portrait of Srija"/,
+          `<img src="${imageUrl}" alt="Portrait of Srija"`
+        );
         
         await githubAPI('/contents/index.html', {
           method: 'PUT',
