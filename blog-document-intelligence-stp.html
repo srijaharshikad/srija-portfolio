@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From 10-Day Onboarding to One Sprint: Designing STP for Document Intelligence | Srija Harshika</title>
+  <meta name="description" content="A product-management framework for improving document intelligence through field-level validation, exception-led review, measurable quality gates and straight-through processing." />
+  <meta name="theme-color" content="#4f46e5" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { 600: '#4f46e5', 700: '#4338ca' } },
+          boxShadow: { soft: '0 14px 40px rgba(2,6,23,.12)' },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] }
+        }
+      }
+    };
+  </script>
+  <style>
+    .reading-progress { position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg,#4f46e5,#06b6d4); z-index: 1000; }
+    .prose h2 { margin-top: 2.25rem; margin-bottom: .8rem; font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+    .prose h3 { margin-top: 1.5rem; margin-bottom: .55rem; font-size: 1.15rem; font-weight: 650; color: #1e293b; }
+    .prose p { margin: .9rem 0; line-height: 1.8; color: #334155; }
+    .prose ul, .prose ol { margin: .9rem 0; padding-left: 1.35rem; color: #334155; }
+    .prose li { margin: .45rem 0; line-height: 1.7; }
+    .prose ul { list-style: disc; }
+    .prose ol { list-style: decimal; }
+  </style>
+</head>
+<body class="bg-white text-slate-900 font-sans">
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="./headshot.jpg" alt="Srija Harshika" class="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200" />
+        <span class="font-semibold">Srija Harshika</span>
+      </a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="index.html#work" class="hover:text-brand-600">Work</a>
+        <a href="index.html#blog" class="hover:text-brand-600">Blog</a>
+        <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="px-3 py-2 rounded-lg border border-slate-300 hover:bg-slate-50">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <a href="index.html#blog" class="inline-flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700 mb-6">← Back to Blog</a>
+
+    <header class="mb-10">
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <span class="px-3 py-1 text-sm rounded-full bg-indigo-100 text-indigo-800 font-medium">Document Intelligence</span>
+        <span class="px-3 py-1 text-sm rounded-full bg-emerald-100 text-emerald-800 font-medium">Straight-Through Processing</span>
+        <span class="text-sm text-slate-500">July 24, 2026 · 7 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight">From 10-Day Onboarding to One Sprint: Designing Straight-Through Processing for Document Intelligence</h1>
+      <p class="mt-5 text-lg md:text-xl text-slate-600 leading-relaxed">A product framework for improving extraction quality, reducing avoidable review and scaling regulated document workflows without sacrificing precision, traceability or auditability.</p>
+    </header>
+
+    <article class="prose max-w-none">
+      <div class="p-6 md:p-8 rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-cyan-50 shadow-soft mb-10">
+        <h2 class="!mt-0">The product problem</h2>
+        <p>Document-intelligence products are often evaluated as model problems: improve OCR, increase extraction accuracy and reduce latency. In regulated lending workflows, that is incomplete. The product must also decide which documents can move automatically, which fields need review, why an exception was created and whether every decision can be reconstructed later.</p>
+        <p>In my current role, I own the product roadmap for DARwin, a document-intelligence platform spanning OCR, classification, extraction and human-in-the-loop review. The work has driven a 35% improvement in extraction accuracy and a 40%+ reduction in manual review effort.</p>
+      </div>
+
+      <h2>1. Treat accuracy as a system, not a single model score</h2>
+      <p>A field should not be accepted only because a model reports high confidence. A production decision is stronger when three signals are combined:</p>
+      <ol>
+        <li><strong>Model confidence:</strong> How certain is the extraction model?</li>
+        <li><strong>Business-rule validation:</strong> Does the value satisfy format, range and workflow rules?</li>
+        <li><strong>Source-of-record validation:</strong> Does it reconcile with an authoritative system or reference?</li>
+      </ol>
+      <p>Field-level validation logic combining these signals reduced false positives by 20%+ and document turnaround time by 30%. The product lesson is that confidence is an input to a decision—not the decision itself.</p>
+
+      <h2>2. Define straight-through processing as a risk policy</h2>
+      <p>Straight-through processing is not simply “accuracy above a threshold.” It requires an explicit policy covering:</p>
+      <ul>
+        <li>document and field eligibility;</li>
+        <li>risk thresholds and exclusion rules;</li>
+        <li>required evidence and source-of-record checks;</li>
+        <li>exception-routing logic;</li>
+        <li>traceability and audit requirements.</li>
+      </ul>
+      <p>I defined the STP product vision, eligibility logic, risk thresholds and seven operational KPIs, creating a phased roadmap targeting 50%+ auto-pass while preserving precision, traceability and auditability. The key distinction is important: the target is not maximum automation; it is maximum safe automation.</p>
+
+      <div class="grid md:grid-cols-2 gap-5 my-8">
+        <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50">
+          <h3 class="!mt-0">Quality metrics</h3>
+          <ul>
+            <li>Extraction accuracy</li>
+            <li>False-positive rate</li>
+            <li>Exception precision</li>
+            <li>Source-of-record match quality</li>
+          </ul>
+        </div>
+        <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50">
+          <h3 class="!mt-0">Operational metrics</h3>
+          <ul>
+            <li>Auto-pass rate</li>
+            <li>Manual-review rate</li>
+            <li>Document turnaround time</li>
+            <li>Auditability and trace completeness</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>3. Redesign onboarding before optimizing inference</h2>
+      <p>A strong runtime cannot compensate for a slow, inconsistent onboarding process. The existing workflow took approximately 10 days and depended heavily on manual setup. I redesigned it into a five-stage AI-assisted flow:</p>
+      <ol>
+        <li><strong>Schema discovery:</strong> identify sections, fields, tables and repeating groups;</li>
+        <li><strong>Template creation:</strong> propose field definitions and mapping structures;</li>
+        <li><strong>Coverage validation:</strong> detect missing or ambiguous mappings;</li>
+        <li><strong>Prompt refinement:</strong> improve instructions using observed errors;</li>
+        <li><strong>Testing:</strong> validate quality before release.</li>
+      </ol>
+      <p>The redesigned workflow targets completion within one sprint. The product value comes from turning onboarding into a measurable, repeatable system rather than a sequence of expert-dependent tasks.</p>
+
+      <h2>4. Make review exception-led</h2>
+      <p>Human review should focus on ambiguity and risk, not repeat work already completed reliably by the system. Exception-led workflows route only low-confidence, inconsistent or policy-sensitive cases to reviewers.</p>
+      <p>I architected review flows for borrower/co-borrower mapping and low-confidence routing, strengthening consistency and audit traceability across four critical operational controls. This makes the reviewer experience a product surface of its own: the user needs the reason for the exception, the relevant evidence and a clear resolution action.</p>
+
+      <h2>5. Convert reconciliation into a decision assistant</h2>
+      <p>Source comparisons are rarely binary. Values may be exact matches, genuinely different or approximately equivalent because of formatting, abbreviations or representation differences.</p>
+      <p>I defined a Smart Review Assistant that classified comparisons as <strong>exact</strong>, <strong>different</strong> or <strong>approximate</strong> matches. This improves reconciliation consistency and reviewer decision quality while preserving the human decision point for ambiguous cases.</p>
+
+      <h2>6. Build governance into the roadmap</h2>
+      <p>Regulated AI delivery requires alignment across product accuracy, operations, compliance, model risk and engineering. Governance cannot be a final approval gate added after the product is built.</p>
+      <p>I aligned six stakeholder groups through PRDs, customer journeys, governance controls and phased releases. The practical product-management mechanism is simple: every release should state the eligible population, decision logic, failure modes, controls, metrics and rollback conditions.</p>
+
+      <div class="p-6 md:p-8 rounded-3xl border border-emerald-200 bg-emerald-50 my-10">
+        <h2 class="!mt-0">The operating principle</h2>
+        <p class="text-lg"><strong>Automate decisions only when evidence, policy and model quality agree. Route everything else as an explainable exception.</strong></p>
+      </div>
+
+      <h2>What this changes for AI product teams</h2>
+      <p>The highest-leverage roadmap is not always a larger model or another extraction feature. It may be better eligibility logic, stronger validation, fewer unnecessary review steps, clearer exception reasons or a faster onboarding loop.</p>
+      <p>For document intelligence, the product moat is the complete decision system: extraction, validation, routing, review, measurement and governance working together.</p>
+    </article>
+
+    <div class="mt-12 p-6 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <p class="font-semibold">Explore the full experience</p>
+        <p class="text-sm text-slate-600 mt-1">See the resume for the complete product portfolio and quantified outcomes.</p>
+      </div>
+      <a href="./Srija_Harshika_Resume.pdf" target="_blank" rel="noopener" class="px-5 py-3 rounded-xl bg-brand-600 text-white hover:bg-brand-700">View Resume</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-sm text-slate-500 flex items-center justify-between">
+      <span>© 2026 Srija Harshika</span>
+      <a href="index.html#blog" class="underline">More articles</a>
+    </div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById('readingProgress');
+    window.addEventListener('scroll', () => {
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (height > 0 ? (window.scrollY / height) * 100 : 0) + '%';
+    });
+  </script>
+</body>
+</html>
