@@ -32,7 +32,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Apply resume-backed portfolio updates
+      - name: Apply portfolio content updates
         run: python scripts/update_resume_content.py
 
       - name: Commit generated homepage changes
@@ -44,7 +44,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated content changes to commit."
           else
-            git commit -m "Update JPMorgan experience and featured blog"
+            git commit -m "Refresh portfolio content"
             git push
           fi
 
