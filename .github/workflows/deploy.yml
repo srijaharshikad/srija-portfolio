@@ -33,7 +33,9 @@ jobs:
           python-version: "3.12"
 
       - name: Apply portfolio content updates
-        run: python scripts/update_resume_content.py
+        run: |
+          python scripts/update_resume_content.py
+          python scripts/update_cyient_title.py
 
       - name: Commit generated homepage changes
         if: github.event_name == 'push'
